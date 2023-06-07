@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1541761536 source:/run/media/jean/Isaac/FADO/M_FADO/ModDataType.f90
+
+1562333579 source:/run/media/jean/Isaac/FADO/M_FADO/Modinterface.f90
+
+1520251156 source:/run/media/jean/Isaac/FADO/M_FADO/ModVariableType.f90
+
+1563548992 source:/run/media/jean/Isaac/FADO/F_FADO/EvalFilters.f90
+
+1563570677 source:/run/media/jean/Isaac/FADO/F_FADO/ReadFilters.f90
+
+1563570547 source:/run/media/jean/Isaac/FADO/F_FADO/FiltersMOONS/main.f95
+
+1499620969 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanAClear.f90
+
+1439029529 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanCClear.f90
+
+1439029617 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanIClear.f90
+
+1439029651 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanLClear.f90
+
+1438336338 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanMClear.f90
+
+1438336359 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanRClear.f90
+
+1438336392 source:/run/media/jean/Isaac/FADO/R_FADO/BASIC/CleanTClear.f90
+
+1558948890 source:/run/media/jean/Isaac/FADO/M_FADO/ModCFTSIO.f90
+
+1459364664 source:/run/media/jean/Isaac/FADO/R_FADO/INTEGRATION/GQuadrature.f90
+
+1459364665 source:/run/media/jean/Isaac/FADO/R_FADO/INTEGRATION/IntegralALL.f90
+
+1459364665 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/AkimaInterp.f90
+
+1477824975 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/FindBIindex.f90
+
+1459364667 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/LagrangeInt.f90
+
+1541636273 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/LINEAR1_Deg.f90
+
+1541635537 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/ReBin1_Spec.f90
+
+1464024717 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/SPLINE1_Deg.f90
+
+1538476428 source:/run/media/jean/Isaac/FADO/R_FADO/INTERPOLATION/SPLINE_ALT.f90
+
+1476524160 source:/run/media/jean/Isaac/FADO/fdate.f90
+
+1563570566 source:/run/media/jean/Isaac/FADO/D_FADO/REBETIKO/FAKEModules.f90
+

@@ -1,0 +1,1 @@
+f2py -c ../Modules/DataTypes.f90 ../Interpolation/LINinterpol.f90 ../Integral/GQuadrature.f90 ../Integral/IntegralALL.f90 PropFilters.f90 EvalFilters.f90 -m EvalFilters

@@ -1,0 +1,1 @@
+f2py -c DataTypes.f90 LINinterpol.f90 GQuadrature.f90 IntegralALL.f90 PropFilters.f90 EvalFilters.f90 -m EvalFilters

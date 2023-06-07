@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="FiltersMOONS" />
+		<Option pch_mode="2" />
+		<Option compiler="gfortran" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/FiltersMOONS" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gfortran" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/FiltersMOONS" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gfortran" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../../D_FADO/REBETIKO/FAKEModules.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../../M_FADO/ModCFTSIO.f90" />
+		<Unit filename="../../M_FADO/ModDataType.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../../M_FADO/ModVariableType.f90" />
+		<Unit filename="../../M_FADO/Modinterface.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanAClear.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanCClear.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanIClear.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanLClear.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanMClear.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanRClear.f90" />
+		<Unit filename="../../R_FADO/BASIC/CleanTClear.f90" />
+		<Unit filename="../../R_FADO/INTEGRATION/GQuadrature.f90" />
+		<Unit filename="../../R_FADO/INTEGRATION/IntegralALL.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/AkimaInterp.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/FindBIindex.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/LINEAR1_Deg.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/LagrangeInt.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/ReBin1_Spec.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/SPLINE1_Deg.f90" />
+		<Unit filename="../../R_FADO/INTERPOLATION/SPLINE_ALT.f90" />
+		<Unit filename="../../fdate.f90" />
+		<Unit filename="../EvalFilters.f90" />
+		<Unit filename="../ReadFilters.f90" />
+		<Unit filename="main.f95" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
