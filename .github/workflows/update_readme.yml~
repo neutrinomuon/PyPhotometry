@@ -1,0 +1,195 @@
+name: Update README and meta.yaml from pyfluxconserving
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+      
+      #- name: Run update-readme script
+      #  run: python scripts/update_readme.py
+      
+      - name: Get Commit SHA
+        run: |
+          TOKEN=${{ secrets.GITHUB_TOKEN }}
+          FILE_PATH="README.md"
+          BRANCH="main"
+          
+          # Get the commit SHA of the latest commit for the README.md file
+          COMMIT_SHA=$(curl -s -X GET \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents?path=$FILE_PATH&sha=$BRANCH" | jq -r '.[0].sha')
+
+          echo "$COMMIT_SHA"
+          
+      - name: Update README with new version
+        run: |
+          TOKEN=${{ secrets.GITHUB_TOKEN }}
+          FILE_PATH="README.md"
+          BRANCH="main"
+          COMMIT_MESSAGE="Update README with new version"
+          
+          # Get the file SHA from the /contents endpoint
+          # Needs to use FILES_SHA and not COMMIT_SHA for the update of the file
+          FILE_SHA=$(curl -s -X GET \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/$FILE_PATH?ref=$BRANCH" | jq -r '.sha')
+
+          # Get the commit SHA
+          #COMMIT_SHA=$(curl -s -X GET \
+          #  -H "Authorization: Bearer $TOKEN" \
+          #  -H "Accept: application/vnd.github+json" \
+          #  -H "X-GitHub-Api-Version: 2022-11-28" \
+          #  "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/$GITHUB_SHA" | jq -r '.sha')
+            
+          #VECTOR_COMMIT_SHA=$(curl -s -X GET \
+          #  -H "Authorization: Bearer $TOKEN" \
+          #  -H "Accept: application/vnd.github+json" \
+          #  -H "X-GitHub-Api-Version: 2022-11-28" \
+          #  "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents?path=$FILE_PATH" | jq -r '.[0].sha')
+            
+          # Get the current file contents
+          FILE_CONTENT=$(curl -s -X GET \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/$FILE_PATH?ref=$BRANCH" | jq -r '.content')
+
+          # Get the current commit SHA of the file
+          #CURRENT_COMMIT_SHA=$(curl -s -X GET \
+          #  -H "Authorization: Bearer $TOKEN" \
+          #  -H "Accept: application/vnd.github+json" \
+          #  -H "X-GitHub-Api-Version: 2022-11-28" \
+          #  "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents?path=$FILE_PATH" | jq -r '.[0].sha')
+            
+          # Print COMMIT_SHAs
+          echo "FILE_SHA: $FILE_SHA"
+          #echo "COMMIT_SHA: $COMMIT_SHA"
+          #echo "CURRENT_COMMIT_SHA: $CURRENT_COMMIT_SHA"
+          #echo "VECTOR_COMMIT_SHA: $VECTOR_COMMIT_SHA"
+          
+          #if [[ -z "$CURRENT_COMMIT_SHA" ]]; then
+          #  echo "Failed to retrieve the current commit SHA for the file: $FILE_PATH"
+          #  exit 1
+          #fi
+          
+          if [[ -z "$FILE_SHA" ]]; then
+            echo "Failed to retrieve the current FILE SHA for the file: $FILE_PATH"
+            exit 1
+          fi
+          
+          # Decode the file contents
+          FILE_CONTENT=$(echo "$FILE_CONTENT" | base64 -d)
+
+          # Update the file content with the new version
+          NEW_VERSION=$(cat version.txt)
+          UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/last stable version: .*/last stable version: $NEW_VERSION/")
+
+          # Encode the updated content
+          # UPDATE_CONTENT_normal=$(echo -n "$UPDATED_CONTENT")
+          UPDATED_CONTENT=$(echo -n "$UPDATED_CONTENT" | base64)
+
+          # Print debug information
+          echo "TOKEN: $TOKEN"
+          # echo "COMMIT_SHA: $COMMIT_SHA"
+          # echo "FILE_CONTENT: $FILE_CONTENT"
+          # echo "UPDATED_CONTENT: $UPDATED_CONTENT"
+          echo "NEW_VERSION: $NEW_VERSION"
+
+          # LAST commit SHA of the file
+          LAST_COMMIT_SHA=$(curl -s -X GET \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/commits?path=$FILE_PATH" | jq -r '.[0].sha')
+
+           # Prepare the JSON data
+          JSON_DATA=$(jq -n --arg message "$COMMIT_MESSAGE" --arg content "$UPDATED_CONTENT" --arg branch "$BRANCH" --arg sha $FILE_SHA \
+            '{message: $message, content: $content, branch: $branch, sha: $sha}')
+
+          # echo "JSON_DATA: $JSON_DATA"
+
+          # Update the file on GitHub
+          RESPONSE=$(curl -s -X PUT \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -d "$JSON_DATA" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/$FILE_PATH")
+
+          echo "$RESPONSE"
+          
+      - name: Update meta.yaml with new version
+        run: |
+          TOKEN=${{ secrets.GITHUB_TOKEN }}
+          FILE_PATH="meta.yaml"
+          BRANCH="main"
+          COMMIT_MESSAGE="Update README with new version"
+          
+          # Get the file SHA from the /contents endpoint
+          # Needs to use FILES_SHA and not COMMIT_SHA for the update of the file
+          FILE_SHA=$(curl -s -X GET \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/pyfluxconserving/$FILE_PATH?ref=$BRANCH" | jq -r '.sha')
+
+          # Get the current file contents
+          FILE_CONTENT=$(curl -s -X GET \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/pyfluxconserving/$FILE_PATH?ref=$BRANCH" | jq -r '.content')
+
+          # Print COMMIT_SHAs
+          echo "FILE_SHA: $FILE_SHA"
+          
+          if [[ -z "$FILE_SHA" ]]; then
+            echo "Failed to retrieve the current FILE SHA for the file: $FILE_PATH"
+            exit 1
+          fi
+          
+          # Decode the file contents
+          FILE_CONTENT=$(echo "$FILE_CONTENT" | base64 -d)
+
+          # Update the file content with the new version
+          NEW_VERSION=$(cat version.txt)
+          #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/last stable version: .*/last stable version: $NEW_VERSION/")
+          #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
+          UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
+
+          # Encode the updated content
+          # UPDATE_CONTENT_normal=$(echo -n "$UPDATED_CONTENT")
+          UPDATED_CONTENT=$(echo -n "$UPDATED_CONTENT" | base64)
+
+          # Print debug information
+          echo "TOKEN: $TOKEN"
+          echo "NEW_VERSION: $NEW_VERSION"
+          
+           # Prepare the JSON data
+          JSON_DATA=$(jq -n --arg message "$COMMIT_MESSAGE" --arg content "$UPDATED_CONTENT" --arg branch "$BRANCH" --arg sha $FILE_SHA \
+            '{message: $message, content: $content, branch: $branch, sha: $sha}')
+
+          # echo "JSON_DATA: $JSON_DATA"
+
+          # Update the file on GitHub
+          RESPONSE=$(curl -s -X PUT \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -d "$JSON_DATA" \
+            "https://api.github.com/repos/neutrinomuon/pyfluxconserving/contents/pyfluxconserving/$FILE_PATH")
+
+          echo "$RESPONSE"

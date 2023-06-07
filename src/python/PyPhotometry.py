@@ -1380,16 +1380,16 @@ class Filters( object ):
         return
 
 # Main
-# if __name__ == '__main__':
-#     print("... Building filters database")
-#     print("... sqlalchemy version: {}".format(sqlalchemy.__version__))
+if __name__ == '__main__':
+    print("... Building filters database")
+    print("... sqlalchemy version: {}".format(sqlalchemy.__version__))
     
-#     database_filters = create_database_filters()
-#     #database_filters._filters_class()
+    database_filters = create_database_filters()
+    database_filters._filters_class()
 
-#     # read filters
-#     database_filters.read_filters()
-#     #print( len(database_filters.filters) )
+    # read filters
+    database_filters.read_filters()
+    #print( len(database_filters.filters) )
         
 #     # read spectra
 #     database_filters.read_spectra() 

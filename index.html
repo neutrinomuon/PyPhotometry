@@ -1,0 +1,23 @@
+<head>
+    <meta name="google-site-verification" content="LRdoiCtLy0GMxkAGK6z9AQOkzghCeSbr4YttoXPKeUE" />
+</head>
+
+<bod>
+<!-- Include the Showdown.js library -->
+<script src="showdown.min.js"></script>
+
+<!-- Create a container element for your HTML output -->
+<div id="markdown-output" style="max-width: 60%; margin: 0 auto;"></div>
+
+<!-- Create a script to fetch your README.md file and convert it to HTML -->
+<script>
+  fetch('README.md')
+    .then(response => response.text())
+    .then(markdown => {
+      const converter = new showdown.Converter();
+      const html = converter.makeHtml(markdown);
+      document.getElementById('markdown-output').innerHTML = html;
+    });
+</script>
+
+</body>

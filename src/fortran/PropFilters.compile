@@ -1,0 +1,6 @@
+# The new version of gcc / gfortran has a "problem" while passing variables to
+# the routines. You can no longer pass variables by-hand because it interprets
+# it as integer (kind=4) while it should be integer (kind=8). This feature is
+# interesting , but causes backward incompatibility issues.
+
+f2py -c --opt='-O3' DataTypes.f90 LINinterpol.f90 GaussLegendreQuadrature.f90 IntegralALL.f90 PropFilters.f90 -m PropFilters
