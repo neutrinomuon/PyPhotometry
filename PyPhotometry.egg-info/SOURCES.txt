@@ -1,0 +1,15 @@
+LICENSE.txt
+README.md
+setup.py
+version.txt
+PyPhotometry.egg-info/PKG-INFO
+PyPhotometry.egg-info/SOURCES.txt
+PyPhotometry.egg-info/dependency_links.txt
+PyPhotometry.egg-info/requires.txt
+PyPhotometry.egg-info/top_level.txt
+src/fortran/DataTypes.f90
+src/fortran/GaussLegendreQuadrature.f90
+src/fortran/IntegralALL.f90
+src/fortran/LINinterpol.f90
+src/python/PyPhotometry.py
+src/python/__init__.py
