@@ -36,8 +36,6 @@ standard, VEGA proposed by Bohlin and Gilland 2004, M_AB standard system, M_TG
 standard system (Thuan & Gunn), WFPC2 system, FOCA at 2000, and without any
 calibration.
 
-
-
 Pyphot from M. FouesneauA is *NOT* part of the distribution, but used as a
 comparison: <a
 href='https://mfouesneau.github.io/pyphot/index.html#package-main-content'>https://mfouesneau.github.io/pyphot/index.html#package-main-content</a>. If
