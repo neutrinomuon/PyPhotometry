@@ -46,10 +46,11 @@ import astropy.io.fits as fits
 import astropy.constants as const
 import astropy.units as units
 
-
 # import fortran legacy routines in python
-import PropFilters as prop
-import EvalFilters as evalf
+# import PropFilters as prop
+# import EvalFilters as evalf
+from PyPhotometry.flib import propfilters as prop
+from PyPhotometry.flib import evalfilters as evalf
 
 # import pyphot to check the results
 import pyphot
@@ -732,8 +733,9 @@ class create_database_filters(object):
         numb_lbd = self.numb_lbd
         int_type = 2
         # mag_spec,photflux,mcalibra,iskeepon = evalfilters(o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,[int_type,verbosity])
-
-        mag_spec,photflux,mcalibra,iskeepon = evalf.evalfilters( o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,int_type=int_type,verbosity=0 )
+        # mag_spec,photflux,mcalibra,iskeepon = evalf.evalfilters( o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,int_type=int_type,verbosity=0 )
+        
+        mag_spec,photflux,mcalibra,iskeepon = evalf( o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,int_type=int_type,verbosity=0 )
         self.mag_spec = mag_spec
         self.photflux = photflux
         #self.lamb_eff =  self.lamb_eff
@@ -1025,7 +1027,8 @@ class Filters( object ):
         #file_dir = './'
         #int_type = 2
         #t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop.propfilters( self.T_lambda,self.T_fluxes,self.Numblbd,file_dir,int_type=int_type,verbosity=0 )
-        t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop.propfilters( self.T_lambda,self.T_fluxes,self.Numblbd,self.lambvega,self.fluxvega,self.lamb_sun,self.flux_sun,self.lamb_fbd,self.flux_fbd,verbosity=0 )
+        # t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop.propfilters( self.T_lambda,self.T_fluxes,self.Numblbd,self.lambvega,self.fluxvega,self.lamb_sun,self.flux_sun,self.lamb_fbd,self.flux_fbd,verbosity=0 )
+        t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop( self.T_lambda,self.T_fluxes,self.Numblbd,self.lambvega,self.fluxvega,self.lamb_sun,self.flux_sun,self.lamb_fbd,self.flux_fbd,verbosity=0 )
 
         self.t_l_area = t_l_area
         self.t_n_area = t_n_area
@@ -1132,7 +1135,8 @@ class Filters( object ):
                                 
         # Compute properties of one filter
         #print( self.T1lambda,self.T1fluxes,self.Numblbd1 )
-        t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop.propfilters( self.T1lambda,self.T1fluxes,self.Numblbd1,self.lambvega,self.fluxvega,self.lamb_sun,self.flux_sun,self.lamb_fbd,self.flux_fbd,verbosity=0 )
+        # t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop.propfilters( self.T1lambda,self.T1fluxes,self.Numblbd1,self.lambvega,self.fluxvega,self.lamb_sun,self.flux_sun,self.lamb_fbd,self.flux_fbd,verbosity=0 )
+        t_l_area,t_n_area,magabsys,magtgsys,standard,lamb_eff,widtheff,iskeepon = prop( self.T1lambda,self.T1fluxes,self.Numblbd1,self.lambvega,self.fluxvega,self.lamb_sun,self.flux_sun,self.lamb_fbd,self.flux_fbd,verbosity=0 )
 
         # self.t_l_area = t_l_area
         # self.t_n_area = t_n_area
@@ -1332,8 +1336,9 @@ class Filters( object ):
         numb_lbd = self.numb_lbd
         int_type = 2
         # mag_spec,photflux,mcalibra,iskeepon = evalfilters(o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,[int_type,verbosity])
+        # mag_spec,photflux,mcalibra,iskeepon = evalf.evalfilters( o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,int_type=int_type,verbosity=0 )
 
-        mag_spec,photflux,mcalibra,iskeepon = evalf.evalfilters( o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,int_type=int_type,verbosity=0 )
+        mag_spec,photflux,mcalibra,iskeepon = evalf( o_lambda,o_fluxes,t_lambda,t_fluxes,t_l_area,magabsys,magtgsys,standard,numb_lbd,int_type=int_type,verbosity=0 )
         self.mag_spec = mag_spec
         self.photflux = photflux
         #print(magabsys,mag_spec)

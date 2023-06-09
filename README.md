@@ -18,7 +18,7 @@ J.G. - Jean Gomes @ 2023
 <hr>
 
 <div align="center">
-<img src='https://raw.githubusercontent.com/neutrinomuon/PyPhotometry/main/tutorials/PyPhotometry.png' width='60%'>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/PyPhotometry.png' width='60%'>
 </div>
 
 <hr>

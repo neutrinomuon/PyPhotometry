@@ -8,27 +8,32 @@ with open("version.txt", "r") as vh:
     version_description = vh.read()
 
 # Function to get all files in a directory and its subdirectories
-# def get_files(directory):
-#     import os
-#     
-#     files = []
-#     for root, _, filenames in os.walk(directory):
-#         for filename in filenames:
-#             files.append(os.path.join(root, filename))
-#     return files
-# 
-# # Define the directories you want to include
-# data_directory = 'data'
-# calibration_directory = 'data/calibration'
-# 
-# # Get all files within the data directory and its subdirectories
-# data_files = get_files(data_directory)
-# 
-# # Get all files within the calibration directory
-# calibration_files = get_files(calibration_directory)
+def get_files(directory):
+    import os
+    
+    files = []
+    for root, _, filenames in os.walk(directory):
+        for filename in filenames:
+            files.append(os.path.join(root, filename))
+    return files
+
+# Define the directories you want to include
+data_directory = 'data'
+calibration_directory = 'data/calibration'
+
+# Get all files within the data directory and its subdirectories
+data_files = get_files(data_directory)
+
+# Get all files within the calibration directory
+calibration_files = get_files(calibration_directory)
 
 ext1 = Extension(  name='PyPhotometry.flib',
-                   sources=['src/fortran/DataTypes.f90','src/fortran/LINinterpol.f90','src/fortran/GaussLegendreQuadrature.f90'],
+                   sources=['src/fortran/DataTypes.f90',
+                            'src/fortran/LINinterpol.f90',
+                            'src/fortran/GaussLegendreQuadrature.f90',
+                            'src/fortran/IntegralALL.f90',
+                            'src/fortran/PropFilters.f90',
+                            'src/fortran/EvalFilters.f90'],
                  )
     
 setup( name='PyPhotometry',
@@ -49,6 +54,8 @@ setup( name='PyPhotometry',
                    ],
        package_dir={"PyPhotometry": "src/python"},
        packages=['PyPhotometry'],
-       data_files=[ ('', ['version.txt']) ],
+       data_files=[ ('', ['version.txt']),
+                    ('data', data_files),
+                    ('data/calibration', calibration_files) ],
       )
     
