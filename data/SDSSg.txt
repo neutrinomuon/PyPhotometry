@@ -1,6 +1,6 @@
-# Filter:   SDSS_g
+# Filter:   SDSSg
 # Detector: photon
-# Name:     SDSS g
+# Name:     SDSS_g
 # Points:   89
 # Units:    Angstrom
 #############################################################################

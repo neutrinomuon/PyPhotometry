@@ -1,6 +1,6 @@
 # Filter:   FUV
 # Detector: photon
-# Name:     GALEX 1500A
+# Name:     GALEX_FUV
 # Points:   14
 # Units:    Angstrom
 #############################################################################

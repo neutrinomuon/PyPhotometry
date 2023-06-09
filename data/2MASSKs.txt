@@ -1,6 +1,6 @@
 # Filter:   2MASS Ks
 # Detector: energy
-# Name:     2MASS Ks
+# Name:     2MASS_Ks
 # Points:   76
 # Units:    Angstrom
 #############################################################################

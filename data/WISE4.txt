@@ -1,6 +1,6 @@
 # Filter:   WISE4
 # Detector: energy
-# Name:     WISE.W4
+# Name:     WISE_RSR_W4
 # Points:   150
 # Units:    Angstrom
 #############################################################################

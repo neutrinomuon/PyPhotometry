@@ -1,6 +1,6 @@
 # Filter:   NUV
 # Detector: photon
-# Name:     GALEX 2500A
+# Name:     GALEX_NUV
 # Points:   23
 # Units:    Angstrom
 #############################################################################

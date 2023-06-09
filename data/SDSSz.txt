@@ -1,6 +1,6 @@
-# Filter:   SDSS_z
+# Filter:   SDSSz
 # Detector: photon
-# Name:     SDSS z
+# Name:     SDSS_z
 # Points:   141
 # Units:    Angstrom
 #############################################################################

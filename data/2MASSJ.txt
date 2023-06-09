@@ -1,6 +1,6 @@
 # Filter:   2MASS J
 # Detector: energy
-# Name:     2MASS.J
+# Name:     2MASS_J
 # Points:   107
 # Units:    Angstrom
 #############################################################################

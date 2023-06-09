@@ -1,6 +1,6 @@
 # Filter:   WISE3
 # Detector: energy
-# Name:     WISE.W3
+# Name:     WISE_RSR_W3
 # Points:   150
 # Units:    Angstrom
 #############################################################################

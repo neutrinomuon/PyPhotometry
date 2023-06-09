@@ -1,6 +1,6 @@
-# Filter:   SDSS_r
+# Filter:   SDSSr
 # Detector: photon
-# Name:     SDSS r
+# Name:     SDSS_r
 # Points:   75
 # Units:    Angstrom
 #############################################################################

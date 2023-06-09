@@ -16,7 +16,9 @@ Created on Sat Jan 30 12:07:21 2021
 """
 
 # Import necessary libraries
-# import sys
+import os
+import sys
+import time
 # sys.path.insert(1, 'Filters/')
 
 # import sqlalchemy for the database
@@ -29,26 +31,29 @@ from sqlalchemy import select
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy import MetaData, Table
 
+# import numpy
 import numpy as np
 import pkg_resources
 
+# import graphical interface
 from pylab import *
 import matplotlib.pylab as pl
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter, NullFormatter
 
+# import astropy libraries
 import astropy.io.fits as fits
 import astropy.constants as const
 import astropy.units as units
 
-import time
 
+# import fortran legacy routines in python
 import PropFilters as prop
 import EvalFilters as evalf
 
-# To check the results using pyphot
-#import pyphot
-#from pyphot import Sun, Vega, unit
+# import pyphot to check the results
+import pyphot
+from pyphot import Sun, Vega, unit
 
 # ! *** Open ListFilters ******************************************************
 # !    arq_fil1 = file_dir(1:ilastnum)//'ListFilters.txt'
@@ -84,13 +89,23 @@ import EvalFilters as evalf
 class create_database_filters(object):
     
     global Base
-    Base          = declarative_base()
+    Base = declarative_base()
     
-    def __init__( self ):
+    def __init__( self, database_path='../../data',database_filename='filters.db' ):
         self.store_filters = 0
         self.readfilters = 0
         
-        self.database_filters = pkg_resources.resource_filename(__name__, 'filters.db')
+        self.database_path = database_path
+        self.database_filename = database_filename
+        self.database_filters = os.path.join(database_path, database_filename)
+        
+        # By using pkg_resources.resource_filename(__name__, 'filters.db'), the code retrieves the 
+        # absolute file path of 'filters.db' within the package or module. This path is then assigned 
+        # to self.database_filters for further use, such as creating an SQLAlchemy engine with the 
+        # SQLite database located at that path. However, it does not work if where you're running it 
+        # does not contain the filters.db file. So, a better approach is from above.
+        #self.database_filters = pkg_resources.resource_filename(__name__, 'filters.db')
+        
         self.Engine        = create_engine('sqlite:///' + self.database_filters, echo=False)
                 
         self.Session       = sessionmaker(bind=self.Engine)
@@ -121,6 +136,7 @@ class create_database_filters(object):
         magabsys = Column(Float)
         magtgsys = Column(Float)
         
+        
     class _spectra_class( Base ):
         """Information to create the filters SQL table"""
 
@@ -136,7 +152,7 @@ class create_database_filters(object):
 
         N_lambda = Column(Integer)
                 
-    def read_spectra( self, path_Vega='/home/jean/Codes/Pynoptic/Filters/data/VegaLR.dat',path_Sun='/home/jean/Codes/Pynoptic/Filters/data/Sun_LR.dat',path1Sun='/home/jean/Codes/Pynoptic/Filters/data/Sun.dat',path2Sun='/home/jean/Codes/Pynoptic/Filters/data/sun_reference_stis_001.fits',path_BD='/home/jean/Codes/Pynoptic/Filters/data/BD+17d4708.dat' ):
+    def read_spectra( self, path_Vega='../../data/calibration_stars/VegaLR.dat',path_Sun='../../data/calibration_stars/Sun_LR.dat',path1Sun='../../data/calibration_stars/Sun.dat',path2Sun='/../../data/calibration_stars/sun_reference_stis_001.fits',path_BD='../../data/calibration_stars/BD+17d4708.dat', verbose=False ):
         o = Filters( )
         o.ReadCalibrationStars(  path_Vega=path_Vega,path_Sun=path_Sun,path1Sun=path1Sun,path2Sun=path2Sun,path_BD=path_BD )
         
@@ -161,8 +177,19 @@ class create_database_filters(object):
         self.flux_FBD = o.flux_FBD
         self.lamb_fbd  = self.lamb_FBD
         self.flux_fbd = self.flux_FBD
+
+        if verbose:
+            print("[read_spectra]")
+            print("... Read spectra of calibration stars")
+            print("[read_spectra]")
+            
+        return
         
-    def read_filters( self, N_lambda=500 ):
+    def read_filters( self, path_data='../../data/',N_lambda=500,verbose=False ):
+                
+        if verbose:
+            print("[read_filters]")
+            print("... Reading filters")
         
         # Verify if database contains models for Draine and Li (2007)
         try:
@@ -196,7 +223,8 @@ class create_database_filters(object):
         except:
             print("... Failed")
                     
-        print("... Read filters database")
+        if verbose:
+            print("... Start reading filters database")
         
         try:
             if np.count_nonzero(read.all()) > 0:
@@ -237,8 +265,8 @@ class create_database_filters(object):
                 #print(filters_in_database)
             
                 # Add filter if is not in database                
-                path = '/home/jean/Codes/Pynoptic/Filters/data/'
-                arq_fil1 = 'ListFilters.txt'
+                path = path_data #'../../data/'
+                arq_fil1 = 'ListFilters.txt' # Just an ascii file
                 
                 # Store name of filters
                 o_list = open(path + arq_fil1,'r')
@@ -263,23 +291,27 @@ class create_database_filters(object):
                 #print( name_list[ index_filters_in_database == 0 ] )
 
                 o = Filters( )
-                path = '/home/jean/Codes/Pynoptic/Filters/data/'
+                path = path_data #'../../data/'
                 arq_fil1 = 'ListFilters.txt'
                 
                 for j in name_list[ index_filters_in_database == 0 ]:
                     #print(j)
-                    string_ = '%{0:}%'.format(j)
+                    string_ = '%{ }%'.format(j)
                     s = filter_table.select().where( filter_table.c.name_filter.ilike(string_) )
                     result = conn.execute(s)
+                    # print( string_ )
+                    # print( result )
 
                     count = 0
                     for row in result:
-                        #print (row[1])
+                        # print (row[1])
                         count += 1
+                        
+                    # print( count )
                         
                     if count <= 0:
                         #ReadONEFilter( self,path,arq_fil1,N_lambda=500 )
-                        path = '/home/jean/Codes/Pynoptic/Filters/data/'
+                        path = path_data #'../../data/'
                         arq_fil1 = j + '.txt'
                         #print(path + arq_fil1)
                         o.ReadONEFilter( path=path, arq_fil1=arq_fil1)
@@ -394,6 +426,10 @@ class create_database_filters(object):
 
                 self.readfilters = 1
                 return
+        
+            else:
+                raise ValueError("Force exception")
+            
         except:
             print("... Need to construct filters database")
         
@@ -401,12 +437,15 @@ class create_database_filters(object):
         
             o = Filters()
             #print(o)
-            path = '/home/jean/Codes/Pynoptic/Filters/data/'
+            path = path_data #'../../data/'
             arq_fil1 = 'ListFilters.txt'
-            o.ReadFilters(path,arq_fil1)
+            o.ReadFilters( path,arq_fil1,verbose=verbose )
         
-            N_entries = int( len(o.filters) / 3 )
+            # 4 different entry for each filter
+            N_entries = int( len(o.filters) / 4 )
+            # print( len(o.filters) )
             print("... N_entries: {0:}".format(N_entries))
+
             self.N_filters = N_entries
             self.Nfilters = self.N_filters
             
@@ -430,29 +469,49 @@ class create_database_filters(object):
             for i in range(N_entries):
                 #print(o.filters[i])
                 d =  o.filters[i]
-                                
-                filter_object = self._filters_class( name_filter=d[0], filterid=int(i), detector=d[1], units=d[4]['units'], wavelength=np.array(d[2], dtype=float), transmission=d[3], N_lambda=int(d[4]['N_lambda']), t_l_area=d[4]['t_l_area'], t_n_area=d[4]['t_n_area'], vegaflux=d[4]['standard'], lamb_eff=d[4]['lamb_eff'], widtheff=d[4]['widtheff'], magabsys=d[4]['magabsys'], magtgsys=d[4]['magtgsys'] )
+                # print( d )
+                #print( d[0],d[1] )
+                # filter_object = self._filters_class( name_filter=d[0], filterid=int(i), detector=d[1], units=d[4]['units'], wavelength=np.array(d[2], dtype=float), transmission=d[3], N_lambda=int(d[4]['N_lambda']), t_l_area=d[4]['t_l_area'], t_n_area=d[4]['t_n_area'], vegaflux=d[4]['standard'], lamb_eff=d[4]['lamb_eff'], widtheff=d[4]['widtheff'], magabsys=d[4]['magabsys'], magtgsys=d[4]['magtgsys'] )
+               
+                # Changed structure of flter dictionairy to include name of filter and not only name of file of the filter
+                filter_object = self._filters_class( name_filter=d[0], filterid=int(i), detector=d[2], units=d[5]['units'], wavelength=np.array(d[3], dtype=float), transmission=d[4], N_lambda=int(d[5]['N_lambda']), t_l_area=d[5]['t_l_area'], t_n_area=d[5]['t_n_area'], vegaflux=d[5]['standard'], lamb_eff=d[5]['lamb_eff'], widtheff=d[5]['widtheff'], magabsys=d[5]['magabsys'], magtgsys=d[5]['magtgsys'] )
+               
                 #print(filter_object.name_filter)
                 self.session.add( filter_object )
                 
-                wave = np.array(d[2], dtype=float)
-                fluxes = d[3]
+                # wave = np.array(d[2], dtype=float)
+                # fluxes = d[3]
+                wave = np.array(d[3], dtype=float)
+                fluxes = d[4]
                 j = wave.size
                 self.T_lambda[ 0:j , i ] = wave[ 0:j ] 
                 self.T_fluxes[ 0:j , i ] = fluxes[ 0:j ] 
+                                
+                # self.Numblbd [ i ] = int(d[4]['N_lambda'])
+                # self.name_fil[ i ] = d[0]
+                # self.detector[ i ] = d[1]
+                # self.t_l_area[ i ]  = d[4]['t_l_area']
+                # self.magabsys[ i ] = d[4]['magabsys']
+                # self.magtgsys[ i ] = d[4]['magtgsys']
+                # self.standard[ i ] = d[4]['standard']
+                # self.lamb_eff[ i ] = d[4]['lamb_eff']
+                # self.widtheff[ i ] =d[4]['widtheff']
                 
-                self.Numblbd [ i ] = int(d[4]['N_lambda'])
+                self.Numblbd [ i ] = int(d[5]['N_lambda'])
                 self.name_fil[ i ] = d[0]
-                self.detector[ i ] = d[1]
-                self.t_l_area[ i ]  = d[4]['t_l_area']
-                self.magabsys[ i ] = d[4]['magabsys']
-                self.magtgsys[ i ] = d[4]['magtgsys']
-                self.standard[ i ] = d[4]['standard']
-                self.lamb_eff[ i ] = d[4]['lamb_eff']
-                self.widtheff[ i ] =d[4]['widtheff']
-                
+                self.detector[ i ] = d[2]
+                self.t_l_area[ i ]  = d[5]['t_l_area']
+                self.magabsys[ i ] = d[5]['magabsys']
+                self.magtgsys[ i ] = d[5]['magtgsys']
+                self.standard[ i ] = d[5]['standard']
+                self.lamb_eff[ i ] = d[5]['lamb_eff']
+                self.widtheff[ i ] =d[5]['widtheff']
+            
+                # print('AQUI',self.name_fil[ i ],i,N_entries)    
+            
             self.numb_lbd = self.Numblbd
-                
+            # print( 'PASSOU',N_entries )
+            
             #print(self.session.new)
             try:
                 self.session.commit()
@@ -477,7 +536,7 @@ class create_database_filters(object):
 
         # Filters in the database
         if word_search == None:
-            N_filters = self.N_filters
+            #N_filters = self.N_filters
             d = list( self.filters.keys() )
             # print(d)
             print("... List all filters - N_filters: {}".format(self.N_filters))
@@ -571,7 +630,21 @@ class create_database_filters(object):
         #ax1_top.plot( np.log10(self.lambvega),np.log10(self.fluxvega/normvega),label='Vega')
         #ax1_top.plot( np.log10(self.lamb_fbd),np.log10(self.flux_fbd/norm_fbd),label='BD+17d4708')
 
-        x_vec = np.arange(2,6.7,0.2)
+        # x_vec = np.arange(2,8.4,0.2)
+        # for i in enumerate(self.T_lambda[0,0:self.Nfilters]):
+        #     N_lambda = self.Numblbd[i[0]]
+        #     print( self.T_lambda[N_lambda-1,i[0]] )
+        positive_values = self.T_lambda[np.where(self.T_lambda > 0)]
+
+        min_xvec = np.round( np.log10( np.min(positive_values) ), 1 )
+        max_xvec  = np.round( np.log10( np.max(positive_values) ),1 ) 
+        
+        delta_xvec = np.round((max_xvec - min_xvec) / 12, 1)
+        min_xvec -= delta_xvec
+        max_xvec += delta_xvec + 1.0
+
+        x_vec = np.arange( min_xvec,max_xvec,delta_xvec )
+        
         #x_vec  =np.arange(1000,60000,3000) #10.0**x_vec
         #ax1_top.set_xticks( 10**x_vec ) #np.geomspace(1000, 20000 ,15).round() )
         ax1_top.xaxis.set_minor_formatter(FormatStrFormatter("%.2f"))
@@ -603,7 +676,7 @@ class create_database_filters(object):
         #ax1_top.axis('on')
         #ax1_top.axes.get_xaxis().set_visible(False)
         
-        x_vec = np.arange(2,6.7,0.2)
+        # x_vec = np.arange(np.min(),6.7,0.2)
         ax1_bot.set_xlim(x_vec[0],x_vec[-1])
 
         #x_vec = np.arange(3,4.8,0.1)
@@ -627,12 +700,12 @@ class create_database_filters(object):
 
         for i in enumerate(self.T_lambda[0,0:self.Nfilters]):
             N_lambda = self.Numblbd[i[0]]
-            
+                        
             if self.detector[ i[0] ] == 'energy':
                 ax1_bot.plot(np.log10(self.T_lambda[0:N_lambda,i[0]]),self.T_fluxes[0:N_lambda,i[0]]*self.T_lambda[0:N_lambda,i[0]],label=str(self.name_fil[i[0]]).split('.txt')[0])
             else:
                 ax1_bot.plot(np.log10(self.T_lambda[0:N_lambda,i[0]]),self.T_fluxes[0:N_lambda,i[0]],label=str(self.name_fil[i[0]]).split('.txt')[0])
-               
+                              
             #print(N_lambda,str(self.name_fil[i[0]]).split('.txt')[0])
             #print(self.T_fluxes[0:N_lambda,i[0]])
             
@@ -830,7 +903,7 @@ class create_database_filters(object):
             
             plt.show()
 
-# path = '/home/jean/Codes/Pynoptic/Filters/data/'
+# path = '../../data/'
 # arq_fil1 = 'ListFilters.txt'
 
 # o.plotfilter()
@@ -851,9 +924,11 @@ class Filters( object ):
         self.readfilters = 0
         self.filters = {}            
 
-    def ReadFilters( self,path,arq_fil1,N_lambda=500 ):
-        print( "... Reading Filters " )
-        print( "... arq_fil1: {0:}".format(arq_fil1) ) #arq_fil1 = file_dir(1:ilastnum)//'ListFilters.txt'
+    def ReadFilters( self,path,arq_fil1,N_lambda=500,verbose=False ):
+        if verbose:
+            print("[ReadFilters]")
+            print( "... Reading Filters " )
+            print( "... arq_fil1: {0:}".format(arq_fil1) ) #arq_fil1 = file_dir(1:ilastnum)//'ListFilters.txt'
         
         try:
             o_filter = open(path + arq_fil1,'r')
@@ -865,7 +940,8 @@ class Filters( object ):
         r_filter = o_filter.readlines()
         Nfilters = int(r_filter[0].split()[0])
         self.Nfilters = Nfilters
-        print("... Nfilters: {0:d}".format(Nfilters))
+        if verbose:
+            print("... Nfilters: {0:d}".format(Nfilters))
                 
         # Set filter arrays
         self.T_lambda = np.zeros([N_lambda,Nfilters], dtype=float)
@@ -878,26 +954,27 @@ class Filters( object ):
         
         self.detector_type = np.empty([Nfilters], dtype=object)
         self.units = np.empty([Nfilters], dtype=object)
-        
+        self.name_of_filter = np.empty([Nfilters], dtype=object)
         #print(self.name_fil.shape)
 
         # Test - Debug
         #print(r_filter)
         #print( len(r_filter) )
         
-        print("")
+        # print("")
         for i in enumerate(r_filter[1:Nfilters+1]):
             i_split =str( i[1].split()[0] )
             #n = len(i_split)
             #self.name_fil[:,i[0]] = i_split + ' ' * ( CH - n  )
             self.name_fil[i[0]] = i_split
-            print("... name_fil: {0:004d} - {1:<10s}".format(i[0],i_split))
+            # print("... name_fil: {0:004d} - {1:<10s}".format(i[0],i_split))
             
             o1filter = open(path + i_split,'r')
             r1filter = o1filter.readlines()
             
             for j in enumerate(r1filter):
                 j_split = j[1].split()
+                                
                 if j_split[0][0] != '#':
                     k = self.Numblbd[i[0]]
 
@@ -910,12 +987,20 @@ class Filters( object ):
                         det = j_split[1].split(':')[0].lower()
 
                         if det == 'detector':
-                            print("... Detector type: {0:}".format(j_split[2]))
+                            if verbose:
+                                print( "... Detector type: {0:}".format(j_split[2]) )
                             self.detector_type[i[0]] = j_split[2].lower()
                             
                         if det == 'units':
-                             print("... Units: {0:}".format(j_split[2]))
-                             self.units[i[0]] = j_split[2].lower()
+                            if verbose:
+                                print( "... Units: {0:}".format(j_split[2]) )
+                            self.units[i[0]] = j_split[2].lower()
+                             
+                        if det == 'name':
+                            if verbose:
+                                print( "... Name: {0:}".format( ''.join(j_split[2:])) )
+                                print("... name_fil: {0:004d} - {1:<10s}".format(i[0],i_split))
+                            self.name_of_filter[i[0]] = ''.join(j_split[2:])
                             
             o1filter.close()
             
@@ -964,10 +1049,22 @@ class Filters( object ):
             d['widtheff'] = widtheff[ i ]
             d['units'] = self.units[ i ]
             
-            self.filters[ i ] = [ str(self.name_fil[i]).split('.txt')[0],self.detector_type[i],self.T_lambda[0:N_lambda,i], self.T_fluxes[0:N_lambda,i], d ]
+            # Added
+            # self.name_of_filter[ i ]
+            
+            self.filters[ i ] = [ str(self.name_of_filter[i]),str(self.name_fil[i]).split('.txt')[0],self.detector_type[i],self.T_lambda[0:N_lambda,i], self.T_fluxes[0:N_lambda,i], d ]
             self.filters[ self.name_fil[i] ] = self.filters[ i ] #self.T_lambda[0:N_lambda,i], self.T_fluxes[0:N_lambda,i]
             self.filters[ str(self.name_fil[i]).split('.txt')[0] ] = self.filters[ i ]
+            self.filters[ str(self.name_of_filter[i]) ] = self.filters[ i ]
+         
+            # Ok, potentially a problem if self.name_of_filter == self.name_fill.split('txt')[0]
+            # fill_character = ' '  # Specify the character you want to use for filling
+
+            # print( "{0:0>4} {1:<30} {2:<30} {3:<30}".format( i, self.name_fil[i].ljust(40, fill_character), str(self.name_of_filter[i]) , str(self.name_fil[i]).split('.txt')[0] ) )
             
+        # print( "N_filters: ----- DEBUG: ",len(self.filters) )
+        print("[ReadFilters]")
+
         return
     
     def ReadONEFilter( self,path,arq_fil1,N_lambda=500 ):
@@ -1067,7 +1164,7 @@ class Filters( object ):
             #print( self.onefilter )
             return
             
-    def ReadCalibrationStars( self,path_Vega='/home/jean/Codes/Pynoptic/Filters/data/VegaLR.dat',path_Sun='/home/jean/Codes/Pynoptic/Filters/data/Sun_LR.dat',path1Sun='/home/jean/Codes/Pynoptic/Filters/data/Sun.dat',path2Sun='/home/jean/Codes/Pynoptic/Filters/data/sun_reference_stis_001.fits',path_BD='/home/jean/Codes/Pynoptic/Filters/data/BD+17d4708.dat',verbose=0 ):
+    def ReadCalibrationStars( self,path_Vega='../../data/calibration_stars/VegaLR.dat',path_Sun='../../data/calibration_stars/Sun_LR.dat',path1Sun='../../data/calibration_stars/Sun.dat',path2Sun='../../data/sun_reference_stis_001.fits',path_BD='../../data/calibration_stars/BD+17d4708.dat',verbose=0 ):
 # ! *** Read calibration stars ************************************************
 # !     RESUME : VEGA spectrum.                                               !
 # !              Intrinsic Flux: erg/s/cm2/A                                  !
@@ -1388,19 +1485,20 @@ if __name__ == '__main__':
     database_filters._filters_class()
 
     # read filters
-    database_filters.read_filters()
-    #print( len(database_filters.filters) )
+    verbose = True
+    database_filters.read_filters( verbose=verbose )
+    # print( "... N_entries: ",len(database_filters.filters)/4 )
         
-#     # read spectra
-#     database_filters.read_spectra() 
+    # read spectra
+    database_filters.read_spectra( verbose=verbose ) 
     
-#     # plot
-#     # database_filters.plotfilter()    
+    # plot
+    database_filters.plotfilter()    
 
 #     # Read a given spectrum test
 #     l = []
 #     f = []
-#     file = '/home/jean/Codes/Pynoptic/Filters/' + 'bc2003_hr_m62_chab_ssp_064.spec'
+#     file = '../../data' + 'bc2003_hr_m62_chab_ssp_064.spec'
 #     o = open(file,'r')
 #     r = o.readlines()
 #     for i in r:
@@ -1490,7 +1588,7 @@ if __name__ == '__main__':
 
 # o = Filters()
 
-# path = '/home/jean/Codes/Pynoptic/Filters/data/'
+# path = '../../data/'
 # arq_fil1 = 'ListFilters.txt'
 
 # o.plotfilter()

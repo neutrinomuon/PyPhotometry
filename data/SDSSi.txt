@@ -1,6 +1,6 @@
-# Filter:   SDSS_i
+# Filter:   SDSSi
 # Detector: photon
-# Name:     SDSS i
+# Name:     SDSS_i
 # Points:   89
 # Units:    Angstrom
 #############################################################################

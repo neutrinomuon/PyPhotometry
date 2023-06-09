@@ -1,6 +1,6 @@
-# Filter:   SDSS_u
+# Filter:   SDSSu
 # Detector: photon
-# Name:     SDSS u
+# Name:     SDSS_u
 # Points:   47
 # Units:    Angstrom
 #############################################################################
