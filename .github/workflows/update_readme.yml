@@ -36,9 +36,8 @@ jobs:
 
           echo "$COMMIT_SHA"
 
-      - name: GetSHA256 from PyPI
-        run: |
-	  NEW_version=$(cat version.txt)
+      - name: Get SHA256 from PyPI
+        run: NEW_version=$(cat version.txt)
 	  
       - name: Update README with new version
         run: |
