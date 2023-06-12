@@ -123,7 +123,7 @@ data = \
                                              '-msse4.2'],
               "('feature_flags', 'SSSE3')": ['-msse', '-msse2', '-msse3',
                                              '-mssse3'],
-              "('feature_flags', {'SSE', 'SSE2', 'SSE3'})": ['-msse', '-msse2',
+              "('feature_flags', {'SSE2', 'SSE3', 'SSE'})": ['-msse', '-msse2',
                                                              '-msse3'],
               "('feature_is_supported', 'AVX', 'force_flags', 'macros', None, [])": True,
               "('feature_is_supported', 'AVX2', 'force_flags', 'macros', None, [])": True,

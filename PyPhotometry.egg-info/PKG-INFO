@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyPhotometry
-Version: 0.0.1
+Version: 0.0.2
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
 Download-URL: https://github.com/neutrinomuon/PyPhotometry
@@ -51,8 +51,8 @@ file.
 PyPhotometry is a Python package based on a Fortran legacy package that allows
 you to compute photometric fluxes and magnitudes in various photometric
 systems. The package provides different magnitude systems, such as VEGA
-standard, VEGA proposed by Bohlin and Gilland 2004, M_AB standard system, M_TG
-standard system (Thuan & Gunn), WFPC2 system, FOCA at 2000, and without any
+standard, VEGA proposed by Bohlin and Gilland 2004, AB system, TG standard
+system (Thuan & Gunn), WFPC2 system, FOCA at 2000, and without any
 calibration.
 
 Pyphot from M. FouesneauA is *NOT* part of the distribution, but used as a
