@@ -46,5 +46,5 @@ src/fortran/GaussLegendreQuadrature.f90
 src/fortran/IntegralALL.f90
 src/fortran/LINinterpol.f90
 src/fortran/PropFilters.f90
-src/python/PyPhotometry.py
+src/python/Photometry.py
 src/python/__init__.py

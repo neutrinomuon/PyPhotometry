@@ -1,1 +1,43 @@
-��e
+{% set name = "PyPhotometry" %}
+{% set version = "0.0.11" %}
+{% set url = "https://pypi.io/packages/source/" + name[0] + "/" + name + "/" + name + "-" + version + ".tar.gz" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  fn: "{{ name }}-{{ version }}.tar.gz"
+  url: "{{ url }}"
+  sha256: febe8796484b5d629d1fbf36d53c3e60888cf6d0451b49b18bfccb5e3735eaf7
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - matplotlib
+    - numpy>=1.21.5
+    - pip
+    - python
+  run:
+    - matplotlib
+    - numpy>=1.21.5
+    - python
+
+test:
+  imports:
+    - PyIntegral
+
+about:
+  home: "https://github.com/neutrinomuon/PyPhotometry"
+  license_file: 'LICENSE.txt'
+  license_url: "https://github.com/neutrinomuon/PyPhotometry/LICENSE.txt"
+  summary: "PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems. The package provides different magnitude systems"
+  doc_url: "https://github.com/neutrinomuon/PyPhotometry"
+  dev_url: "https://github.com/neutrinomuon/PyPhotometry"
+
+extra:
+  recipe-maintainers:
+    - neutrinomuon
