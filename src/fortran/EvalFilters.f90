@@ -45,7 +45,7 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
     real     (kind=RP), parameter :: cl_speed=299792.458000_RP
     real     (kind=RP), parameter :: fac4Pid2=1.19649518e40_RP
     integer  (kind=IB), parameter :: Ncalibra=7
-    ! #Astronomy related lsun = 3.839e26 * watt = Lsun
+    ! Astronomy related lsun = 3.839e26 * watt = Lsun
     ! within pyphot !3.82600000e33_RP!3.8300500000e33_RP !=3.916e33
     ! with neutrinos !3.828e+33 !3.82600000e33_RP
 
@@ -211,7 +211,7 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 !                                                                           !
 !              10 pc = 3.08567758 × 10^19 cm and this implies               !
 !                                                                           !
-!               4πd² = 1.19649518 x 10^40 cm²                               !
+!               4πd^2 = 1.19649518 x 10^40 cm^2                             !
 !                                                                           !
 !              WARNING : The synthetic fluxes must be in erg/s/A, but       !
 !              the spectrum is usually evaluated in L_sun/A.                !
@@ -329,7 +329,7 @@ END SUBROUTINE EvalFilters
 ! ###########################################################################
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE EvalFilters( a )
+SUBROUTINE author_EvalFilters( a )
   use ModDataType
 
   implicit none
@@ -340,7 +340,7 @@ SUBROUTINE EvalFilters( a )
 
   a = 'Written by Jean Gomes'
   
-END SUBROUTINE EvalFilters
+END SUBROUTINE author_EvalFilters
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ! Jean@Porto - Sat Oct 27 08:58:18 WEST 2012 ++++++++++++++++++++++++++++++++

@@ -5,7 +5,6 @@ version.txt
 PyPhotometry.egg-info/PKG-INFO
 PyPhotometry.egg-info/SOURCES.txt
 PyPhotometry.egg-info/dependency_links.txt
-PyPhotometry.egg-info/requires.txt
 PyPhotometry.egg-info/top_level.txt
 data/2MASSH.txt
 data/2MASSJ.txt

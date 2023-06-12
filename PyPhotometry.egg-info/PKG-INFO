@@ -1,15 +1,11 @@
 Metadata-Version: 2.1
 Name: PyPhotometry
-Version: 0.0.2
+Version: 0.0.3
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
-Download-URL: https://github.com/neutrinomuon/PyPhotometry
 Author: Jean Gomes
 Author-email: antineutrinomuon@gmail.com
-Maintainer: Jean Gomes
-Maintainer-email: antineutrinomuon@gmail.com
 License: UNKNOWN
-Keywords: list,of,keywords
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Fortran
@@ -23,7 +19,7 @@ email: [antineutrinomuon@gmail.com](mailto:antineutrinomuon@gmail.com), [jean@as
 
 github repository: <a href="https://github.com/neutrinomuon/PyPhotometry">PyPhotometry</a>
 
-last stable version: 0.0.1
+last stable version: 0.0.3
 
 © Copyright ®
 
@@ -44,6 +40,29 @@ J.G. - Jean Gomes @ 2023
 
 #### <b>RESUME</b>
 
+PyPhotometry is a Python package that builds upon a collection of Fortran
+2003+ routines originally developed between 2003 and 2004. These routines are
+the foundation of the package and can be traced back to that time period. The
+licensing details for the Fortran routines can be found in the LICENSE.txt
+file included with the package.
+
+The main purpose of PyPhotometry is to enable the computation of photometric
+fluxes and magnitudes in various photometric systems. It offers support for
+multiple magnitude systems, including the VEGA standard, the VEGA system
+proposed by Bohlin and Gilland in 2004, the AB system, the TG standard system
+(Thuan & Gunn), the WFPC2 system, the FOCA system at 2000, and also provides
+an option without any calibration.
+
+It's important to note that PyPhotometry does not include the Pyphot package
+developed by M. Fouesneau, but it can be used for comparison purposes. If you
+wish to install Pyphot for comparison, you can use the following command:
+
+<pre>
+pip install pyphot
+</pre>
+
+However, it is not mandatory to install Pyphot in order to use PyPhotometry. The PyPhotometry package comes with its own set of accompanying routines that provide the necessary functionality.
+
 Original Fortran 2003+ routines date back to 2003-2004. Read the <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/LICENSE.txt'>LICENSE.txt</a>
 file.
@@ -55,7 +74,7 @@ standard, VEGA proposed by Bohlin and Gilland 2004, AB system, TG standard
 system (Thuan & Gunn), WFPC2 system, FOCA at 2000, and without any
 calibration.
 
-Pyphot from M. FouesneauA is *NOT* part of the distribution, but used as a
+Pyphot from M. Fouesneau is *NOT* part of the distribution, but used as a
 comparison: <a
 href='https://mfouesneau.github.io/pyphot/index.html#package-main-content'>https://mfouesneau.github.io/pyphot/index.html#package-main-content</a>. If
 you want to install for comparison then:
@@ -64,8 +83,9 @@ you want to install for comparison then:
 pip install pyphot
 </pre>
 
-However, it is not necessary for the usage of this package. Accompanying there
-are several routines.
+However, it is not necessary for the usage of this package. This package is
+meant for a comparison, but PyPhotometry legacy routines are more
+general. Accompanying there are several other routines.
 
 <hr>
 
@@ -85,7 +105,7 @@ href='https://anaconda.org/neutrinomuon/PyPhotometry'>https://anaconda.org/neutr
 <img src="https://anaconda.org/neutrinomuon/PyPhotometry/badges/version.svg"><img src="https://anaconda.org/neutrinomuon/PyPhotometry/badges/latest_release_date.svg"><img src="https://anaconda.org/neutrinomuon/PyPhotometry/badges/platforms.svg">
 
 <pre>
-conda install -c neutrinomuon PyPhotometry
+conda install -c neutrinomuon pyphotometry
 </pre>
 
 <br>OBS.: Linux, OS-X and Windows pre-compilations available in conda.
