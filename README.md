@@ -86,19 +86,19 @@ python setup.py install
 The following magnitude systems are supported by PyPhotometry:
 
 - VEGA standard: Based on the Bessel (2005), Cousins & Jones (1976), and Kitchin (2003) references.
-- VEGA proposed by Bohlin and Gilland 2004.
-- M_AB standard system: Based on Oke (1974) reference.
-- M_TG standard system (Thuan & Gunn): Based on Oke & Gunn (1983), Schild (1984), Schneider et al. (1983), Thuan & Gunn (1976), and Wade et al. (1979) references.
-- WFPC2 system: Based on the Stone (1996) reference.
-- FOCA at 2000 system.
+- VEGA proposed by Bohlin and Gilland 2004;
+- AB standard system: Based on Oke (1974) reference;
+- TG standard system (Thuan & Gunn): Based on Oke & Gunn (1983), Schild (1984), Schneider et al. (1983), Thuan & Gunn (1976), and Wade et al. (1979) references;
+- WFPC2 system: Based on the Stone (1996) reference;
+- FOCA at 2000 system;
 - Without any calibration.
 
 ##### Calibration Stars
 
 PyPhotometry provides calibration stars used in the magnitude systems:
 
-- VEGA spectrum: Intrinsic Flux - erg/s/cm2/A.
-- SUN spectrum: Intrinsic Flux - erg/s/A.
+- VEGA spectrum: Intrinsic Flux - [erg/s/cm2/A].
+- SUN spectrum: Intrinsic Flux - [erg/s/A].
 - F subdwarf: Used to calibrate the Thuan & Gunn system.
 
 For more details on the usage and options, please refer to the PyPhotometry
@@ -111,6 +111,95 @@ GitHub repository.
 The main structure of the directories and files are:
 
 <pre>
+PyPhotometry
+├── Literature
+│   └── Bohlin and Gilland (2004) - Absolute Flux Distribution of the SDSS Standard BD +17_4708.pdf
+├── README.md
+├── __pycache__
+│   └── Filters.cpython-39.pyc
+├── showdown.min.js
+├── scripts
+│   └── update_readme.py
+├── index.html
+├── LICENSE.txt
+├── data
+│   ├── IRAS.12mu.txt
+│   ├── Herschel_SPIRE.PSW_ext.txt
+│   ├── GalexNUV.txt
+│   ├── SDSSg.txt
+│   ├── 2MASSJ.txt
+│   ├── WISE4.txt
+│   ├── 2MASSKs.txt
+│   ├── Herschel_SPIRE.PLW_ext.txt
+│   ├── GalexFUV.txt
+│   ├── filters.db
+│   ├── Herschel_SPIRE.PMW_ext.txt
+│   ├── IRAS.60mu.txt
+│   ├── SDSSr.txt
+│   ├── calibration_stars
+│   │   ├── sun_reference_stis_001.fits
+│   │   ├── Filters_ReadMe.txt
+│   │   ├── kp00_6000.ascii
+│   │   ├── Sun_LR.dat
+│   │   ├── bd17d4708_stisnic_001.fits
+│   │   ├── BD+17o4708.dat
+│   │   ├── BD+17d4708.dat
+│   │   ├── VegaLR_OLD.dat
+│   │   ├── VegaLR.dat
+│   │   └── Sun.dat
+│   ├── 2MASSH.txt
+│   ├── IRAS.100mu.txt
+│   ├── WISE3.txt
+│   ├── ListFilters.txt
+│   ├── SDSSi.txt
+│   ├── SDSSz.txt
+│   ├── IRAS.25mu.txt
+│   ├── SDSSu.txt
+│   ├── WISE2.txt
+│   └── WISE1.txt
+├── setup.py
+├── tutorials
+│   └── PyPhotometry.png
+├── src
+│   ├── python
+│   │   ├── __pycache__
+│   │   ├── __init__.py
+│   │   └── Photometry.py
+│   └── fortran
+│       ├── EvalFilters.compile
+│       ├── IntegralALL.f90
+│       ├── PropFilters.compile
+│       ├── DataTypes.f90
+│       ├── PropFilters.f90
+│       ├── EvalFilters.cpython-39-x86_64-linux-gnu.so
+│       ├── ReadFilters.f90
+│       ├── GaussLegendreQuadrature.f90
+│       ├── PropFilters.cpython-39-x86_64-linux-gnu.so
+│       ├── makefile
+│       ├── LINinterpol.f90
+│       └── EvalFilters.f90
+├── version.txt
+├── PyPhotometry.egg-info
+│   ├── PKG-INFO
+│   ├── dependency_links.txt
+│   ├── SOURCES.txt
+│   ├── top_level.txt
+│   └── requires.txt
+└── build
+    ├── lib.linux-x86_64-3.9
+    │   └── PyPhotometry
+    ├── src.linux-x86_64-3.9
+    │   ├── PyPhotometry
+    │   ├── build
+    │   └── numpy
+    └── temp.linux-x86_64-3.9
+        ├── ccompiler_opt_cache_ext.py
+        ├── src
+        ├── PyPhotometry
+        ├── .libs
+        └── build
+
+23 directories, 63 files
 </pre>
 
 <br>PyPhotometry.py is a python wrapper to the library in fortran called
