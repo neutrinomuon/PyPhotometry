@@ -200,7 +200,7 @@ jobs:
           JSON_DATA=$(jq -n --arg message "$COMMIT_MESSAGE" --arg content "$UPDATED_CONTENT" --arg branch "$BRANCH" --arg sha $FILE_SHA \
             '{message: $message, content: $content, branch: $branch, sha: $sha}')
 
-          # echo "JSON_DATA: $JSON_DATA"
+          echo "JSON_DATA: $JSON_DATA"
 
           # Update the file on GitHub
           RESPONSE=$(curl -s -X PUT \

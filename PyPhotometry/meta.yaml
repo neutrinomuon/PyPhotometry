@@ -28,7 +28,7 @@ requirements:
 
 test:
   imports:
-    - PyIntegral
+    - PyPhotometry
 
 about:
   home: "https://github.com/neutrinomuon/PyPhotometry"
