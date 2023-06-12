@@ -188,6 +188,8 @@ jobs:
           UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/sha256: \".*\"/sha256: \"$SHA256_PYPI\"/")
           UPDATED_CONTENT=$(echo "$UPDATED_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
 
+          echo $UPDATED_CONTENT
+
           # Encode the updated content
           # UPDATE_CONTENT_normal=$(echo -n "$UPDATED_CONTENT")
           UPDATED_CONTENT=$(echo -n "$UPDATED_CONTENT" | base64)
@@ -200,7 +202,7 @@ jobs:
           JSON_DATA=$(jq -n --arg message "$COMMIT_MESSAGE" --arg content "$UPDATED_CONTENT" --arg branch "$BRANCH" --arg sha $FILE_SHA \
             '{message: $message, content: $content, branch: $branch, sha: $sha}')
 
-          echo "JSON_DATA: $JSON_DATA"
+          # echo "JSON_DATA: $JSON_DATA"
 
           # Update the file on GitHub
           RESPONSE=$(curl -s -X PUT \
