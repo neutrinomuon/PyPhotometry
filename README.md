@@ -25,11 +25,11 @@ J.G. - Jean Gomes @ 2023
 
 #### <b>RESUME</b>
 
-PyPhotometry is a Python package that builds upon a collection of Fortran
-2003+ routines originally developed between 2003 and 2004. These routines are
-the foundation of the package and can be traced back to that time period. The
-licensing details for the Fortran routines can be found in the LICENSE.txt
-file included with the package.
+<strong>PyPhotometry</strong> is a Python package that builds upon a
+collection of Fortran 2003+ routines originally developed between 2003 and
+2004. These routines are the foundation of the package and can be traced back
+to that time period. The licensing details for the Fortran routines can be
+found in the LICENSE.txt file included with the package.
 
 The main purpose of PyPhotometry is to enable the computation of photometric
 fluxes and magnitudes in various photometric systems. It offers support for
