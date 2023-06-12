@@ -40,8 +40,8 @@ jobs:
         run: |
           NEW_version=$(cat version.txt)
           SHA256=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["'${NEW_version}'"][0]["digests"]["sha256"])')
-          echo "SHA256=$SHA256" >> $GITHUB_ENV
-          echo SHA256=$SHA256
+          echo "SHA256_PYPI=$SHA256" >> $GITHUB_ENV
+          echo SHA256_PYPI=$SHA256_PYPI
 
       - name: Update README with new version
         run: |
@@ -149,8 +149,9 @@ jobs:
           COMMIT_MESSAGE="Update README with new version"
 
           # Substitute the previously found SHA256 value in meta.yaml
-          SHA256=$(cat $GITHUB_ENV | grep SHA256= | cut -d'=' -f2)
-          sed -i "s/sha256: .*/sha256: $SHA256/g" PyPhotometry/$FILE_PATH
+          SHA256_PYPI=$(cat $GITHUB_ENV | grep SHA256_PYPI= | cut -d'=' -f2)
+          echo SHA256_PYPI=$SHA256_PYPI
+          sed -i "s/sha256: .*/sha256: $SHA256_PYPI/g" PyPhotometry/$FILE_PATH
 
           # Get the file SHA from the /contents endpoint
           # Needs to use FILES_SHA and not COMMIT_SHA for the update of the file
