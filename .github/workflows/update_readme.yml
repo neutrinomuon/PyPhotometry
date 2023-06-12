@@ -148,6 +148,9 @@ jobs:
           BRANCH="main"
           COMMIT_MESSAGE="Update README with new version"
 
+          # Update the file content with the new version
+          NEW_VERSION=$(cat version.txt)
+
           # Substitute the SHA256 value from PYPI version in meta.yaml
           SHA256_PYPI=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["'${NEW_version}'"][0]["digests"]["sha256"])')
           #SHA256_PYPI=$(cat $GITHUB_ENV | grep SHA256_PYPI= | cut -d'=' -f2)
@@ -180,7 +183,7 @@ jobs:
           FILE_CONTENT=$(echo "$FILE_CONTENT" | base64 -d)
 
           # Update the file content with the new version
-          NEW_VERSION=$(cat version.txt)
+          #NEW_VERSION=$(cat version.txt)
           #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/last stable version: .*/last stable version: $NEW_VERSION/")
           #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
           UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
