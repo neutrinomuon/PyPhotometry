@@ -41,6 +41,7 @@ jobs:
           NEW_version=$(cat version.txt)
           SHA256=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["'${NEW_version}'"][0]["digests"]["sha256"])')
           echo "SHA256=$SHA256" >> $GITHUB_ENV
+          echo SHA256=$SHA256
 
       - name: Update README with new version
         run: |
