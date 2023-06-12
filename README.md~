@@ -66,7 +66,7 @@ href='https://anaconda.org/neutrinomuon/PyPhotometry'>https://anaconda.org/neutr
 <img src="https://anaconda.org/neutrinomuon/PyPhotometry/badges/version.svg"><img src="https://anaconda.org/neutrinomuon/PyPhotometry/badges/latest_release_date.svg"><img src="https://anaconda.org/neutrinomuon/PyPhotometry/badges/platforms.svg">
 
 <pre>
-conda install -c neutrinomuon PyPhotometry
+conda install -c neutrinomuon pyphotometry
 </pre>
 
 <br>OBS.: Linux, OS-X and Windows pre-compilations available in conda.

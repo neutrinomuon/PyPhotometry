@@ -25,6 +25,29 @@ J.G. - Jean Gomes @ 2023
 
 #### <b>RESUME</b>
 
+PyPhotometry is a Python package that builds upon a collection of Fortran
+2003+ routines originally developed between 2003 and 2004. These routines are
+the foundation of the package and can be traced back to that time period. The
+licensing details for the Fortran routines can be found in the LICENSE.txt
+file included with the package.
+
+The main purpose of PyPhotometry is to enable the computation of photometric
+fluxes and magnitudes in various photometric systems. It offers support for
+multiple magnitude systems, including the VEGA standard, the VEGA system
+proposed by Bohlin and Gilland in 2004, the AB system, the TG standard system
+(Thuan & Gunn), the WFPC2 system, the FOCA system at 2000, and also provides
+an option without any calibration.
+
+It's important to note that PyPhotometry does not include the Pyphot package
+developed by M. Fouesneau, but it can be used for comparison purposes. If you
+wish to install Pyphot for comparison, you can use the following command:
+
+<pre>
+pip install pyphot
+</pre>
+
+However, it is not mandatory to install Pyphot in order to use PyPhotometry. The PyPhotometry package comes with its own set of accompanying routines that provide the necessary functionality.
+
 Original Fortran 2003+ routines date back to 2003-2004. Read the <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/LICENSE.txt'>LICENSE.txt</a>
 file.
@@ -45,8 +68,9 @@ you want to install for comparison then:
 pip install pyphot
 </pre>
 
-However, it is not necessary for the usage of this package. Accompanying there
-are several routines.
+However, it is not necessary for the usage of this package. This package is
+meant for a comparison, but PyPhotometry legacy routines are more
+general. Accompanying there are several other routines.
 
 <hr>
 
