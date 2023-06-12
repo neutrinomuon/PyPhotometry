@@ -185,7 +185,7 @@ jobs:
           #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/last stable version: .*/last stable version: $NEW_VERSION/")
           #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
 
-          UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/sha256: \".*\"/sha256: \$SHA256_PYPI\"/")
+          UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/sha256: \".*\"/sha256: $SHA256_PYPI/")
           UPDATED_CONTENT=$(echo "$UPDATED_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
 
           # Encode the updated content
