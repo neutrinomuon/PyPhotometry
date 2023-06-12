@@ -173,16 +173,19 @@ jobs:
           # Decode the file contents
           FILE_CONTENT=$(echo "$FILE_CONTENT" | base64 -d)
 
-          # Update the file content with the new version
+          # Update the file content with the new version and sha256 value
           NEW_VERSION=$(cat version.txt)
-          #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/last stable version: .*/last stable version: $NEW_VERSION/")
-          #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
-          UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
 
           # Substitute the SHA256 value from PYPI version in meta.yaml
           SHA256_PYPI=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["'${NEW_VERSION}'"][0]["digests"]["sha256"])')
           echo SHA256_PYPI=$SHA256_PYPI
+          # Trying to update as a Linux command
           sed -i "s/sha256: .*/sha256: $SHA256_PYPI/g" PyPhotometry/$FILE_PATH
+
+          #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/last stable version: .*/last stable version: $NEW_VERSION/")
+          #UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
+          UPDATED_CONTENT=$(echo "$FILE_CONTENT" | sed "s/{% set version = \".*\" %}/{% set version = \"$NEW_VERSION\" %}/")
+
 
 
           # Encode the updated content
