@@ -149,7 +149,7 @@ jobs:
 
           # Substitute the previously found SHA256 value in meta.yaml
           SHA256=$(cat $GITHUB_ENV | grep SHA256= | cut -d'=' -f2)
-          sed -i "s/<HERE>/$SHA256/g" $FILE_PATH
+          sed -i "s/<HERE>/$SHA256/g" PyPhotometry/$FILE_PATH
 
           # Get the file SHA from the /contents endpoint
           # Needs to use FILES_SHA and not COMMIT_SHA for the update of the file
