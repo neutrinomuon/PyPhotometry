@@ -1,5 +1,5 @@
 {% set name = "PyPhotometry" %}
-{% set version = "0.0.1" %}
+{% set version = "0.0.2" %}
 {% set url = "https://pypi.io/packages/source/" + name[0] + "/" + name + "/" + name + "-" + version + ".tar.gz" %}
 
 package:
@@ -9,7 +9,7 @@ package:
 source:
   fn: "{{ name }}-{{ version }}.tar.gz"
   url: "{{ url }}"
-  sha256: 12780246e9a89d81255a086f586e94088dcfef9e593d88dd3cb16458adc048f3
+  sha256: f15ecd311d21aa92fc9fc01917adc9d2f3e849fedf3b987d207ed7d58800104c
 
 build:
   number: 0
