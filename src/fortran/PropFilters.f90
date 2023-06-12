@@ -1,5 +1,10 @@
 ! ###########################################################################
-!     RESUME : Read Filters and retrieve ZERO point calibrations.           !
+!     RESUME : Read Filters and retrieve ZERO point calibrations. Original  !
+!              routine dates back to 2003-2004.                             !
+!                                                                           !
+!              Original routines first released:                            !
+!                                                                           !
+!              Wed Sep 15 09:32:47 WEST 2004                                !
 !                                                                           !
 !     INPUT    : 01) T_lambda  -> Wavelength                                !
 !                02) T_fluxes  -> Transmission curve                        !
@@ -21,6 +26,9 @@
 !                10) Nfilters  -> Number of filters                         !
 !                                                                           !
 !     EXTRA ROUTINES : EvalTFluxes & IntegralALL                            !
+!                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
 !                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
@@ -183,6 +191,8 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
 
     allocate ( aux_flux(Ntlambda) )
 
+    ! Ancient part of the code, where it read the content
+    
 ! *** Read calibration stars ************************************************
 !     RESUME : VEGA spectrum.                                               !
 !              Intrinsic Flux: erg/s/cm2/A                                  !
@@ -373,6 +383,21 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
 END SUBROUTINE PropFilters
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE author_PropFilters( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE author_PropFilters
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! ###########################################################################
 !     RESUME : Compute effective lambda and flux convoluted with the        !
 !              transmission curve.                                          !
@@ -389,6 +414,9 @@ END SUBROUTINE PropFilters
 !                                                                           !
 !     OUTPUT   : 01) fluxtran -> Flux inside the filter                     !
 !                02) lamb_eff -> Effective lambda                           !
+!                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
 !                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
@@ -501,8 +529,23 @@ SUBROUTINE EvalTFluxes( O_lambda,O_fluxes,Nspeclbd,T_lambda,T_fluxes,       &
 END SUBROUTINE EvalTFluxes
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE author_EvalTFluxes( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE author_EvalTFluxes
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! ###########################################################################
-!     RESUME : Compute flux convoluted with the ransmission curve.          !
+!     RESUME : Compute flux convoluted with the transmission curve.         !
 !                                                                           !
 !     INPUT    : 01) O_lambda  -> Wavelength                                !
 !                02) O_fluxes  -> Fluxes                                    !
@@ -515,6 +558,9 @@ END SUBROUTINE EvalTFluxes
 !                09) verbosity -> Optional variable to print & check        !
 !                                                                           !
 !     OUTPUT   : 01) fluxtran  -> Flux inside the filter                    !
+!                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
 !                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
@@ -665,6 +711,21 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
 END SUBROUTINE EvalTransmission
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE author_EvalTransmission( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE author_EvalTransmission
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! ###########################################################################
 !     RESUME : Linear interpolation given 2 points (x1,y1) and (x2,y2).     !
 !                                                                           !
@@ -675,6 +736,9 @@ END SUBROUTINE EvalTransmission
 !                05) newvalue -> new x value                                !
 !                                                                           !
 !     OUTPUT   : 01) SLin_interp -> new y value                             !
+!                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
 !                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
@@ -696,6 +760,21 @@ REAL (KIND=RP) FUNCTION SLin_interp( xorg_ini,xorg_fin,yorg_ini,yorg_fin,   &
 END FUNCTION SLin_interp
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE author_SLin_interp( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE author_SLin_interp
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! ###########################################################################
 !     RESUME : Logarithmically interpolate given 2 points (x1,y1) and       !
 !              (x2,y2).                                                     !
@@ -707,6 +786,12 @@ END FUNCTION SLin_interp
 !                05) newvalue -> new x value                                !
 !                                                                           !
 !     OUTPUT   : 01) SLog_interp -> new y value                             !
+!                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
+!                                                                           !
+!     Written: Jean Michel Gomes                                            !
+!     Checked: Tue May  1 16:09:13 WEST 2011                                !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 REAL (KIND=RP) FUNCTION SLog_interp( xorg_ini,xorg_fin,yorg_ini,yorg_fin,   &
                                      newvalue )
@@ -732,19 +817,64 @@ REAL (KIND=RP) FUNCTION SLog_interp( xorg_ini,xorg_fin,yorg_ini,yorg_fin,   &
 END FUNCTION SLog_interp
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE author_SLog_interp( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE author_SLog_interp
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! ###########################################################################
-!""" Unitwise Effective wavelength
-!   leff = int (lamb * T * Vega dlamb) / int(T * Vega dlamb)
-!   """
-!   with Vega() as v:
-!       s = self.reinterp(v.wavelength)
-!       w = s._wavelength
-!       leff = np.trapz(w * s.transmit * v.flux.magnitude, w, axis=-1)
-!       leff /= np.trapz(s.transmit * v.flux.magnitude, w, axis=-1)
-!   if self.wavelength_unit is not None:
-!       return leff * unit[self.wavelength_unit]
-!   else:
-!       return leff
+!     RESUME : Effective wavelength from filter:                            !
+!                                                                           !
+!              lamb_effective =                                             !
+!                                                                           !
+!              integral(lamb * T * Vega dlamb) / integral(T * Vega dlamb)   !
+!                                                                           !
+!     INPUT    : 01) T_lambda -> Wavelength from transmission filter        !
+!                02) T_fluxes -> Transmission values                        !
+!                03) Ntlambda -> # of points in transmission filter         !
+!                04) L_lambda -> Wavelength of calibration star (e.g. Vega) !
+!                05) S_fluxes -> "Flux" of calibration star (e.g. Vega)     !
+!                06)                                                        !
+!                                                                           !
+!     OUTPUT   : 01) SLog_interp -> new y value                             !
+!                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
+!                                                                           !
+!     Written: Jean Michel Gomes                                            !
+!     Checked: Tue May  1 16:09:13 WEST 2011                                !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!     RESUME : Comparison of legacy fortran formula with the one from       !
+!              pyphot, for the release of the code. But it is a more        !
+!              general function.                                            !
+!                                                                           !
+!     Checked: 2021                                                         !
+!                                                                           !
+!   """Unitwise Effective wavelength                                        !
+!   leff = int (lamb * T * Vega dlamb) / int(T * Vega dlamb)                !
+!   """                                                                     !
+!   with Vega() as v:                                                       !
+!       s = self.reinterp(v.wavelength)                                     !
+!       w = s._wavelength                                                   !
+!       leff = np.trapz(w * s.transmit * v.flux.magnitude, w, axis=-1)      !
+!       leff /= np.trapz(s.transmit * v.flux.magnitude, w, axis=-1)         !
+!   if self.wavelength_unit is not None:                                    !
+!       return leff * unit[self.wavelength_unit]                            !
+!   else:                                                                   !
+!       return leff                                                         !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
                                         S_fluxes,N_lambda,IsKeepOn,Int_Type )
     use ModDataType
@@ -878,55 +1008,82 @@ REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
 END FUNCTION lamb_effective
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE author_lamb_effective( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE author_lamb_effective
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! Jean@Porto - Thu Oct 13 12:53:07 AZOST 2011 +++++++++++++++++++++++++++++++
 
 ! *** Test ******************************************************************
-!      PROGRAM GeneralTest
-!        use ModDataType
-!        implicit none
-!        integer  (kind=IB), parameter :: Nb_max=1500,Nl_max=5000
-!        integer  (kind=IB) :: IsKeepOn,Int_Type,iverbose,Nfilters
-!        integer  (kind=IB), dimension(Nb_max) :: Numb_lbd
-!        real     (kind=RP), dimension(Nl_max,Nb_max) :: T_lambda,T_fluxes
-!        real     (kind=RP), dimension(Nb_max) :: T_l_Area,T_n_Area,magABsys,&
-!                                                 magTGsys,standard,lamb_eff
-!        character (len=CH), dimension(Nb_max) :: name_fil
-!        character (len=CH) :: file_dir
+!PROGRAM GeneralTest
+!  use ModDataType
+!  implicit none
+!  integer  (kind=IB), parameter :: Nb_max=1500,Nl_max=5000
+!  integer  (kind=IB) :: IsKeepOn,Int_Type,iverbose,Nfilters
+!  integer  (kind=IB), dimension(Nb_max) :: Numb_lbd
+!  real     (kind=RP), dimension(Nl_max,Nb_max) :: T_lambda,T_fluxes
+!  real     (kind=RP), dimension(Nb_max) :: T_l_Area,T_n_Area,magABsys,&
+!                                           magTGsys,standard,lamb_eff
+!  character (len=CH), dimension(Nb_max) :: name_fil
+!  character (len=CH) :: file_dir
 !
-!       interface
-!          subroutine ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
-!                                  magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
-!                                  file_dir,Nfilters,Int_Type,IsKeepOn,verbosity )
-!            use ModDataType
-!            integer  (kind=IB), intent(in out) :: IsKeepOn,Nfilters
-!            integer  (kind=IB), intent(in) :: Int_Type
-!            integer  (kind=IB), optional :: verbosity
-!            integer  (kind=IB), dimension(:), intent(in out) :: Numb_lbd
-!            real     (kind=RP), target, dimension(:,:), intent(in out) ::       &
-!                                                                      T_lambda, &
-!                                                                      T_fluxes
-!            real     (kind=RP), dimension(:), intent(in out) :: T_l_Area,       &
-!                                                                T_n_Area,       &
-!                                                                magABsys,       &
-!                                                                magTGsys,       &
-!                                                                standard,       &
-!                                                                lamb_eff
-!            character (len=*), intent(in) :: file_dir,file_out
-!            character (len=*), dimension(:), intent(in out) :: name_fil
-!          end subroutine ReadFilters
-!       end interface
+! interface
+!    subroutine ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
+!                            magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
+!                            file_dir,Nfilters,Int_Type,IsKeepOn,verbosity )
+!      use ModDataType
+!      integer  (kind=IB), intent(in out) :: IsKeepOn,Nfilters
+!      integer  (kind=IB), intent(in) :: Int_Type
+!      integer  (kind=IB), optional :: verbosity
+!      integer  (kind=IB), dimension(:), intent(in out) :: Numb_lbd
+!      real     (kind=RP), target, dimension(:,:), intent(in out) ::       &
+!                                                                T_lambda, &
+!                                                                T_fluxes
+!      real     (kind=RP), dimension(:), intent(in out) :: T_l_Area,       &
+!                                                          T_n_Area,       &
+!                                                          magABsys,       &
+!                                                          magTGsys,       &
+!                                                          standard,       &
+!                                                          lamb_eff
+!      character (len=*), intent(in) :: file_dir,file_out
+!      character (len=*), dimension(:), intent(in out) :: name_fil
+!    end subroutine ReadFilters
+! end interface
 !
-!       IsKeepOn = 1
-!       iverbose = 1
-!       file_dir = './'
-!       file_out = 'Error.out'
-!       Int_Type = 1
-!       call ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
-!                         magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
-!                         file_dir,file_out,Nfilters,Int_Type,IsKeepOn, &
-!                         iverbose )
+! IsKeepOn = 1
+! iverbose = 1
+! file_dir = './'
+! file_out = 'Error.out'
+! Int_Type = 1
+! call ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
+!                   magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
+!                   file_dir,file_out,Nfilters,Int_Type,IsKeepOn, &
+!                   iverbose )
 !
-!      END PROGRAM GeneralTest
+!END PROGRAM GeneralTest
 ! *** Test ******************************************************************
 
-! *** Number : 004                                                          !
+! *** Number : 012                                                          !
+!  1) PropFilters
+!  2) author_PropFilters
+!  3) EvalTransmission
+!  4) author_EvalTransmission
+!  5) EvalTFluxes
+!  6) author_EvalTFluxes
+!  7) SLin_interp
+!  8) author_SLin_interp
+!  9) SLog_interp
+! 10) author_SLog_interp
+! 11) lamb_effective
+! 12) author_lamb_effective

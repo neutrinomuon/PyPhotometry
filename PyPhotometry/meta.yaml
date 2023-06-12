@@ -16,30 +16,31 @@ build:
   script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
-  build:
-    - matplotlib>=3.7.1
-    - numpy>=1.21.5
-    - SQLAlchemy==2.0.15
-    - astropy==5.3
-    - pyphot==1.4.4
-    - python>=3.9
+  #build:
+  #  - matplotlib>=3.7.1
+  #  - numpy>=1.21.5
+  #  - SQLAlchemy>=2.0.15
+  #  - astropy>=5.3
+  #  # Not available on conda - only used for comparison    
+  #  #- pyphot>=1.4.4
+  #  - python>=3.9
   host:
-    - matplotlib>=3.7.1
-    - numpy>=1.21.5
-    - SQLAlchemy==2.0.15
-    - astropy==5.3
-    - pyphot==1.4.4
-    - pip
-    - python>=3.9
-  run:
-    - matplotlib>=3.7.1
-    - numpy>=1.21.5
-    - SQLAlchemy==2.0.15
-    - astropy==5.3
-    - pyphot==1.4.4
     - matplotlib
     - numpy>=1.21.5
-    - python>=3.9
+  #  #- SQLAlchemy==2.0.15
+  #  #- astropy==5.3
+  #  # Not available on conda - only used for coparison
+  #  #- pyphot==1.4.4
+    - pip
+    - python
+  run:
+    - matplotlib
+    - numpy>=1.21.5
+    #- SQLAlchemy>=2.0.15
+    #- astropy>=5.3
+    # Not available on conda - only used for comparison
+    # - pyphot>=1.4.4
+    - python
 
 test:
   imports:

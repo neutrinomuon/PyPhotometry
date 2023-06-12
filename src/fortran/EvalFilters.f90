@@ -1,6 +1,10 @@
 ! ###########################################################################
 !     RESUME : Compute photometry in filters, using different               !
-!              magnitude systems.                                           !
+!              magnitude systems. Original routine dates back to 2003-2004. !
+!                                                                           !
+!              Original routines first released:                            !
+!                                                                           !
+!              Wed Sep 15 09:32:47 WEST 2004                                !
 !                                                                           !
 !     INPUT    : 01) O_lambda -> Wavelength                                 !
 !                02) O_fluxes -> Fluxes                                     !
@@ -25,6 +29,9 @@
 !                                                                           !
 !     EXTRA ROUTINES : EvalTFluxes & IntegralALL                            !
 !                                                                           !
+!     PYTHON : Python compatibility using f2py revised. Better usage        !
+!              with numpy.                                                  !
+!                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -38,9 +45,11 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
     real     (kind=RP), parameter :: cl_speed=299792.458000_RP
     real     (kind=RP), parameter :: fac4Pid2=1.19649518e40_RP
     integer  (kind=IB), parameter :: Ncalibra=7
-    ! #Astronomy related lsun = 3.839e26 * watt = Lsun within pyphot !3.82600000e33_RP!3.8300500000e33_RP !=3.916e33 with neutrinos !3.828e+33 !3.82600000e33_RP
+    ! #Astronomy related lsun = 3.839e26 * watt = Lsun
+    ! within pyphot !3.82600000e33_RP!3.8300500000e33_RP !=3.916e33
+    ! with neutrinos !3.828e+33 !3.82600000e33_RP
 
-    real     (kind=RP), optional :: LSun_con!=3.839e33
+    real     (kind=RP), optional :: LSun_con!=3.839e33! This could be different from this version
     
     integer  (kind=IB), intent(out) :: IsKeepOn
     integer  (kind=IB), intent(in) :: NOlambda,Nfilters,Ntlambda!,Ncalibra
@@ -198,14 +207,14 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 !              moved 10 pc away. The flux assumed is in erg/s,              !
 !              therefore the constants are:                                 !
 !                                                                           !
-!              01 pc = 3.08567758 × 10¹⁸ cm, then                           !
+!              01 pc = 3.08567758 × 10^18 cm, then                          !
 !                                                                           !
-!              10 pc = 3.08567758 × 10¹⁹ cm and this implies                !
+!              10 pc = 3.08567758 × 10^19 cm and this implies               !
 !                                                                           !
-!               4πd² = 1.19649518 x 10⁴⁰ cm²                                !
+!               4πd² = 1.19649518 x 10^40 cm²                               !
 !                                                                           !
-!              WARNING : The synthetic fluxes must be in erg/s/Å, but       !
-!              the spectrum is usually evaluated in L☉/Å.                   !
+!              WARNING : The synthetic fluxes must be in erg/s/A, but       !
+!              the spectrum is usually evaluated in L_sun/A.                !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
        ! Modified because it could be here the problem in the log expression
        !flux_T01 = flux_T01 * (LSun / fac4Pid2)
@@ -319,113 +328,131 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 END SUBROUTINE EvalFilters
 ! ###########################################################################
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE EvalFilters( a )
+  use ModDataType
+
+  implicit none
+  
+  character (len=21), intent(out) :: a
+
+  !f2py intent(out) :: a
+
+  a = 'Written by Jean Gomes'
+  
+END SUBROUTINE EvalFilters
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ! Jean@Porto - Sat Oct 27 08:58:18 WEST 2012 ++++++++++++++++++++++++++++++++
 
 ! *** Test ******************************************************************
-!      PROGRAM GeneralTest
-!        use ModDataType
-!        implicit none
-!        integer  (kind=IB) :: IsKeepOn,IntegraT,iverbose,Nfilters,NSun_lbd, &
-!                              i_lambda
-!        integer  (kind=IB), parameter :: Nb_max=1500,Nl_max=5000
-!        integer  (kind=IB), dimension(Nb_max) :: Numb_lbd
-!        real     (kind=RP), parameter :: LSun_con=3.826d33
-!        real     (kind=RP), dimension(Nl_max,Nb_max) :: T_lambda,T_fluxes
-!        real     (kind=RP), dimension(Nl_max) :: O_lambda,O_fluxes
-!        real     (kind=RP), dimension(Nb_max) :: T_l_Area,T_n_Area,magABsys,&
-!                                                 magTGsys,standard,lamb_eff
-!        real     (kind=RP), dimension(Nb_max,Nb_max) :: MAG_spec
-!        real     (kind=RP) :: Solarcon,lambda_i,lambda_f
-!        character (len=CH), dimension(Nb_max) :: name_fil
-!        character (len=CH) :: file_inp,file_out,file_dir,arq_lixo
+!PROGRAM GeneralTest
+!  use ModDataType
+!  implicit none
+!  integer  (kind=IB) :: IsKeepOn,IntegraT,iverbose,Nfilters,NSun_lbd, &
+!                        i_lambda
+!  integer  (kind=IB), parameter :: Nb_max=1500,Nl_max=5000
+!  integer  (kind=IB), dimension(Nb_max) :: Numb_lbd
+!  real     (kind=RP), parameter :: LSun_con=3.826d33
+!  real     (kind=RP), dimension(Nl_max,Nb_max) :: T_lambda,T_fluxes
+!  real     (kind=RP), dimension(Nl_max) :: O_lambda,O_fluxes
+!  real     (kind=RP), dimension(Nb_max) :: T_l_Area,T_n_Area,magABsys,&
+!                                           magTGsys,standard,lamb_eff
+!  real     (kind=RP), dimension(Nb_max,Nb_max) :: MAG_spec
+!  real     (kind=RP) :: Solarcon,lambda_i,lambda_f
+!  character (len=CH), dimension(Nb_max) :: name_fil
+!  character (len=CH) :: file_inp,file_out,file_dir,arq_lixo
 !
-!        interface
-!           subroutine EvalFilters( O_lambda,O_fluxes,T_lambda,T_fluxes,T_l_Area, &
-!                                   T_n_Area,magABsys,magTGsys,standard,lamb_eff, &
-!                                   MAG_spec,Numb_lbd,name_fil,file_out,NOlambda, &
-!                                   Nfilters,IntegraT,IsKeepOn,verbosity )
-!             use ModDataType
-!             integer  (kind=IB), intent(in out) :: IsKeepOn
-!             integer  (kind=IB), intent(in) :: IntegraT,NOlambda,Nfilters
-!             integer  (kind=IB), optional :: verbosity
-!             integer  (kind=IB), dimension(:), intent(in) :: Numb_lbd
-!             real     (kind=RP), target, dimension(:,:), intent(in) :: T_lambda, &
-!                                                                       T_fluxes
-!             real     (kind=RP), dimension(:,:), intent(in out) :: MAG_spec
-!             real     (kind=RP), dimension(:), intent(in) :: O_lambda,O_fluxes,  &
-!                                                             T_l_Area,T_n_Area,  &
-!                                                             magABsys,magTGsys,  &
-!                                                             standard,lamb_eff
-!             character  (len=*), dimension(:), intent(in) :: name_fil
-!             character  (len=*), intent(in) :: file_out
-!           end subroutine EvalFilters
-!           real (kind=RP) function IntegralALL( SXvalues,SYvalues,lambda_i,      &
-!                                                lambda_f,N_lambda,IsKeepOn,      &
-!                                                IntegraT,verbosity )
-!             use ModDataType
-!             integer  (kind=IB), intent(in) :: N_lambda,IntegraT
-!             integer  (kind=IB), intent(in out) :: IsKeepOn
-!             integer  (kind=IB), optional :: verbosity
-!             real     (kind=RP), dimension(N_lambda), intent(in) :: SXvalues,    &
-!                                                                    SYvalues
-!             real     (kind=RP), intent(in) :: lambda_i,lambda_f
-!           end function IntegralALL
-!           subroutine ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
-!                                   magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
-!                                   file_dir,file_out,Nfilters,IntegraT,IsKeepOn, &
-!                                   verbosity )
-!             use ModDataType
-!             integer  (kind=IB), intent(in out) :: IsKeepOn,Nfilters
-!             integer  (kind=IB), intent(in) :: IntegraT
-!             integer  (kind=IB), optional :: verbosity
-!             integer  (kind=IB), dimension(:), intent(in out) :: Numb_lbd
-!             real     (kind=RP), target, dimension(:,:), intent(in out) ::       &
-!                                                                       T_lambda, &
-!                                                                       T_fluxes
-!             real     (kind=RP), dimension(:), intent(in out) :: T_l_Area,       &
-!                                                                 T_n_Area,       &
-!                                                                 magABsys,       &
-!                                                                 magTGsys,       &
-!                                                                 standard,       &
-!                                                                 lamb_eff
-!             character (len=*), intent(in) :: file_dir,file_out
-!             character (len=*), dimension(:), intent(in out) :: name_fil
-!           end subroutine ReadFilters
-!        end interface
+!  interface
+!     subroutine EvalFilters( O_lambda,O_fluxes,T_lambda,T_fluxes,T_l_Area, &
+!                             T_n_Area,magABsys,magTGsys,standard,lamb_eff, &
+!                             MAG_spec,Numb_lbd,name_fil,file_out,NOlambda, &
+!                             Nfilters,IntegraT,IsKeepOn,verbosity )
+!       use ModDataType
+!       integer  (kind=IB), intent(in out) :: IsKeepOn
+!       integer  (kind=IB), intent(in) :: IntegraT,NOlambda,Nfilters
+!       integer  (kind=IB), optional :: verbosity
+!       integer  (kind=IB), dimension(:), intent(in) :: Numb_lbd
+!       real     (kind=RP), target, dimension(:,:), intent(in) :: T_lambda, &
+!                                                                 T_fluxes
+!       real     (kind=RP), dimension(:,:), intent(in out) :: MAG_spec
+!       real     (kind=RP), dimension(:), intent(in) :: O_lambda,O_fluxes,  &
+!                                                       T_l_Area,T_n_Area,  &
+!                                                       magABsys,magTGsys,  &
+!                                                       standard,lamb_eff
+!       character  (len=*), dimension(:), intent(in) :: name_fil
+!       character  (len=*), intent(in) :: file_out
+!     end subroutine EvalFilters
+!     real (kind=RP) function IntegralALL( SXvalues,SYvalues,lambda_i,      &
+!                                          lambda_f,N_lambda,IsKeepOn,      &
+!                                          IntegraT,verbosity )
+!       use ModDataType
+!       integer  (kind=IB), intent(in) :: N_lambda,IntegraT
+!       integer  (kind=IB), intent(in out) :: IsKeepOn
+!       integer  (kind=IB), optional :: verbosity
+!       real     (kind=RP), dimension(N_lambda), intent(in) :: SXvalues,    &
+!                                                              SYvalues
+!       real     (kind=RP), intent(in) :: lambda_i,lambda_f
+!     end function IntegralALL
+!     subroutine ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
+!                             magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
+!                             file_dir,file_out,Nfilters,IntegraT,IsKeepOn, &
+!                             verbosity )
+!       use ModDataType
+!       integer  (kind=IB), intent(in out) :: IsKeepOn,Nfilters
+!       integer  (kind=IB), intent(in) :: IntegraT
+!       integer  (kind=IB), optional :: verbosity
+!       integer  (kind=IB), dimension(:), intent(in out) :: Numb_lbd
+!       real     (kind=RP), target, dimension(:,:), intent(in out) ::       &
+!                                                                 T_lambda, &
+!                                                                 T_fluxes
+!       real     (kind=RP), dimension(:), intent(in out) :: T_l_Area,       &
+!                                                           T_n_Area,       &
+!                                                           magABsys,       &
+!                                                           magTGsys,       &
+!                                                           standard,       &
+!                                                           lamb_eff
+!       character (len=*), intent(in) :: file_dir,file_out
+!       character (len=*), dimension(:), intent(in out) :: name_fil
+!     end subroutine ReadFilters
+!  end interface
 !
-!        IsKeepOn = 1
-!        iverbose = 1
-!        file_dir = './'
-!        file_inp = 'ListFilters.txt'
-!        file_out = 'Error.out'
-!        IntegraT = 1
-!        call ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
-!                          magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
-!                          file_dir,file_out,Nfilters,IntegraT,IsKeepOn, &
-!                          iverbose )
+!  IsKeepOn = 1
+!  iverbose = 1
+!  file_dir = './'
+!  file_inp = 'ListFilters.txt'
+!  file_out = 'Error.out'
+!  IntegraT = 1
+!  call ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
+!                    magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
+!                    file_dir,file_out,Nfilters,IntegraT,IsKeepOn, &
+!                    iverbose )
 !
-!        open  (21,status='old',file='Sun_LR.dat')
-!        read  (21,*) arq_lixo,NSun_lbd
-!        do i_lambda=1,NSun_lbd
-!           read  (21,*) O_lambda(i_lambda),O_fluxes(i_lambda)
-!        end do
-!        close (21)
+!  open  (21,status='old',file='Sun_LR.dat')
+!  read  (21,*) arq_lixo,NSun_lbd
+!  do i_lambda=1,NSun_lbd
+!     read  (21,*) O_lambda(i_lambda),O_fluxes(i_lambda)
+!  end do
+!  close (21)
 !
-!        lambda_i = O_lambda(00000001)
-!        lambda_f = O_lambda(NSun_lbd)
-!        Solarcon = IntegralALL( O_lambda,O_fluxes, &
-!                                lambda_i,lambda_f, &
-!                                NSun_lbd,IsKeepOn, &
-!                                IntegraT,iverbose )
+!  lambda_i = O_lambda(00000001)
+!  lambda_f = O_lambda(NSun_lbd)
+!  Solarcon = IntegralALL( O_lambda,O_fluxes, &
+!                          lambda_i,lambda_f, &
+!                          NSun_lbd,IsKeepOn, &
+!                          IntegraT,iverbose )
 !
-!        O_fluxes(1:NSun_lbd) = O_fluxes(1:NSun_lbd) / LSun_con
+!  O_fluxes(1:NSun_lbd) = O_fluxes(1:NSun_lbd) / LSun_con
 !
-!        call EvalFilters( O_lambda,O_fluxes,T_lambda,T_fluxes,T_l_Area, &
-!                          T_n_Area,magABsys,magTGsys,standard,lamb_eff, &
-!                          MAG_spec,Numb_lbd,name_fil,file_out,NSun_lbd, &
-!                          Nfilters,IntegraT,IsKeepOn,iverbose )
+!  call EvalFilters( O_lambda,O_fluxes,T_lambda,T_fluxes,T_l_Area, &
+!                    T_n_Area,magABsys,magTGsys,standard,lamb_eff, &
+!                    MAG_spec,Numb_lbd,name_fil,file_out,NSun_lbd, &
+!                    Nfilters,IntegraT,IsKeepOn,iverbose )
 !
-!      END PROGRAM GeneralTest
+!END PROGRAM GeneralTest
 ! *** Test ******************************************************************
 
-! *** Number : 001                                                          !
+! *** Number : 002                                                          !
+!
+! 1) EvalFilters
+! 2) author_EvalFilters
