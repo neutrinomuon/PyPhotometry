@@ -3,9 +3,13 @@ Name: PyPhotometry
 Version: 0.0.1
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
+Download-URL: https://github.com/neutrinomuon/PyPhotometry
 Author: Jean Gomes
 Author-email: antineutrinomuon@gmail.com
+Maintainer: Jean Gomes
+Maintainer-email: antineutrinomuon@gmail.com
 License: UNKNOWN
+Keywords: list,of,keywords
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Fortran
