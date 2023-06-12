@@ -36,7 +36,7 @@ standard, VEGA proposed by Bohlin and Gilland 2004, AB system, TG standard
 system (Thuan & Gunn), WFPC2 system, FOCA at 2000, and without any
 calibration.
 
-Pyphot from M. Fouesneau is *NOT* part of the distribution, but used as a
+Pyphot from M. FouesneauA is <strong>NOT</strong> part of the distribution, but used as a
 comparison: <a
 href='https://mfouesneau.github.io/pyphot/index.html#package-main-content'>https://mfouesneau.github.io/pyphot/index.html#package-main-content</a>. If
 you want to install for comparison then:
