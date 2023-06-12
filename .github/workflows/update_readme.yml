@@ -39,7 +39,7 @@ jobs:
       - name: Get SHA256 from PyPI
         run: |
           NEW_version=$(cat version.txt)
-          SHA256=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["{{ NEW_version }}"][0]["digests"]["sha256"])')
+          SHA256=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["'${NEW_version}'][0]["digests"]["sha256"])')
           echo "SHA256=$SHA256" >> $GITHUB_ENV
 
       - name: Update README with new version
