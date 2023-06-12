@@ -179,6 +179,7 @@ jobs:
           # Substitute the SHA256 value from PYPI version in meta.yaml
           SHA256_PYPI=$(python -c 'import requests; response = requests.get("https://pypi.org/pypi/PyPhotometry/json").json(); print(response["releases"]["'${NEW_VERSION}'"][0]["digests"]["sha256"])')
           echo SHA256_PYPI=$SHA256_PYPI
+          echo "SHA256_PYPI=$SHA256_PYPI" >> $GITHUB_ENV
           # Trying to update as a Linux command (but it does not seem to work)
           #sed -i "s/sha256: .*/sha256: $SHA256_PYPI/g" PyPhotometry/$FILE_PATH
 
