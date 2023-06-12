@@ -38,7 +38,7 @@ jobs:
 
       - name: Get SHA256 from PyPI
         run: NEW_version=$(cat version.txt)
-	  
+
       - name: Update README with new version
         run: |
           TOKEN=${{ secrets.TOKENACTION }}
