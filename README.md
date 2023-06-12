@@ -4,7 +4,7 @@ email: [antineutrinomuon@gmail.com](mailto:antineutrinomuon@gmail.com), [jean@as
 
 github repository: <a href="https://github.com/neutrinomuon/PyPhotometry">PyPhotometry</a>
 
-last stable version: 0.0.12
+last stable version: 0.0.1
 
 © Copyright ®
 
@@ -18,7 +18,7 @@ J.G. - Jean Gomes @ 2023
 <hr>
 
 <div align="center">
-<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/PyPhotometry.png' width='60%'>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/PyPhotometry.png' width='85%'>
 </div>
 
 <hr>
