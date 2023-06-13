@@ -52,7 +52,7 @@ setup( name='PyPhotometry',
        docs_url='https://github.com/neutrinomuon/PyPhotometry',
        download_url='https://github.com/neutrinomuon/PyPhotometry',
        install_requires=[ 'numpy','matplotlib','sqlalchemy','astropy' ],
-       requires_python='>3.9',
+       requires_python='>=3.9',
        classifiers=[
            "Programming Language :: Python :: 3",
            "Programming Language :: Fortran",
