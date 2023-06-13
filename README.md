@@ -43,11 +43,7 @@ pip install -r requirements.txt
 </pre>
 
 Additionally, you may optionally install pyphot for testing or comparison
-purposes. To install pyphot, run the following command:
-
-<pre>
-pip install pyphot
-</pre>
+purposes. 
 
 Please note that pyphot is not a mandatory requirement for running this
 project and is only recommended if you intend to test or compare with it.
@@ -68,12 +64,7 @@ proposed by Bohlin and Gilland in 2004, the AB system, the TG standard system
 an option without any calibration.
 
 It's important to note that PyPhotometry does not include the Pyphot package
-developed by M. Fouesneau, but it can be used for comparison purposes. If you
-wish to install Pyphot for comparison, you can use the following command:
-
-<pre>
-pip install pyphot
-</pre>
+developed by M. Fouesneau, but it can be used for comparison purposes.
 
 However, it is not mandatory to install Pyphot in order to use PyPhotometry. The PyPhotometry package comes with its own set of accompanying routines that provide the necessary functionality.
 
