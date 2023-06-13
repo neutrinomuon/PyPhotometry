@@ -23,7 +23,7 @@ J.G. - Jean Gomes @ 2023
 
 <hr>
 
-## Requirements
+#### Requirements
 
 The following packages are required to run this project:
 
