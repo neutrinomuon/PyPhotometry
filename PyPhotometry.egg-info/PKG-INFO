@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyPhotometry
-Version: 0.0.4
+Version: 0.0.5
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
 Download-URL: https://github.com/neutrinomuon/PyPhotometry
@@ -23,7 +23,7 @@ email: [antineutrinomuon@gmail.com](mailto:antineutrinomuon@gmail.com), [jean@as
 
 github repository: <a href="https://github.com/neutrinomuon/PyPhotometry">PyPhotometry</a>
 
-last stable version: 0.0.3
+last stable version: 0.0.5
 
 © Copyright ®
 
@@ -285,4 +285,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
 

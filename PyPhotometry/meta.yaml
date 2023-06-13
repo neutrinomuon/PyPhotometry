@@ -1,5 +1,5 @@
 {% set name = "PyPhotometry" %}
-{% set version = "0.0.4" %}
+{% set version = "0.0.5" %}
 {% set url = "https://pypi.io/packages/source/" + name[0] + "/" + name + "/" + name + "-" + version + ".tar.gz" %}
 # In case you wanna test locally
 #{% set url = name ~ '-' ~ version ~ '.tar.gz' %}
@@ -11,7 +11,7 @@ package:
 source:
   fn: "{{ name }}-{{ version }}.tar.gz"
   url: "{{ url }}"
-  sha256: 1badfdd04195561aa817a12afb3a5be5dca81daa0e17628aa80294364056bf14
+  sha256: 6782b7eb9c42393503eb6d85ffe463d628892a4c4fff49021bcc8855ae7cb179
 
 build:
   number: 0
