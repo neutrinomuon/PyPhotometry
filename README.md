@@ -23,6 +23,35 @@ J.G. - Jean Gomes @ 2023
 
 <hr>
 
+## Requirements
+
+The following packages are required to run this project:
+
+- astropy>=5.0.4
+- matplotlib>=3.7.1
+- setuptools>=61.2.0
+- SQLAlchemy>=1.4.32
+
+and pyphot may be used for comparison and tests:
+
+- pyphot>=1.4.4
+
+You can install all the required packages by running the following command:
+
+<pre>
+pip install -r requirements.txt
+</pre>
+
+Additionally, you may optionally install pyphot for testing or comparison
+purposes. To install pyphot, run the following command:
+
+<pre>
+pip install pyphot
+</pre>
+
+Please note that pyphot is not a mandatory requirement for running this
+project and is only recommended if you intend to test or compare with it.
+
 #### <b>RESUME</b>
 
 <strong>PyPhotometry</strong> is a Python package that builds upon a
