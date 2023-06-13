@@ -4,3 +4,5 @@
 # interesting , but causes backward incompatibility issues.
 
 f2py -c --opt='-O3' DataTypes.f90 LINinterpol.f90 GaussLegendreQuadrature.f90 IntegralALL.f90 PropFilters.f90 -m PropFilters
+f2py3.10 -c --opt='-O3' DataTypes.f90 LINinterpol.f90 GaussLegendreQuadrature.f90 IntegralALL.f90 PropFilters.f90 -m PropFilters
+f2py3.11 -c --opt='-O3' DataTypes.f90 LINinterpol.f90 GaussLegendreQuadrature.f90 IntegralALL.f90 PropFilters.f90 -m PropFilters

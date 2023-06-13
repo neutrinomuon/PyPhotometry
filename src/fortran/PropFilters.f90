@@ -25,7 +25,7 @@
 !                09) name_fil  -> Name of bandpass/filter                   !
 !                10) Nfilters  -> Number of filters                         !
 !                                                                           !
-!     EXTRA ROUTINES : EvalTFluxes & IntegralALL                            !
+!     EXTRA ROUTINES : EvalTransmission and IntegralALL                     !
 !                                                                           !
 !     PYTHON : Python compatibility using f2py revised. Better usage        !
 !              with numpy.                                                  !
@@ -73,38 +73,34 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
 
     character (len=CH) :: W1aux
 
-    !f2py real     (kind=RP), intent(in)  :: T_lambda,T_fluxes
-    !f2py                     intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0), Nfilters=shape(T_lambda,1)
-    !f2py                     intent(hide), depend(T_fluxes) :: Ntlambda=shape(T_fluxes,0), Nfilters=shape(T_fluxes,1)
-
-    !f2py real     (kind=RP), intent(out)  :: T_l_Area,T_n_Area,magABsys,magTGsys,standard,lamb_eff,widtheff
-    !f2py                     intent(hide), depend(T_l_Area) :: Nfilters=shape(T_l_Area,0)
-    !f2py                     intent(hide), depend(T_n_Area) :: Nfilters=shape(T_n_Area,0)  
-    !f2py                     intent(hide), depend(magABsys) :: Nfilters=shape(magABsys,0)  
-    !f2py                     intent(hide), depend(magTGsys) :: Nfilters=shape(magTGsys,0)  
-    !f2py                     intent(hide), depend(standard) :: Nfilters=shape(standard,0)  
-    !f2py                     intent(hide), depend(lamb_eff) :: Nfilters=shape(lamb_eff,0)
-    !f2py                     intent(hide), depend(widtheff) :: Nfilters=shape(widtheff,0)  
-    
+    !f2py real     (kind=RP), intent(in)  :: T_lambda
+    !f2py real     (kind=RP), intent(in)  :: T_fluxes
+    !f2py real     (kind=RP), intent(out) :: T_l_Area
+    !f2py real     (kind=RP), intent(out) :: T_n_Area
+    !f2py real     (kind=RP), intent(out) :: magABsys
+    !f2py real     (kind=RP), intent(out) :: magTGsys
+    !f2py real     (kind=RP), intent(out) :: standard
+    !f2py real     (kind=RP), intent(out) :: lamb_eff
+    !f2py real     (kind=RP), intent(out) :: widtheff
     !f2py integer  (kind=IB), intent(in)  :: Numb_lbd
-    !f2py                     intent(hide), depend(Numb_lbd) :: Nfilters=shape(Numb_lbd,0)
+    !f2py integer  (kind=IB), intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0), Nfilters=shape(T_lambda,1)
 
-    !f2py real     (kind=RP), intent(in) :: lambVega,fluxVega
-    !f2py                     intent(hide), depend(lambVega) :: NVegalbd=shape(lambVega,0)  
-    !f2py                     intent(hide), depend(fluxVega) :: NVegalbd=shape(fluxVega,0)
+    !f2py real     (kind=RP), intent(in) :: lambVega
+    !f2py real     (kind=RP), intent(in) :: fluxVega
+    !f2py integer  (kind=IB), intent(hide), depend(lambVega) :: NVegalbd=shape(lambVega,0)  
     
-    !f2py real     (kind=RP), intent(in) :: lamb_Sun,flux_Sun
-    !f2py                     intent(hide), depend(lamb_Sun) :: NSun_lbd=shape(lamb_Sun,0)  
-    !f2py                     intent(hide), depend(flux_Sun) :: NSun_lbd=shape(flux_Sun,0)
+    !f2py real     (kind=RP), intent(in) :: lamb_Sun
+    !f2py real     (kind=RP), intent(in) :: flux_Sun
+    !f2py integer  (kind=IB), intent(hide), depend(lamb_Sun) :: NSun_lbd=shape(lamb_Sun,0)  
     
-    !f2py real     (kind=RP), intent(in) :: lamb_FBD,flux_FBD
-    !f2py                     intent(hide), depend(lamb_FBD) :: NFBD_lbd=shape(lamb_FBD,0)  
-    !f2py                     intent(hide), depend(flux_FBD) :: NFBD_lbd=shape(flux_FBD,0)  
+    !f2py real     (kind=RP), intent(in) :: lamb_FBD
+    !f2py real     (kind=RP), intent(in) :: flux_FBD
+    !f2py integer  (kind=IB), intent(hide), depend(lamb_FBD) :: NFBD_lbd=shape(lamb_FBD,0)  
     
     !f2py integer  (kind=IB), intent(out) :: IsKeepOn
     
-    !f2py                     intent(in), optional :: Int_Type=2
-    !f2py                     intent(in), optional :: verbosity=0
+    !f2py integer  (kind=IB), optional :: Int_Type=2
+    !f2py integer  (kind=IB), optional :: verbosity=0
     
     interface
        subroutine EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,   &
@@ -195,7 +191,7 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
     
 ! *** Read calibration stars ************************************************
 !     RESUME : VEGA spectrum.                                               !
-!              Intrinsic Flux: erg/s/cm2/A                                  !
+!              Intrinsic Flux: erg/s/cm^2/A                                 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !arq_fil1 = file_dir(1:ilastnum)//'VegaLR.dat'
     !open  (21,status='old',file=arq_fil1,ERR=22)
@@ -225,7 +221,7 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
     !close(21)
 
 ! *** Reading of the spectrum of BD+17o4708 *********************************
-!     RESUME : F subdwarf used to calibrate the Thuan & Gunn system.        !
+!     RESUME : F subdwarf used to calibrate the Thuan and Gunn system.      !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !arq_fil1 = file_dir(1:ilastnum)//'BD+17o4708.dat'
     !arq_fil1 = file_dir(1:ilastnum)//'BD+17d4708.dat'
@@ -328,14 +324,14 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
        magABsys(i_filter) = mAB_Vega       
 ! *** Magnitudes AB system **************************************************
 
-! *** Magnitudes Thuan & Gunn system ****************************************
+! *** Magnitudes Thuan and Gunn system **************************************
        if ( flux_T03 > 0.0_RP ) then
           mTG_Vega = -2.50_RP * log10(flux_T01/flux_T03) + 9.5_RP
        else
           mTG_Vega = -999.0_RP
        end if
        magTGsys(i_filter) = mTG_Vega
-! *** Magnitudes Thuan & Gunn system ****************************************
+! *** Magnitudes Thuan and Gunn system **************************************
 
 ! *** Print screen **********************************************************       
        if ( IsShowOn == 1_IB ) then
@@ -410,7 +406,7 @@ END SUBROUTINE author_PropFilters
 !                06) N_lambda -> Number of filter points                    !
 !                07) Nspeclbd -> Number of spectrum points                  !
 !                08) IsKeepOn -> Variable:       0 => Run aborted           !
-!                09) verbosity -> Optional variable to print & check        !
+!                09) verbosity -> Optional variable to print and check      !
 !                                                                           !
 !     OUTPUT   : 01) fluxtran -> Flux inside the filter                     !
 !                02) lamb_eff -> Effective lambda                           !
@@ -437,13 +433,13 @@ SUBROUTINE EvalTFluxes( O_lambda,O_fluxes,Nspeclbd,T_lambda,T_fluxes,       &
     real     (kind=RP) :: lambda_i,lambda_f,transinf,flux_inf,transsup,     &
                           flux_sup
 
-    !f2py real     (kind=RP), intent(in)  :: O_lambda,O_fluxes
-    !f2py                     intent(hide), depend(O_lambda) :: Nspeclbd=shape(O_lambda,0)
-    !f2py                     intent(hide), depend(O_fluxes) :: Nspeclbd=shape(O_fluxes,0)
+    !f2py real     (kind=RP), intent(in)  :: O_lambda
+    !f2py real     (kind=RP), intent(in)  :: O_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(O_lambda) :: Nspeclbd=shape(O_lambda,0)
 
-    !f2py real     (kind=RP), intent(in)  :: T_lambda,T_fluxes
-    !f2py                     intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
-    !f2py                     intent(hide), depend(T_fluxes) :: Ntlambda=shape(T_fluxes,0)
+    !f2py real     (kind=RP), intent(in)  :: T_lambda
+    !f2py real     (kind=RP), intent(in)  :: T_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
 
     !f2py real     (kind=RP), intent(in)  :: T_l_Area
     !f2py real     (kind=RP), intent(out) :: fluxtran
@@ -451,7 +447,7 @@ SUBROUTINE EvalTFluxes( O_lambda,O_fluxes,Nspeclbd,T_lambda,T_fluxes,       &
     
     !f2py integer  (kind=IB), intent(out) :: IsKeepOn
     
-    !f2py                     intent(in), optional :: verbosity=0
+    !f2py integer  (kind=IB), optional :: verbosity=0
     
     interface
         real (kind=RP) function SLin_interp( xorg_ini,xorg_fin,yorg_ini,    &
@@ -555,7 +551,7 @@ END SUBROUTINE author_EvalTFluxes
 !                06) N_lambda  -> Number of filter points                   !
 !                07) Nspeclbd  -> Number of spectrum points                 !
 !                08) IsKeepOn  -> Variable:       0 => Run aborted          !
-!                09) verbosity -> Optional variable to print & check        !
+!                09) verbosity -> Optional variable to print and check      !
 !                                                                           !
 !     OUTPUT   : 01) fluxtran  -> Flux inside the filter                    !
 !                                                                           !
@@ -584,20 +580,20 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
     real     (kind=RP), intent(out) :: fluxtran
     real     (kind=RP) :: lambda_i,lambda_f,dtlambda,d_lambda
 
-    !f2py real     (kind=RP), intent(in)  :: L_lambda,S_fluxes
-    !f2py                     intent(hide), depend(L_lambda) :: N_lambda=shape(L_lambda,0)
-    !f2py                     intent(hide), depend(S_fluxes) :: N_lambda=shape(S_fluxes,0)
+    !f2py real     (kind=RP), intent(in)  :: L_lambda
+    !f2py real     (kind=RP), intent(in)  :: S_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(L_lambda) :: N_lambda=shape(L_lambda,0)
 
-    !f2py real     (kind=RP), intent(in)  :: T_lambda,T_fluxes
-    !f2py                     intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
-    !f2py                     intent(hide), depend(T_fluxes) :: Ntlambda=shape(T_fluxes,0)
+    !f2py real     (kind=RP), intent(in)  :: T_lambda
+    !f2py real     (kind=RP), intent(in)  :: T_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
 
     !f2py real     (kind=RP), intent(out) :: fluxtran
 
     !f2py integer  (kind=IB), intent(in)  :: In_Type
     !f2py integer  (kind=IB), intent(out) :: IsKeepOn
     
-    !f2py                     intent(in), optional :: verbosity=0
+    !f2py  integer  (kind=IB), optional :: verbosity=0
     
     interface
        subroutine LINinterpol( xx_value,yy_value,nxyvalue,xold_vec,yold_vec,&
@@ -750,8 +746,11 @@ REAL (KIND=RP) FUNCTION SLin_interp( xorg_ini,xorg_fin,yorg_ini,yorg_fin,   &
     real     (kind=RP), intent(in) :: xorg_ini,xorg_fin,yorg_ini,yorg_fin,  &
                                       newvalue
 
-    !f2py real     (kind=RP), intent(in)   :: xorg_ini,xorg_fin,yorg_ini
-    !f2py real     (kind=RP), intent(in)   :: yorg_fin,newvalue
+    !f2py real     (kind=RP), intent(in)   :: xorg_ini
+    !f2py real     (kind=RP), intent(in)   :: xorg_fin
+    !f2py real     (kind=RP), intent(in)   :: yorg_ini
+    !f2py real     (kind=RP), intent(in)   :: yorg_fin
+    !f2py real     (kind=RP), intent(in)   :: newvalue
     !f2py real     (kind=RP), intent(out)  :: SLin_interp
     
     SLin_interp = yorg_ini + (yorg_fin-yorg_ini) * (newvalue-xorg_ini)      &
@@ -801,8 +800,11 @@ REAL (KIND=RP) FUNCTION SLog_interp( xorg_ini,xorg_fin,yorg_ini,yorg_fin,   &
     real     (kind=RP), intent(in) :: xorg_ini,xorg_fin,yorg_ini,yorg_fin,  &
                                       newvalue
 
-    !f2py real     (kind=RP), intent(in)   :: xorg_ini,xorg_fin,yorg_ini
-    !f2py real     (kind=RP), intent(in)   :: yorg_fin,newvalue
+    !f2py real     (kind=RP), intent(in)   :: xorg_ini
+    !f2py real     (kind=RP), intent(in)   :: xorg_fin
+    !f2py real     (kind=RP), intent(in)   :: yorg_ini
+    !f2py real     (kind=RP), intent(in)   :: yorg_fin
+    !f2py real     (kind=RP), intent(in)   :: newvalue
     !f2py real     (kind=RP), intent(out)  :: SLog_interp
     
     if ( yorg_ini > setlimit .AND. yorg_fin > setlimit ) then
@@ -890,13 +892,14 @@ REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
 
     real     (kind=RP) :: dtlambda,d_lambda,lambda_i,lambda_f
 
-    !f2py real     (kind=RP), intent(in)  :: T_lambda,T_fluxes
-    !f2py                     intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
-    !f2py                     intent(hide), depend(T_fluxes) :: Ntlambda=shape(T_fluxes,0)
+    !f2py real     (kind=RP), intent(in)  :: T_lambda
+    !f2py real     (kind=RP), intent(in)  :: T_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
+
     
-    !f2py real     (kind=RP), intent(in)  :: L_lambda,S_fluxes
-    !f2py                     intent(hide), depend(L_lambda) :: N_lambda=shape(L_lambda,0)
-    !f2py                     intent(hide), depend(S_fluxes) :: N_lambda=shape(S_fluxes,0)
+    !f2py real     (kind=RP), intent(in)  :: L_lambda
+    !f2py real     (kind=RP), intent(in)  :: S_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(L_lambda) :: N_lambda=shape(L_lambda,0)
 
     !f2py real     (kind=RP), intent(out) :: lamb_effective
 
@@ -1027,50 +1030,6 @@ END SUBROUTINE author_lamb_effective
 
 ! *** Test ******************************************************************
 !PROGRAM GeneralTest
-!  use ModDataType
-!  implicit none
-!  integer  (kind=IB), parameter :: Nb_max=1500,Nl_max=5000
-!  integer  (kind=IB) :: IsKeepOn,Int_Type,iverbose,Nfilters
-!  integer  (kind=IB), dimension(Nb_max) :: Numb_lbd
-!  real     (kind=RP), dimension(Nl_max,Nb_max) :: T_lambda,T_fluxes
-!  real     (kind=RP), dimension(Nb_max) :: T_l_Area,T_n_Area,magABsys,&
-!                                           magTGsys,standard,lamb_eff
-!  character (len=CH), dimension(Nb_max) :: name_fil
-!  character (len=CH) :: file_dir
-!
-! interface
-!    subroutine ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
-!                            magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
-!                            file_dir,Nfilters,Int_Type,IsKeepOn,verbosity )
-!      use ModDataType
-!      integer  (kind=IB), intent(in out) :: IsKeepOn,Nfilters
-!      integer  (kind=IB), intent(in) :: Int_Type
-!      integer  (kind=IB), optional :: verbosity
-!      integer  (kind=IB), dimension(:), intent(in out) :: Numb_lbd
-!      real     (kind=RP), target, dimension(:,:), intent(in out) ::       &
-!                                                                T_lambda, &
-!                                                                T_fluxes
-!      real     (kind=RP), dimension(:), intent(in out) :: T_l_Area,       &
-!                                                          T_n_Area,       &
-!                                                          magABsys,       &
-!                                                          magTGsys,       &
-!                                                          standard,       &
-!                                                          lamb_eff
-!      character (len=*), intent(in) :: file_dir,file_out
-!      character (len=*), dimension(:), intent(in out) :: name_fil
-!    end subroutine ReadFilters
-! end interface
-!
-! IsKeepOn = 1
-! iverbose = 1
-! file_dir = './'
-! file_out = 'Error.out'
-! Int_Type = 1
-! call ReadFilters( T_lambda,T_fluxes,T_l_Area,T_n_Area,magABsys, &
-!                   magTGsys,standard,lamb_eff,Numb_lbd,name_fil, &
-!                   file_dir,file_out,Nfilters,Int_Type,IsKeepOn, &
-!                   iverbose )
-!
 !END PROGRAM GeneralTest
 ! *** Test ******************************************************************
 

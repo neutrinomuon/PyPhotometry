@@ -1,6 +1,8 @@
 {% set name = "PyPhotometry" %}
-{% set version = "0.0.3" %}
+{% set version = "0.0.4" %}
 {% set url = "https://pypi.io/packages/source/" + name[0] + "/" + name + "/" + name + "-" + version + ".tar.gz" %}
+# In case you wanna test locally
+{% set url = name ~ '-' ~ version ~ '.tar.gz' %}
 
 package:
   name: "{{ name|lower }}"
@@ -9,37 +11,25 @@ package:
 source:
   fn: "{{ name }}-{{ version }}.tar.gz"
   url: "{{ url }}"
-  sha256: 210a167a571e799e0b83e703ec821aa58386c685c5a553c62d4055fbdbc1dbc8
+  sha256: 1badfdd04195561aa817a12afb3a5be5dca81daa0e17628aa80294364056bf14
 
 build:
   number: 0
   script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
-  #build:
-  #  - matplotlib>=3.7.1
-  #  - numpy>=1.21.5
-  #  - SQLAlchemy>=2.0.15
-  #  - astropy>=5.3
-  #  # Not available on conda - only used for comparison    
-  #  #- pyphot>=1.4.4
-  #  - python>=3.9
   host:
     - matplotlib
     - numpy>=1.21.5
-  #  #- SQLAlchemy==2.0.15
-  #  #- astropy==5.3
-  #  # Not available on conda - only used for coparison
-  #  #- pyphot==1.4.4
+    - sqlalchemy
+    - astropy
     - pip
     - python
   run:
     - matplotlib
     - numpy>=1.21.5
-    #- SQLAlchemy>=2.0.15
-    #- astropy>=5.3
-    # Not available on conda - only used for comparison
-    # - pyphot>=1.4.4
+    - astropy
+    - sqlalchemy
     - python
 
 test:
@@ -50,7 +40,8 @@ about:
   home: "https://github.com/neutrinomuon/PyPhotometry"
   license_file: 'LICENSE.txt'
   license_url: "https://github.com/neutrinomuon/PyPhotometry/LICENSE.txt"
-  summary: "PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems. The package provides different magnitude systems"
+  summary: "PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric s
+ystems. The package provides different magnitude systems"
   doc_url: "https://github.com/neutrinomuon/PyPhotometry"
   dev_url: "https://github.com/neutrinomuon/PyPhotometry"
 

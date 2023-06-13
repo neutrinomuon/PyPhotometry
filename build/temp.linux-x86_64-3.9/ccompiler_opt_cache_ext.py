@@ -2,7 +2,7 @@
 # Please make changes to the code generator             (distutils/ccompiler_opt.py)
 hash = 3953865771
 data = \
-{'cache_infile': False,
+{'cache_infile': True,
  'cache_me': {"('cc_test_flags', ['-O3'])": True,
               "('cc_test_flags', ['-Werror'])": True,
               "('cc_test_flags', ['-march=native'])": True,
@@ -136,7 +136,7 @@ data = \
                                              '-msse4.2'],
               "('feature_flags', 'SSSE3')": ['-msse', '-msse2', '-msse3',
                                              '-mssse3'],
-              "('feature_flags', {'SSE', 'SSE2', 'SSE3'})": ['-msse', '-msse2',
+              "('feature_flags', {'SSE2', 'SSE3', 'SSE'})": ['-msse', '-msse2',
                                                              '-msse3'],
               "('feature_is_supported', 'AVX', 'force_flags', 'macros', None, [])": True,
               "('feature_is_supported', 'AVX2', 'force_flags', 'macros', None, [])": True,
@@ -304,7 +304,7 @@ data = \
                                'headers': ['x86intrin.h'],
                                'implies': ['AVX'],
                                'interest': 9}},
- 'hit_cache': False,
+ 'hit_cache': True,
  'parse_baseline_flags': ['-msse', '-msse2', '-msse3'],
  'parse_baseline_names': ['SSE', 'SSE2', 'SSE3'],
  'parse_dispatch_names': ['SSSE3', 'SSE41', 'POPCNT', 'SSE42', 'AVX', 'F16C',

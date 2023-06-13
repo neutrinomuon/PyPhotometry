@@ -1,0 +1,40 @@
+Note:
+
+When compiling Fortran codes to a Python library, it is highly recommended to
+avoid using Unicode or any other non-ASCII characters, except in rare cases
+where it is absolutely necessary.
+
+The presence of non-ASCII characters in Fortran files can lead to
+compatibility issues, especially when using numpy-f2py and compiling with
+Conda.
+
+You can run in your files the following command:
+
+grep --color='auto' -P "[^\x00-\x7F]" <filename>
+
+One common error message that may occur is:
+
+Exception: readfortrancode: reading src/fortran/EvalFilters.f90#2705 failed with
+  'ascii' codec can't decode byte 0xce in position 1739: ordinal not in range(128).
+
+To ensure a smooth compilation process and avoid such errors, it is best to
+restrict the usage of non-ASCII characters in Fortran codes. Stick to ASCII
+characters whenever possible.
+
+If, for some specific reasons, the use of non-ASCII characters is unavoidable,
+make sure to thoroughly test and validate the Fortran code before
+compiling. Additionally, installing the charset_normalizer package might help
+f2py determine the input file encoding correctly, but it is not a guaranteed
+solution.
+
+During the compilation process, if you encounter the following error:
+error: subprocess-exited-with-error
+× python setup.py egg_info did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+Please double-check the Fortran files for any non-ASCII characters and
+consider removing or replacing them with ASCII equivalents whenever possible.
+
+This cautionary approach will help prevent potential compilation errors and
+ensure a smoother compilation process for Fortran codes to Python libraries.
