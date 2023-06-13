@@ -2,7 +2,7 @@
 {% set version = "0.0.4" %}
 {% set url = "https://pypi.io/packages/source/" + name[0] + "/" + name + "/" + name + "-" + version + ".tar.gz" %}
 # In case you wanna test locally
-{% set url = name ~ '-' ~ version ~ '.tar.gz' %}
+#{% set url = name ~ '-' ~ version ~ '.tar.gz' %}
 
 package:
   name: "{{ name|lower }}"
