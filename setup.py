@@ -19,7 +19,7 @@ def get_files(directory):
 
 # Define the directories you want to include
 data_directory = 'data'
-calibration_directory = 'data/calibration'
+calibration_directory = 'data/calibration_stars'
 
 # Get all files within the data directory and its subdirectories
 data_files = get_files(data_directory)
@@ -60,7 +60,7 @@ setup( name='PyPhotometry',
                    ],
        package_dir={"PyPhotometry": "src/python"},
        packages=['PyPhotometry'],
-       data_files=[('PyPhotometry/data', data_files), ('PyPhotometry/data/calibration', calibration_files)],
+       data_files=[('PyPhotometry/data', data_files), ('PyPhotometry/data/calibration_stars', calibration_files)],
        include_package_data=True,
        #data_files=[ ('', ['version.txt','LICENSE.txt']),
        #             ('data', data_files),
