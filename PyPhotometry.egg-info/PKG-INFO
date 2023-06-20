@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyPhotometry
-Version: 0.0.5
+Version: 0.0.6
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
 Download-URL: https://github.com/neutrinomuon/PyPhotometry
@@ -23,7 +23,7 @@ email: [antineutrinomuon@gmail.com](mailto:antineutrinomuon@gmail.com), [jean@as
 
 github repository: <a href="https://github.com/neutrinomuon/PyPhotometry">PyPhotometry</a>
 
-last stable version: 0.0.5
+last stable version: 0.0.6
 
 © Copyright ®
 
@@ -42,6 +42,31 @@ J.G. - Jean Gomes @ 2023
 
 <hr>
 
+#### Requirements
+
+The following packages are required to run this project:
+
+- astropy>=5.0.4
+- matplotlib>=3.7.1
+- setuptools>=61.2.0
+- SQLAlchemy>=1.4.32
+
+and pyphot may be used for comparison and tests:
+
+- pyphot>=1.4.4
+
+You can install all the required packages by running the following command:
+
+<pre>
+pip install -r requirements.txt
+</pre>
+
+Additionally, you may optionally install pyphot for testing or comparison
+purposes. 
+
+Please note that pyphot is not a mandatory requirement for running this
+project and is only recommended if you intend to test or compare with it.
+
 #### <b>RESUME</b>
 
 <strong>PyPhotometry</strong> is a Python package that builds upon a
@@ -58,12 +83,7 @@ proposed by Bohlin and Gilland in 2004, the AB system, the TG standard system
 an option without any calibration.
 
 It's important to note that PyPhotometry does not include the Pyphot package
-developed by M. Fouesneau, but it can be used for comparison purposes. If you
-wish to install Pyphot for comparison, you can use the following command:
-
-<pre>
-pip install pyphot
-</pre>
+developed by M. Fouesneau, but it can be used for comparison purposes.
 
 However, it is not mandatory to install Pyphot in order to use PyPhotometry. The PyPhotometry package comes with its own set of accompanying routines that provide the necessary functionality.
 

@@ -60,8 +60,22 @@ setup( name='PyPhotometry',
                    ],
        package_dir={"PyPhotometry": "src/python"},
        packages=['PyPhotometry'],
-       data_files=[ ('', ['version.txt','LICENSE.txt']),
-                    ('data', data_files),
-                    ('data/calibration', calibration_files) ],
+       data_files=[('PyPhotometry/data', data_files), ('PyPhotometry/data/calibration', calibration_files)],
+       include_package_data=True,
+       #data_files=[ ('', ['version.txt','LICENSE.txt']),
+       #             ('data', data_files),
+       #             ('data/calibration', calibration_files) ],
+       #package_data={'PyPhotometry': [
+       #                               'data/*',
+       #                               'data/calibration/*',
+       #                              ],
+       #             },
+       #package_data={'PyPhotometry': [                                                                                                                                                                                               
+       #                               'data/*',                                                                                                                                                                                      
+       #                               'data/calibration/*',                                                                                                                                                                          
+       #                              ],                                                                                                                                               
+       #             },                          
+       #include_package_data=True,
+       #data_files=[('', ['version.txt', 'LICENSE.txt'])]
       )
     

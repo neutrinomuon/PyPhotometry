@@ -440,7 +440,11 @@ class create_database_filters(object):
             #print(o)
             path = path_data #'../../data/'
             arq_fil1 = 'ListFilters.txt'
-            o.ReadFilters( path,arq_fil1,verbose=verbose )
+            IsKeepOn = o.ReadFilters( path,arq_fil1,verbose=verbose )
+        
+            if IsKeepOn != 1:
+                print("... Problem running filters database")
+                return
         
             # 4 different entry for each filter
             N_entries = int( len(o.filters) / 4 )
@@ -937,7 +941,7 @@ class Filters( object ):
         except:
             print('... Filter List does not exist')
             o_filter.close()
-            return
+            return -999
         
         r_filter = o_filter.readlines()
         Nfilters = int(r_filter[0].split()[0])
@@ -1068,7 +1072,7 @@ class Filters( object ):
         # print( "N_filters: ----- DEBUG: ",len(self.filters) )
         print("[ReadFilters]")
 
-        return
+        return 1
     
     def ReadONEFilter( self,path,arq_fil1,N_lambda=500 ):
         print("")
