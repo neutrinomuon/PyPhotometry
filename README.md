@@ -93,7 +93,10 @@ meant for a comparison, but PyPhotometry legacy routines are more
 general. Accompanying there are several other routines.
 
 <hr>
+
 #### <b>Brief Tutorial</b>
+
+<hr>
 
 A brief tutorial can be found at <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/tutorials/PyPhotometry%20-%20Example%201.ipynb'>PyPhotometry
