@@ -7,7 +7,7 @@ Revised interface on Sat Jan 30 12:07:21 2021
 
 RESUME :  Filters
 
-Version: v01 beta
+Version: v0.0.6
 
 PYTHON : Python compatibility using f2py revised. Better usage  with numpy.  
 
@@ -92,9 +92,22 @@ class create_database_filters(object):
     global Base
     Base = declarative_base()
     
-    def __init__( self, database_path='../../data',database_filename='filters.db' ):
+    def __init__( self, database_path=None,database_filename='filters.db' ):
         self.store_filters = 0
         self.readfilters = 0
+        
+        # database_path by default is define as None, if so, look for installation of PyPhotometry
+        # Specify the package name
+        if database_path == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            database_path = package_dist.location + '/' + package_name + '/data/'
+
+            print("... Package directory:", database_path)
         
         self.database_path = database_path
         self.database_filename = database_filename
@@ -153,7 +166,74 @@ class create_database_filters(object):
 
         N_lambda = Column(Integer)
                 
-    def read_spectra( self, path_Vega='../../data/calibration_stars/VegaLR.dat',path_Sun='../../data/calibration_stars/Sun_LR.dat',path1Sun='../../data/calibration_stars/Sun.dat',path2Sun='/../../data/calibration_stars/sun_reference_stis_001.fits',path_BD='../../data/calibration_stars/BD+17d4708.dat', verbose=False ):
+    #def read_spectra( self, path_Vega='../../data/calibration_stars/VegaLR.dat',path_Sun='../../data/calibration_stars/Sun_LR.dat',path1Sun='../../data/calibration_stars/Sun.dat',path2Sun='/../../data/calibration_stars/sun_reference_stis_001.fits',path_BD='../../data/calibration_stars/BD+17d4708.dat', verbose=False ):
+    def read_spectra( self, path_Vega=None,path_Sun=None,path1Sun=None,path2Sun=None,path_BD=None, verbose=False ):
+        
+        # Read Vega *******************************************************************
+        if path_Vega == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            path_Vega = package_dist.location + '/' + package_name + '/data/calibration_stars/VegaLR.dat'
+
+            print("... path_Vega directory:", path_Vega)
+        # Read Vega *******************************************************************
+
+        # Read Sun ********************************************************************
+        if path_Sun == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            path_Sun = package_dist.location + '/' + package_name + '/data/calibration_stars/Sun_LR.dat'
+
+            print("... path_Sun directory:", path_Sun)
+        # Read Sun ********************************************************************
+        
+        # Read Sun_1 ******************************************************************
+        if path1Sun == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            path1Sun = package_dist.location + '/' + package_name + '/data/calibration_stars/Sun.dat'
+
+            print("... path1Sun directory:", path1Sun)
+        # Read Sun_1 ******************************************************************
+        
+        # Read Sun_2 ******************************************************************
+        if path2Sun == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            path2Sun = package_dist.location + '/' + package_name + '/data/calibration_stars/sun_reference_stis_001.fits'
+
+            print("... path2Sun directory:", path2Sun)
+        # Read Sun_2 ******************************************************************
+        
+        # Read BD *********************************************************************
+        if path_BD == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            path_BD = package_dist.location + '/' + package_name + '/data/calibration_stars/BD+17d4708.dat'
+
+            print("... path_BD directory:", path2Sun)
+        # Read BD *********************************************************************
+        
         o = Filters( )
         o.ReadCalibrationStars(  path_Vega=path_Vega,path_Sun=path_Sun,path1Sun=path1Sun,path2Sun=path2Sun,path_BD=path_BD )
         
@@ -186,11 +266,24 @@ class create_database_filters(object):
             
         return
         
-    def read_filters( self, path_data='../../data/',N_lambda=500,verbose=False ):
+    def read_filters( self, path_data=None,N_lambda=500,verbose=False ):
                 
         if verbose:
             print("[read_filters]")
             print("... Reading filters")
+        
+        # database_path by default is define as None, if so, look for installation of PyPhotometry
+        # Specify the package name
+        if path_data == None:
+            package_name = 'PyPhotometry'
+
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+
+            # Get the base directory path of the package
+            path_data = package_dist.location + '/' + package_name + '/data/'
+
+            print("... path_data directory:", path_data)
         
         # Verify if database contains models for Draine and Li (2007)
         try:
@@ -604,10 +697,11 @@ class create_database_filters(object):
         Figure = plt.figure( figsize=(12,10),dpi=120,facecolor='w',edgecolor='w' )
         plt.subplots_adjust(bottom=.02, left=.06, right=.95, top=.98, wspace=0.0, hspace=0.0) 
         
-        ax = plt.subplot(111)
+        #ax = plt.subplot(111)
 
         # Top plot ###########################################################
-        ax1_top = subplot2grid( (20,20), (0,0), colspan=20, rowspan=10 )                                           
+        ax1_top = subplot2grid( (20,20), (0,0), colspan=20, rowspan=10 )
+                                        
         # Sets the position and size of the panel for Plot #01
         #ax1_top.axis('on')
         #ax1_top.axes.get_xaxis().set_visible(False)
@@ -1172,7 +1266,8 @@ class Filters( object ):
             #print( self.onefilter )
             return
             
-    def ReadCalibrationStars( self,path_Vega='../../data/calibration_stars/VegaLR.dat',path_Sun='../../data/calibration_stars/Sun_LR.dat',path1Sun='../../data/calibration_stars/Sun.dat',path2Sun='../../data/sun_reference_stis_001.fits',path_BD='../../data/calibration_stars/BD+17d4708.dat',verbose=0 ):
+    #def ReadCalibrationStars( self,path_Vega='../../data/calibration_stars/VegaLR.dat',path_Sun='../../data/calibration_stars/Sun_LR.dat',path1Sun='../../data/calibration_stars/Sun.dat',path2Sun='../../data/sun_reference_stis_001.fits',path_BD='../../data/calibration_stars/BD+17d4708.dat',verbose=0 ):
+    def ReadCalibrationStars( self,path_Vega=None,path_Sun=None,path1Sun=None,path2Sun=None,path_BD=None,verbose=0 ):
 # ! *** Read calibration stars ************************************************
 # !     RESUME : VEGA spectrum.                                               !
 # !              Intrinsic Flux: erg/s/cm2/A                                  !
@@ -1222,6 +1317,71 @@ class Filters( object ):
 # ! *** Read calibration stars ************************************************
         
 # https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-tools/astronomical-catalogs/calspec
+
+# Read Vega *******************************************************************
+        if path_Vega == None:
+            package_name = 'PyPhotometry'
+        
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+        
+            # Get the base directory path of the package
+            path_Vega = package_dist.location + '/' + package_name + '/data/calibration_stars/VegaLR.dat'
+        
+            print("... path_Vega directory:", path_Vega)
+# Read Vega *******************************************************************
+
+# Read Sun ********************************************************************
+        if path_Sun == None:
+            package_name = 'PyPhotometry'
+        
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+        
+            # Get the base directory path of the package
+            path_Sun = package_dist.location + '/' + package_name + '/data/calibration_stars/Sun_LR.dat'
+        
+            print("... path_Sun directory:", path_Sun)
+# Read Sun ********************************************************************
+
+# Read Sun_1 ******************************************************************
+        if path1Sun == None:
+            package_name = 'PyPhotometry'
+        
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+        
+            # Get the base directory path of the package
+            path1Sun = package_dist.location + '/' + package_name + '/data/calibration_stars/Sun.dat'
+        
+            print("... path1Sun directory:", path1Sun)
+# Read Sun_1 ******************************************************************
+
+# Read Sun_2 ******************************************************************
+        if path2Sun == None:
+            package_name = 'PyPhotometry'
+        
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+        
+            # Get the base directory path of the package
+            path2Sun = package_dist.location + '/' + package_name + '/data/calibration_stars/sun_reference_stis_001.fits'
+        
+            print("... path2Sun directory:", path2Sun)
+# Read Sun_2 ******************************************************************
+
+# Read BD *********************************************************************
+        if path_BD == None:
+            package_name = 'PyPhotometry'
+        
+            # Get the distribution object for the package
+            package_dist = pkg_resources.get_distribution(package_name)
+        
+            # Get the base directory path of the package
+            path_BD = package_dist.location + '/' + package_name + '/data/calibration_stars/BD+17d4708.dat'
+        
+            print("... path_BD directory:", path2Sun)
+# Read BD *********************************************************************
 
 #  *** VEGA spectrum ***************************************************************
 #         Intrinsic Flux: erg/s/cm2/A                                                                                                                  !
