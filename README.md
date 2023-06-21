@@ -96,11 +96,11 @@ general. Accompanying there are several other routines.
 
 #### <b>Brief Tutorial</b>
 
-<hr>
-
 A brief tutorial can be found at <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/tutorials/PyPhotometry%20-%20Example%201.ipynb'>PyPhotometry
 Example1.ipynb</a>
+
+<hr>
 
 #### <b>INSTALLATION</b>
 
