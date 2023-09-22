@@ -50,6 +50,8 @@ project and is only recommended if you intend to test or compare with it.
 
 #### <b>RESUME</b>
 
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometry.png' width=120>
+
 <strong>PyPhotometry</strong> is a Python package that builds upon a
 collection of Fortran 2003+ routines originally developed between 2003 and
 2004. These routines are the foundation of the package and can be traced back
