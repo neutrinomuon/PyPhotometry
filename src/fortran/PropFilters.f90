@@ -32,6 +32,9 @@
 !                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
+!     Checked: Mon Sep 25 04:06:38 PM WEST 2023                             !
+!                                                                           !
+!     LOG: 25/09/2023: Correction for flux_T01 > 0.0 in magABsys            !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
                         T_n_Area,magABsys,magTGsys,standard,lamb_eff,       &
@@ -318,9 +321,13 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
        end if
 
 ! *** Magnitudes AB system **************************************************
-       mAB_Vega = -2.5_RP                                                   &
+       if ( flux_T01 > 0.0_RP ) then
+          mAB_Vega = -2.5_RP                                                &
                 * log10( flux_T01*T_l_area(i_filter)/T_n_area(i_filter) )   &
                 - 48.60_RP       
+       else
+          mAB_Vega = -999.0_RP
+       end if
        magABsys(i_filter) = mAB_Vega       
 ! *** Magnitudes AB system **************************************************
 
@@ -631,13 +638,21 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
     end if
 
     IsOFFNum = 0_IB
-    
+
     ! Interpolate to lowest dlambda
     dtlambda = minval( array=T_lambda(2:Ntlambda)-T_lambda(1:Ntlambda-1) )
-    d_lambda = minval( array=L_lambda(2:N_lambda)-L_lambda(1:N_lambda-1),   &
-                        mask=L_lambda(2:N_lambda) >= T_lambda(1) .AND.      &
-                             L_lambda(2:N_lambda) <= T_lambda(Ntlambda) )
 
+    if ( L_lambda(1) <= T_lambda(1) .AND. L_lambda(N_lambda) >= T_lambda(Ntlambda) ) then
+       d_lambda = minval( array=L_lambda(2:N_lambda)-L_lambda(1:N_lambda-1),   &
+            mask=L_lambda(2:N_lambda) >= T_lambda(1)                .AND.      &
+                 L_lambda(2:N_lambda) <= T_lambda(Ntlambda) )
+    else
+       d_lambda = -999.0_RP
+       fluxtran = -999.0_RP
+       IsKeepOn = 0_IB
+       return
+    end if
+    
     !write (*,*) dtlambda,d_lambda
     
     ilastval = -999_IB
@@ -665,7 +680,7 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
        ind1 = maxloc( array=L_lambda, mask=L_lambda <= T_lambda(1), dim=1 )
        ind2 = minloc( array=L_lambda, mask=L_lambda >= T_lambda(Ntlambda), dim=1 )
 
-       !write (*,*) ind1,ind2,L_lambda(ind1),L_lambda(ind2)
+       !write (*,*) ind1,ind2,L_lambda(ind1),L_lambda(ind2),S_fluxes(ind1),S_fluxes(ind2)
 
        if ( ind1 > 0 .AND. ind2 > 0 .AND. ind1 < N_lambda .AND. ind2 < N_lambda .AND. ind1 <= ind2 ) then
           aux__lbd = pack( array=L_lambda, mask=L_lambda >= L_lambda(ind1) .AND. L_lambda <= L_lambda(ind2)  )
@@ -696,6 +711,8 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
              
              fluxtran = IntegralALL( aux__lbd,aux__lbd*aux_flux*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
              fluxtran = fluxtran / IntegralALL( aux__lbd,aux__lbd*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+
+             !write (*,*) fluxtran
              deallocate( aux__fil )
           end if
           deallocate( aux__lbd )

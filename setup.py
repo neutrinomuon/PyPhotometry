@@ -20,12 +20,16 @@ def get_files(directory):
 # Define the directories you want to include
 data_directory = 'data'
 calibration_directory = 'data/calibration_stars'
+templates_directory = 'data/templates'
 
 # Get all files within the data directory and its subdirectories
 data_files = get_files(data_directory)
 
 # Get all files within the calibration directory
 calibration_files = get_files(calibration_directory)
+
+# Get all files within the templates directory
+template_files = get_files(templates_directory)
 
 ext1 = Extension(  name='PyPhotometry.flib',
                    sources=['src/fortran/DataTypes.f90',
@@ -60,7 +64,7 @@ setup( name='PyPhotometry',
                    ],
        package_dir={"PyPhotometry": "src/python"},
        packages=['PyPhotometry'],
-       data_files=[('PyPhotometry/data', data_files), ('PyPhotometry/data/calibration_stars', calibration_files)],
+       data_files=[('PyPhotometry/data', data_files), ('PyPhotometry/data/calibration_stars', calibration_files), ('PyPhotometry/data/templates', template_files)],
        include_package_data=True,
        #data_files=[ ('', ['version.txt','LICENSE.txt']),
        #             ('data', data_files),

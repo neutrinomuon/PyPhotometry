@@ -21,6 +21,9 @@ data/IRAS.12mu.txt
 data/IRAS.25mu.txt
 data/IRAS.60mu.txt
 data/ListFilters.txt
+data/PLANCK_HFI.100GHz.dat
+data/PLANCK_HFI.545GHz.dat
+data/PLANCK_HFI.857GHz.dat
 data/SDSSg.txt
 data/SDSSi.txt
 data/SDSSr.txt
@@ -41,6 +44,7 @@ data/calibration_stars/VegaLR_OLD.dat
 data/calibration_stars/bd17d4708_stisnic_001.fits
 data/calibration_stars/kp00_6000.ascii
 data/calibration_stars/sun_reference_stis_001.fits
+data/templates/bc2003_hr_m62_chab_ssp_160.spec
 src/fortran/DataTypes.f90
 src/fortran/EvalFilters.f90
 src/fortran/GaussLegendreQuadrature.f90

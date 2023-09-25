@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyPhotometry
-Version: 0.0.6
+Version: 0.0.7
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
 Download-URL: https://github.com/neutrinomuon/PyPhotometry
@@ -8,9 +8,7 @@ Author: Jean Gomes
 Author-email: antineutrinomuon@gmail.com
 Maintainer: Jean Gomes
 Maintainer-email: antineutrinomuon@gmail.com
-License: UNKNOWN
 Keywords: photometry,stars,galaxies,magnitude,systems
-Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Fortran
 Classifier: Operating System :: OS Independent
@@ -23,7 +21,7 @@ email: [antineutrinomuon@gmail.com](mailto:antineutrinomuon@gmail.com), [jean@as
 
 github repository: <a href="https://github.com/neutrinomuon/PyPhotometry">PyPhotometry</a>
 
-last stable version: 0.0.6
+last stable version: 0.0.7
 
 © Copyright ®
 
@@ -69,6 +67,8 @@ project and is only recommended if you intend to test or compare with it.
 
 #### <b>RESUME</b>
 
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometry.png' width=120>
+
 <strong>PyPhotometry</strong> is a Python package that builds upon a
 collection of Fortran 2003+ routines originally developed between 2003 and
 2004. These routines are the foundation of the package and can be traced back
@@ -112,11 +112,14 @@ meant for a comparison, but PyPhotometry legacy routines are more
 general. Accompanying there are several other routines.
 
 <hr>
+
 #### <b>Brief Tutorial</b>
 
 A brief tutorial can be found at <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/tutorials/PyPhotometry%20-%20Example%201.ipynb'>PyPhotometry
 Example1.ipynb</a>
+
+<hr>
 
 #### <b>INSTALLATION</b>
 
@@ -310,5 +313,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-

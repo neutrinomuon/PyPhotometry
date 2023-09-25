@@ -34,6 +34,10 @@
 !                                                                           !
 !     Written: Jean Michel Gomes                                            !
 !     Checked: Tue May  1 16:09:13 WEST 2011                                !
+!     Checked: Mon Sep 25 10:07:32 PM WEST 2023                             !
+!                                                                           !
+!     LOG: 25/09/2023: There was an error in the f2py declaration of        !
+!     O_lambda, O_fluxes and NOlambda.                                      !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
                         Ntlambda,Nfilters,MAG_spec,PhotFlux,Mcalibra,       &
@@ -83,7 +87,7 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 
     !f2py real     (kind=RP), intent(in)  :: O_lambda
     !f2py real     (kind=RP), intent(in)  :: O_fluxes
-    !f2py integer  (kind=IB), intent(hide), depend(NOlambda) :: NOlambda=shape(O_lambda,0)
+    !f2py integer  (kind=IB), intent(hide), depend(O_fluxes) :: NOlambda=shape(O_fluxes,0)
 
     !f2py real     (kind=RP), intent(in)  :: T_lambda
     !f2py real     (kind=RP), intent(in)  :: T_fluxes
@@ -162,6 +166,14 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
     else
        LSun = 3.839e33_RP
     end if
+
+    ! DEBUG due to f2py declaration
+    ! integer  (kind=IB), intent(hide), depend(NOlambda) :: NOlambda=shape(O_fluxes,0)
+    ! and it should be
+    ! integer  (kind=IB), intent(hide), depend(O_fluxes) :: NOlambda=shape(O_fluxes,0)
+    !
+    !write(*,*) '=====>', O_lambda(1),size(O_lambda),O_lambda(size(O_lambda)),O_lambda(NOlambda),NOlambda
+    !return
     
     allocate( Fnamecal(Ncalibra) )
     
@@ -189,7 +201,8 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 
 ! *** Photometric flux ******************************************************
 !     It assumes the units of input spectrum - f(lambda)                    !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       !write (*,*) 'flux_T01 =====>',flux_T01,IsKeepOn
        PhotFlux(i_filter) = flux_T01 !* LSun / fac4Pid2
 ! *** Photometric flux ******************************************************
 
@@ -219,13 +232,21 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 !           [2] Cousins A.W.J., Jones D.H.P, 1976 Mem. R. astr. Soc, 81, 1.                  !
 !           [3] Kitchin C.R., 2003 book, Astrophysical Techniques, ISBN: 0-7503-0946-6       !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-       Mcalibra(1) = +2.5_RP * log10(fluxVega)
+       if ( fluxVega > 0.0_RP ) then
+          Mcalibra(1) = +2.5_RP * log10(fluxVega)
+       else
+          Mcalibra(1) = -999.0_RP
+       end if
        Fnamecal(1) = 'VEGA_std'
 
 ! *** VEGA proposed by Bohlin and Gilliland 2004 ******************************************* !
 !     Ref.: Bohlin, R. C.; Gilliland, R. L. 2004, AJ, 128, 3053B                             !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-       Mcalibra(2) = +2.5_RP * log10(fluxVega) + 0.026_RP
+       if ( fluxVega > 0.0_RP ) then
+          Mcalibra(2) = +2.5_RP * log10(fluxVega) + 0.026_RP
+       else
+          Mcalibra(2) = -999.0_RP
+       end if
        Fnamecal(2) = 'VEGABG04'
 
 ! *** M_AB standard system (based on frequency) ******************************************** !
@@ -237,7 +258,11 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 !                                                                                            !
 !               f(nu) = f(lambda) * (lambda/nu) = f(lambda)*(lambda)^2 / c                   !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-       Mcalibra(3) = +2.5_RP * log10(fluxVega) + magABsys(i_filter)
+       if ( fluxVega > 0.0_RP .AND. magABsys(i_filter) > -999.0_RP ) then 
+          Mcalibra(3) = +2.5_RP * log10(fluxVega) + magABsys(i_filter)
+       else
+          Mcalibra(3) = -999.0_RP
+       end if
        Fnamecal(3) = 'ABsystem'
 
 ! *** M_TG standard system - Thuan and Gunn (BD+17d4708) *********************************** !
