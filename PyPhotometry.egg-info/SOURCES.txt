@@ -13,6 +13,7 @@ data/2MASSJ.txt
 data/2MASSKs.txt
 data/GalexFUV.txt
 data/GalexNUV.txt
+data/Herschel_SPIRE.PLW_ext.dat
 data/Herschel_SPIRE.PLW_ext.txt
 data/Herschel_SPIRE.PMW_ext.txt
 data/Herschel_SPIRE.PSW_ext.txt
@@ -33,12 +34,12 @@ data/WISE1.txt
 data/WISE2.txt
 data/WISE3.txt
 data/WISE4.txt
-data/filters.db
 data/calibration_stars/BD+17d4708.dat
 data/calibration_stars/BD+17o4708.dat
 data/calibration_stars/Filters_ReadMe.txt
 data/calibration_stars/Sun.dat
 data/calibration_stars/Sun_LR.dat
+data/calibration_stars/Vega.dat
 data/calibration_stars/VegaLR.dat
 data/calibration_stars/VegaLR_OLD.dat
 data/calibration_stars/bd17d4708_stisnic_001.fits
@@ -51,5 +52,5 @@ src/fortran/GaussLegendreQuadrature.f90
 src/fortran/IntegralALL.f90
 src/fortran/LINinterpol.f90
 src/fortran/PropFilters.f90
-src/python/Photometry.py
+src/python/PyPhotometry.py
 src/python/__init__.py

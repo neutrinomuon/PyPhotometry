@@ -280,6 +280,19 @@ contributing to our project!
 
 <hr>
 
+
+#### <b>LOGS</b>
+
+<table>
+
+<tr><td align='center'><img width=50 src="https://github.com/neutrinomuon/PyPhotometry/blob/main/figures/logs.jpg?raw=true"></td><td>LOGS</td></tr>
+
+<tr><td>05/10/2023</td><td>J.G. changed some parts of the code to be compatible with Herschel filters. Also, added log dates explicitly in README file.</td></tr>
+
+</table>
+
+<hr>
+
 #### <b>LICENSE</b>
 
 This software is provided "AS IS" (see DISCLAIMER below). Permission to use,

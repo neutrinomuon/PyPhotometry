@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyPhotometry
-Version: 0.0.7
+Version: 0.0.8
 Summary: PyPhotometry is a Python package based on a Fortran legacy package that allows you to compute photometric fluxes and magnitudes in various photometric systems.
 Home-page: https://github.com/neutrinomuon/PyPhotometry
 Download-URL: https://github.com/neutrinomuon/PyPhotometry
@@ -294,6 +294,19 @@ possible.
 For any questions or concerns about contributing, please contact the project
 maintainer at antineutrinomuon@gmail.com. Thank you for your interest in
 contributing to our project!
+
+<hr>
+
+
+#### <b>LOGS</b>
+
+<table>
+
+<tr><td align='center'><img width=50 src="https://github.com/neutrinomuon/PyPhotometry/blob/main/figures/logs.jpg?raw=true"></td><td>LOGS</td></tr>
+
+<tr><td>05/10/2023</td><td>J.G. changed some parts of the code to be compatible with Herschel filters. Also, added log dates explicitly in README file.</td></tr>
+
+</table>
 
 <hr>
 
