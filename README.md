@@ -104,7 +104,7 @@ Now, the package PyPhotometry is in agreement with PEP 8 guidelines:
 #### <b>Brief Tutorial</b>
 
 <div align="center">
-<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/FigurePyPhotometry.png' width='85%'>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/FigurePyPhotometry.png' width='85%'>
 </div>
 
 A brief tutorial can be found at <a
