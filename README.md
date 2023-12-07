@@ -298,6 +298,8 @@ contributing to our project!
 
 <tr><td>05/10/2023</td><td>J.G. changed some parts of the code to be compatible with Herschel filters. Also, added log dates explicitly in README file.</td></tr>
 
+<tr><td>07/12/2023</td><td>J.G. changed some parts of the code to extend the calibration stars. Also, many changes in the interpolation scheme. Verification of the SQL tables. Also, added log dates explicitly in README file.</td></tr>
+
 </table>
 
 <hr>
