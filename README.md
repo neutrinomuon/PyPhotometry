@@ -18,7 +18,7 @@ J.G. - Jean Gomes @ 2023
 <hr>
 
 <div align="center">
-<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/PyPhotometry.png' width='85%'>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometry.png' width=85%>
 </div>
 
 <hr>
@@ -50,7 +50,7 @@ project and is only recommended if you intend to test or compare with it.
 
 #### <b>RESUME</b>
 
-<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometry.png' width=120>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometryIcon.png' width=120>
 
 <strong>PyPhotometry</strong> is a Python package that builds upon a
 collection of Fortran 2003+ routines originally developed between 2003 and
@@ -94,9 +94,18 @@ However, it is not necessary for the usage of this package. This package is
 meant for a comparison, but PyPhotometry legacy routines are more
 general. Accompanying there are several other routines.
 
+Now, the package PyPhotometry is in agreement with PEP 8 guidelines:
+
+<br> --------------------------------------------------------------------
+<br> Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
 <hr>
 
 #### <b>Brief Tutorial</b>
+
+<div align="center">
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/FigurePyPhotometry.png' width='85%'>
+</div>
 
 A brief tutorial can be found at <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/tutorials/PyPhotometry%20-%20Example%201.ipynb'>PyPhotometry
@@ -153,7 +162,7 @@ PyPhotometry provides calibration stars used in the magnitude systems:
 
 - VEGA spectrum: Intrinsic Flux - [erg/s/cm2/A].
 - SUN spectrum: Intrinsic Flux - [erg/s/A].
-- F subdwarf: Used to calibrate the Thuan & Gunn system.
+- F subdwarf: Used to calibrate the Thuan & Gunn system. Only used for backward compatibility.
 
 For more details on the usage and options, please refer to the PyPhotometry
 GitHub repository.

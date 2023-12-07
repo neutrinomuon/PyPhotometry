@@ -1,1 +1,1 @@
-PyPhotometry
+pyphotometry

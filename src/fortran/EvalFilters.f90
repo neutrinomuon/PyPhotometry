@@ -44,7 +44,9 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
                         T_l_Area,magABsys,magTGsys,standard,Numb_lbd,       &
                         IsKeepOn,Int_Type,LSun_con,verbosity )
     use ModDataType
+    use ieee_arithmetic, only: IEEE_IS_FINITE
     implicit none
+
 
     real     (kind=RP), parameter :: cl_speed=299792.458000_RP
     real     (kind=RP), parameter :: fac4Pid2=1.19649518e40_RP
@@ -95,12 +97,14 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
     !f2py real     (kind=RP), intent(in)  :: magABsys
     !f2py real     (kind=RP), intent(in)  :: magTGsys
     !f2py real     (kind=RP), intent(in)  :: standard
-    !f2py integer  (kind=IB), intent(in)  :: Numb_lbd
     !f2py real     (kind=RP), intent(out) :: PhotFlux
     !f2py real     (kind=RP), intent(out) :: Mcalibra
     !f2py real     (kind=RP), intent(out) :: MAG_spec
     !f2py integer  (kind=IB), intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0), Nfilters=shape(T_lambda,1)
 
+    !f2py integer  (kind=IB), intent(in)  :: Numb_lbd
+    !f2py integer  (kind=IB), intent(hide), depend(Numb_lbd) :: Nfilters=shape(Numb_lbd,0)
+    
     !f2py integer  (kind=IB), intent(out) :: IsKeepOn
 
     !f2py  real     (kind=RP), optional :: LSun_con=3.839e33
@@ -203,6 +207,11 @@ SUBROUTINE EvalFilters( O_lambda,O_fluxes,NOlambda,T_lambda,T_fluxes,       &
 !     It assumes the units of input spectrum - f(lambda)                    !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
        !write (*,*) 'flux_T01 =====>',flux_T01,IsKeepOn
+       if ( IEEE_IS_FINITE(flux_T01) ) then
+          flux_T01 = flux_T01
+       else
+          flux_T01 = -999.0_RP
+       end if
        PhotFlux(i_filter) = flux_T01 !* LSun / fac4Pid2
 ! *** Photometric flux ******************************************************
 
@@ -362,8 +371,8 @@ END SUBROUTINE author_EvalFilters
 ! Jean@Porto - Sat Oct 27 08:58:18 WEST 2012 ++++++++++++++++++++++++++++++++
 
 ! *** Test ******************************************************************
-!PROGRAM GeneralTest
-!END PROGRAM GeneralTest
+PROGRAM GeneralTest
+END PROGRAM GeneralTest
 ! *** Test ******************************************************************
 
 ! *** Number : 002                                                          !

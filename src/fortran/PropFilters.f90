@@ -168,7 +168,7 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
     if ( present(Int_Type) ) then
        IntegraT = Int_Type
     else
-       IntegraT= 2_IB
+       IntegraT = 2_IB
     end if
     
 !  *** Reset Filter-STUFF ***************************************************
@@ -249,17 +249,17 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
        lambda_i = T_lambda(00000001,i_filter)
        lambda_f = T_lambda(N_lambda,i_filter)
 
-       if ( N_lambda == 1_IB ) then
+       if ( N_lambda <= 1_IB ) then
           !# If this happens it should be 1.0, but be careful!
-          T_l_Area(i_filter) = 1.0_RP !* T_fluxes(1,i_filter)
-          T_n_Area(i_filter) = 1.0_RP !* T_fluxes(1,i_filter)
+          T_l_Area(i_filter) = -999.0_RP !* T_fluxes(1,i_filter)
+          T_n_Area(i_filter) = -999.0_RP !* T_fluxes(1,i_filter)
           
           !flux_T01 = ?
           !flux_T02 = ?
           !flux_T03 = ?
-          widtheff(i_filter) = 1.000_RP
-          lamb_eff(i_filter) = lambda_i
-          standard(i_filter) = flux_T01
+          widtheff(i_filter) = -999.0_RP
+          lamb_eff(i_filter) = -999.0_RP
+          standard(i_filter) = -999.0_RP
        else
           if (associated (P1lambda)) nullify( P1lambda )
           if (associated (P1fluxes)) nullify( P1fluxes )
@@ -271,12 +271,13 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
                                             lambda_f,N_lambda,IsKeepOn,     &
                                             IntegraT,IsOFFNum )
 
+          !write (*,*) T_l_Area(i_filter),lambda_i,lambda_f
           aux_area = T_l_Area(i_filter)
           
           aux_flux(1:N_lambda) = P1fluxes(1:N_lambda)                       &
                                / (P1lambda(1:N_lambda)                      &
-                               * P1lambda(1:N_lambda)) * cl_speed
-          aux_flux(1:N_lambda) = aux_flux(1:N_lambda) !* 1.0e13_RP
+                               *  P1lambda(1:N_lambda)) * cl_speed
+          !aux_flux(1:N_lambda) = aux_flux(1:N_lambda) !* 1.0e13_RP
           
           T_n_Area(i_filter) = IntegralALL( P1lambda,aux_flux,lambda_i,     &
                                             lambda_f,N_lambda,IsKeepOn,     &
@@ -311,7 +312,7 @@ SUBROUTINE PropFilters( T_lambda,T_fluxes,Ntlambda,Nfilters,T_l_Area,       &
                                                IskeepOn,IntegraT )
 
           ! Effective width
-          ! width = integral( T x dl) / max(T)
+          ! width = integral( T x dl ) / max(T)
           if ( maxval( P1fluxes ) > 0.0_RP ) then
              widtheff(i_filter) = T_l_Area(i_filter) / maxval( P1fluxes )
           else
@@ -571,12 +572,14 @@ END SUBROUTINE author_EvalTFluxes
 SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
                              Ntlambda,Int_Type,fluxtran,IsKeepOn,verbosity )
     use ModDataType
+    USE, INTRINSIC :: IEEE_ARITHMETIC, ONLY: IEEE_IS_FINITE
     implicit none
 
-    integer  (kind=IB), intent(out) :: IsKeepOn
     integer  (kind=IB), intent(in) :: Ntlambda,N_lambda,Int_Type
+    integer  (kind=IB), intent(out) :: IsKeepOn
     integer  (kind=IB), optional :: verbosity
-    integer  (kind=IB) :: IsShowOn,Nlbd_aux,ilastval,IsOFFNum,ind1,ind2
+    integer  (kind=IB) :: IsShowOn,Nlbd_aux,ilastval,IsOFFNum,ind1
+    integer  (kind=IB) :: N_points
 
     real     (kind=RP), dimension(N_lambda), intent(in) :: L_lambda,        &
                                                            S_fluxes
@@ -585,16 +588,20 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
     real     (kind=RP), allocatable, dimension(:) :: aux__lbd,aux_flux,     &
                                                      aux__fil
     real     (kind=RP), intent(out) :: fluxtran
-    real     (kind=RP) :: lambda_i,lambda_f,dtlambda,d_lambda
-
+    real     (kind=RP) :: lambda_i,lambda_f,dtlambda,d_lambda,int_area
+    real     (kind=RP) :: average_flux
+    
     !f2py real     (kind=RP), intent(in)  :: L_lambda
-    !f2py real     (kind=RP), intent(in)  :: S_fluxes
     !f2py integer  (kind=IB), intent(hide), depend(L_lambda) :: N_lambda=shape(L_lambda,0)
+    !f2py real     (kind=RP), intent(in)  :: S_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(S_fluxes) :: N_lambda=shape(S_fluxes,0)
 
     !f2py real     (kind=RP), intent(in)  :: T_lambda
-    !f2py real     (kind=RP), intent(in)  :: T_fluxes
     !f2py integer  (kind=IB), intent(hide), depend(T_lambda) :: Ntlambda=shape(T_lambda,0)
 
+    !f2py real     (kind=RP), intent(in)  :: T_fluxes
+    !f2py integer  (kind=IB), intent(hide), depend(T_fluxes) :: Ntlambda=shape(T_fluxes,0)
+    
     !f2py real     (kind=RP), intent(out) :: fluxtran
 
     !f2py integer  (kind=IB), intent(in)  :: In_Type
@@ -639,13 +646,20 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
 
     IsOFFNum = 0_IB
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     ! Interpolate to lowest dlambda
-    dtlambda = minval( array=T_lambda(2:Ntlambda)-T_lambda(1:Ntlambda-1) )
+    dtlambda = minval( array=T_lambda(2:Ntlambda)-T_lambda(1:Ntlambda-1),   &
+                        mask=T_lambda(2:Ntlambda)>T_lambda(1:Ntlambda-1) )
 
-    if ( L_lambda(1) <= T_lambda(1) .AND. L_lambda(N_lambda) >= T_lambda(Ntlambda) ) then
-       d_lambda = minval( array=L_lambda(2:N_lambda)-L_lambda(1:N_lambda-1),   &
-            mask=L_lambda(2:N_lambda) >= T_lambda(1)                .AND.      &
-                 L_lambda(2:N_lambda) <= T_lambda(Ntlambda) )
+    if ( L_lambda(1) <= T_lambda(1)                                   .AND. &
+         L_lambda(N_lambda) >= T_lambda(Ntlambda) ) then
+       d_lambda = minval( array=L_lambda(2:N_lambda)-L_lambda(1:N_lambda-1),&
+                           mask=L_lambda(2:N_lambda) >= T_lambda(1)   .AND. &
+                           L_lambda(2:N_lambda) <= T_lambda(Ntlambda) .AND. &
+                           L_lambda(2:N_lambda) >  L_lambda(1:N_lambda-1) )
+       if ( d_lambda <= 0.0_RP ) then
+          d_lambda = dtlambda
+       end if
     else
        d_lambda = -999.0_RP
        fluxtran = -999.0_RP
@@ -656,69 +670,157 @@ SUBROUTINE EvalTransmission( L_lambda,S_fluxes,N_lambda,T_lambda,T_fluxes,  &
     !write (*,*) dtlambda,d_lambda
     
     ilastval = -999_IB
-    if ( dtlambda < d_lambda ) then
-       Nlbd_aux = Ntlambda
-       allocate( aux__lbd(Ntlambda) )
-       allocate( aux_flux(Ntlambda) )
-       
-       aux__lbd(1:Ntlambda) = T_lambda(1:Ntlambda)
-       call LINinterpol( aux__lbd,aux_flux,Nlbd_aux,L_lambda,S_fluxes,N_lambda,ilastval,IsKeepOn,IsOFFNum )
-       
-       lambda_i = T_lambda(1)
-       lambda_f = T_lambda(Ntlambda)
-
-       !flux = integrate[(f_lambda*lambda*T(lambda*(1+z))*dlambda)]
-       !norm = integrate[(lambda*T(lambda*(1+z))*dlambda))]
-       !photometry = flux/norm
-        
-       fluxtran = IntegralALL( aux__lbd,aux__lbd*T_fluxes*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-       fluxtran = fluxtran / IntegralALL( aux__lbd,aux__lbd*T_fluxes,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-       
-       deallocate( aux__lbd )
-       deallocate( aux_flux )
+    if ( dtlambda <= d_lambda ) then
+       dtlambda = dtlambda / 2.0_RP
     else
-       ind1 = maxloc( array=L_lambda, mask=L_lambda <= T_lambda(1), dim=1 )
-       ind2 = minloc( array=L_lambda, mask=L_lambda >= T_lambda(Ntlambda), dim=1 )
-
-       !write (*,*) ind1,ind2,L_lambda(ind1),L_lambda(ind2),S_fluxes(ind1),S_fluxes(ind2)
-
-       if ( ind1 > 0 .AND. ind2 > 0 .AND. ind1 < N_lambda .AND. ind2 < N_lambda .AND. ind1 <= ind2 ) then
-          aux__lbd = pack( array=L_lambda, mask=L_lambda >= L_lambda(ind1) .AND. L_lambda <= L_lambda(ind2)  )
-          aux_flux = pack( array=S_fluxes, mask=L_lambda >= L_lambda(ind1) .AND. L_lambda <= L_lambda(ind2)  )
-          Nlbd_aux = size( aux__lbd )
-
-          !write(*,*) size(aux__lbd),size(aux_flux),Nlbd_aux
-          
-          !write (*,*) Nlbd_aux,T_lambda(1),T_lambda(Ntlambda),aux__lbd(1),aux__lbd(Nlbd_aux)
-          if ( Nlbd_aux > 1_IB  ) then
-             allocate( aux__fil(Nlbd_aux) )
-
-             lambda_i = T_lambda(1) !aux__lbd(1)
-             lambda_f = T_lambda(Ntlambda) !aux__lbd(Nlbd_aux)
-             
-             call LINinterpol( aux__lbd,aux__fil,Nlbd_aux,T_lambda,T_fluxes,Ntlambda,ilastval,IsKeepOn,IsOFFNum )
-             where ( aux__fil(1:Nlbd_aux) < 0.0_RP )
-                aux__fil(1:Nlbd_aux) = 0.0_RP
-             end where
-             where ( aux__lbd(1:Nlbd_aux) < lambda_i )
-                aux__fil(1:Nlbd_aux) = 0.0_RP
-             end where
-             where ( aux__lbd(1:Nlbd_aux) > lambda_f )
-                aux__fil(1:Nlbd_aux) = 0.0_RP
-             end where
-
-             !write (*,*) size(aux__lbd),Nlbd_aux,size(aux__fil),size(aux_flux)
-             
-             fluxtran = IntegralALL( aux__lbd,aux__lbd*aux_flux*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-             fluxtran = fluxtran / IntegralALL( aux__lbd,aux__lbd*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-
-             !write (*,*) fluxtran
-             deallocate( aux__fil )
-          end if
-          deallocate( aux__lbd )
-          deallocate( aux_flux )
-       end if
+       dtlambda = d_lambda / 2.0_RP
     end if
+       
+    ! Fazer a interpolação dos dois: spectrum & transmission
+    Nlbd_aux = nint( ( T_lambda(Ntlambda) - T_lambda(1) ) / dtlambda ) + 1
+    if ( Nlbd_aux > 5000 ) then
+       Nlbd_aux = 5000
+       dtlambda = ( T_lambda(Ntlambda) - T_lambda(1) ) / float(Nlbd_aux)
+       Nlbd_aux = Nlbd_aux + 1
+    end if
+    
+    allocate( aux__lbd(Nlbd_aux) )
+    allocate( aux_flux(Nlbd_aux) )
+    allocate( aux__fil(Nlbd_aux) )
+    
+    ! Generate the lambdas
+    do ind1=1,Nlbd_aux
+       aux__lbd(ind1) = T_lambda(1) + (ind1-1) * dtlambda
+    end do
+    
+    ilastval = -999_IB
+    call LINinterpol( aux__lbd,aux__fil,Nlbd_aux,T_lambda,T_fluxes,Ntlambda,ilastval,IsKeepOn,IsOFFNum )
+    where( aux__lbd >= T_lambda(1) .AND. aux__lbd <= T_lambda(Ntlambda) )
+       aux__fil = aux__fil
+    elsewhere
+       aux__fil = 0.0_RP
+    end where
+    where( aux__fil < 0.0_RP )
+       aux__fil = 0.0_RP
+    end where
+
+    ! Calculate average_flux
+    average_flux = 0.0
+    N_points = 0
+    do ind1 = 1,N_lambda
+       if ( L_lambda(ind1) >= T_lambda(1) .AND. L_lambda(ind1) <= T_lambda(Ntlambda) ) then
+          N_points = N_points + 1
+          average_flux = average_flux + S_fluxes(ind1)
+       end if
+    end do
+    if ( N_points > 0 ) then
+       average_flux = average_flux / real(N_points)
+    else
+       average_flux = 1.0
+    end if
+    
+    ilastval = -999_IB
+    call LINinterpol( aux__lbd,aux_flux,Nlbd_aux,L_lambda,S_fluxes/average_flux,N_lambda,ilastval,IsKeepOn,IsOFFNum )
+    aux_flux = aux_flux
+    where( aux__lbd >= T_lambda(1) .AND. aux__lbd <= T_lambda(Ntlambda) )
+       aux_flux = aux_flux 
+    elsewhere
+       aux_flux = 0.0_RP
+    end where
+    where( aux_flux < 0.0_RP )
+       aux_flux = 0.0_RP
+    end where
+
+    !if ( count( aux_flux < 0.0 ) > 0 ) then
+    !   write(*,*) count(aux_flux>0.0)
+    !end if
+    
+    lambda_i = aux__lbd(1)
+    lambda_f = aux__lbd(Nlbd_aux)
+    
+    fluxtran = IntegralALL( aux__lbd,(aux__lbd*aux__fil)*aux_flux, &
+                            lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+    !write (*,*) aux__lbd(1),aux__lbd(Nlbd_aux),T_lambda(1),T_lambda(Ntlambda),Nlbd_aux,fluxtran
+    int_area = IntegralALL( aux__lbd,aux__lbd*aux__fil,&
+                            lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+
+    if ( fluxtran > 0.0_RP .AND. int_area > 0.0_RP .AND. IEEE_IS_FINITE(fluxtran) .AND. IEEE_IS_FINITE(int_area) ) then
+       fluxtran = fluxtran / int_area !IntegralALL( aux__lbd,aux__lbd*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+       fluxtran = fluxtran * average_flux
+    else
+       fluxtran = -999.0_RP
+    end if
+    !write (*,*) aux__lbd(1),aux__lbd(Nlbd_aux),T_lambda(1),T_lambda(Ntlambda),Nlbd_aux,fluxtran
+    !write (*,*)
+    
+    deallocate( aux__lbd )
+    deallocate( aux__fil )
+    deallocate( aux_flux )
+
+    !!!! OLD
+       ! OLD scheme
+       !Nlbd_aux = Ntlambda
+       !allocate( aux__lbd(Ntlambda) )
+       !allocate( aux_flux(Ntlambda) )
+       !
+       !aux__lbd(1:Ntlambda) = T_lambda(1:Ntlambda)
+       !
+       !
+       !lambda_i = T_lambda(1)
+       !lambda_f = T_lambda(Ntlambda)
+       !
+       !!flux = integrate[(f_lambda*lambda*T(lambda*(1+z))*dlambda)]
+       !!norm = integrate[(lambda*T(lambda*(1+z))*dlambda))]
+       !!photometry = flux/norm
+       ! 
+       !fluxtran = IntegralALL( aux__lbd,au<x__lbd*T_fluxes*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+       !fluxtran = fluxtran / IntegralALL( aux__lbd,aux__lbd*T_fluxes,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+       !
+       !deallocate( aux__lbd )
+       !deallocate( aux_flux )
+    !else
+       !ind1 = maxloc( array=L_lambda, mask=L_lambda <= T_lambda(1), dim=1 )
+       !ind2 = minloc( array=L_lambda, mask=L_lambda >= T_lambda(Ntlambda), dim=1 )
+       !
+       !!write (*,*) ind1,ind2,L_lambda(ind1),L_lambda(ind2),S_fluxes(ind1),S_fluxes(ind2)
+       !
+       !if ( ind1 > 0 .AND. ind2 > 0 .AND. ind1 < N_lambda .AND. ind2 < N_lambda .AND. ind1 <= ind2 ) then
+       !   aux__lbd = pack( array=L_lambda, mask=L_lambda >= L_lambda(ind1) .AND. L_lambda <= L_lambda(ind2)  )
+       !   aux_flux = pack( array=S_fluxes, mask=L_lambda >= L_lambda(ind1) .AND. L_lambda <= L_lambda(ind2)  )
+       !   Nlbd_aux = size( aux__lbd )
+       !
+       !   !write(*,*) size(aux__lbd),size(aux_flux),Nlbd_aux
+       !   
+       !   !write (*,*) Nlbd_aux,T_lambda(1),T_lambda(Ntlambda),aux__lbd(1),aux__lbd(Nlbd_aux)
+       !   if ( Nlbd_aux > 1_IB  ) then
+       !      allocate( aux__fil(Nlbd_aux) )
+       !
+       !      lambda_i = T_lambda(1) !aux__lbd(1)
+       !      lambda_f = T_lambda(Ntlambda) !aux__lbd(Nlbd_aux)
+       !      
+       !      call LINinterpol( aux__lbd,aux__fil,Nlbd_aux,T_lambda,T_fluxes,Ntlambda,ilastval,IsKeepOn,IsOFFNum )
+       !      where ( aux__fil(1:Nlbd_aux) < 0.0_RP )
+       !         aux__fil(1:Nlbd_aux) = 0.0_RP
+       !      end where
+       !      where ( aux__lbd(1:Nlbd_aux) < lambda_i )
+       !         aux__fil(1:Nlbd_aux) = 0.0_RP
+       !      end where
+       !      where ( aux__lbd(1:Nlbd_aux) > lambda_f )
+       !         aux__fil(1:Nlbd_aux) = 0.0_RP
+       !      end where
+       !
+       !      !write (*,*) size(aux__lbd),Nlbd_aux,size(aux__fil),size(aux_flux)
+       !      
+       !      fluxtran = IntegralALL( aux__lbd,aux__lbd*aux_flux*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+       !      fluxtran = fluxtran / IntegralALL( aux__lbd,aux__lbd*aux__fil,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+       !      !write (*,*) fluxtran
+       !      deallocate( aux__fil )
+       !   end if
+       !   deallocate( aux__lbd )
+       !   deallocate( aux_flux )
+       !end if
+       !fluxtran = -999.0_RP
+    !end if
     
     return
 END SUBROUTINE EvalTransmission
@@ -907,7 +1009,7 @@ REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
 
     real     (kind=RP), allocatable, dimension(:) :: aux__lbd,aux_flux,aux__fil
 
-    real     (kind=RP) :: dtlambda,d_lambda,lambda_i,lambda_f
+    real     (kind=RP) :: dtlambda,d_lambda,lambda_i,lambda_f,int_aux
 
     !f2py real     (kind=RP), intent(in)  :: T_lambda
     !f2py real     (kind=RP), intent(in)  :: T_fluxes
@@ -957,14 +1059,33 @@ REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
     lamb_effective = 0.0_RP
     
     ! Interpolate to lowest dlambda
-    dtlambda = minval( T_lambda(2:Ntlambda)-T_lambda(1:Ntlambda-1) )
+    dtlambda = minval( T_lambda(2:Ntlambda)-T_lambda(1:Ntlambda-1), &
+         mask=T_lambda(2:Ntlambda)-T_lambda(1:Ntlambda-1) > 0.0_RP )
     d_lambda = minval( L_lambda(2:N_lambda)-L_lambda(1:N_lambda-1), &
-                       mask=L_lambda(2:N_lambda) >= T_lambda(1) .AND. L_lambda(2:N_lambda) <= T_lambda(Ntlambda)  )
+         mask=L_lambda(2:N_lambda) >= T_lambda(1)             .AND. &
+              L_lambda(2:N_lambda) <= T_lambda(Ntlambda)      .AND. &
+              L_lambda(2:N_lambda) > 0.0_RP )
+
+    if ( dtlambda <= 0.0_RP .OR. d_lambda <= 0.0_RP ) then
+       lamb_effective = -999.0_RP
+       return
+    end if
 
     !write (*,*) dtlambda,d_lambda
+    !write (*,*) Ntlambda,T_lambda(1),T_lambda(Ntlambda)
+
+    !do ind1=1,Ntlambda-1
+    !   if ( T_lambda(ind1) <= 0.0_RP ) then
+    !      write (*,*) 'ind1 ===> ',ind1,T_lambda(ind1)
+    !   end if
+
+    !   if ( T_lambda(ind1) >= T_lambda(ind1+1)  ) then
+    !      write (*,*) ind1, T_lambda(ind1) , ind1+1, T_lambda(ind1+1)
+    !   end if
+    !end do
     
     ilastval = -999_IB
-    if ( dtlambda < d_lambda ) then
+    if ( dtlambda <= d_lambda ) then
        Nlbd_aux = Ntlambda
        allocate( aux__lbd(Ntlambda) )
        allocate( aux_flux(Ntlambda) )
@@ -975,9 +1096,18 @@ REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
        lambda_i = T_lambda(1)
        lambda_f = T_lambda(Ntlambda)
        lamb_effective = IntegralALL( aux__lbd,aux__lbd*T_fluxes*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-       lamb_effective = lamb_effective &
-                      / IntegralALL( aux__lbd,T_fluxes*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-       
+
+       if ( lamb_effective > 0.0_RP ) then
+          int_aux = IntegralALL( aux__lbd,T_fluxes*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+          if ( int_aux > 0.0_RP ) then
+             lamb_effective = lamb_effective / int_aux
+          else
+             lamb_effective = -999.0_RP
+          end if
+       else
+          lamb_effective = -999.0_RP
+       end if
+
        deallocate( aux__lbd )
        deallocate( aux_flux )
     else
@@ -1015,8 +1145,17 @@ REAL (KIND=RP) FUNCTION lamb_effective( T_lambda,T_fluxes,Ntlambda,L_lambda,&
              
              lamb_effective = IntegralALL( aux__lbd,aux__lbd*aux_flux*aux__fil, &
                                            lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
-             lamb_effective = lamb_effective &
-                            / IntegralALL( aux__lbd,aux__fil*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+
+             if ( lamb_effective > 0.0_RP ) then
+                int_aux = IntegralALL( aux__lbd,aux__fil*aux_flux,lambda_i,lambda_f,Nlbd_aux,IsKeepOn,Int_Type,IsOFFNum )
+                if ( int_aux > 0.0_RP ) then
+                   lamb_effective = lamb_effective / int_aux
+                else
+                   lamb_effective = -999.0_RP
+                end if
+             else
+                lamb_effective = -999.0_RP
+             end if
              deallocate( aux__fil )
           end if
           deallocate( aux__lbd )

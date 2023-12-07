@@ -1,5 +1,5 @@
-build/temp.macosx-11.1-arm64-cpython-39/build/src.macosx-11.1-arm64-3.9/PyPhotometry/flibmodule.o: \
-  build/src.macosx-11.1-arm64-3.9/PyPhotometry/flibmodule.c \
+build/temp.macosx-11.1-arm64-cpython-39/build/src.macosx-11.1-arm64-3.9/pyphotometry/flibmodule.o: \
+  build/src.macosx-11.1-arm64-3.9/pyphotometry/flibmodule.c \
   /Users/jeangomes/opt/anaconda3/include/python3.9/Python.h \
   /Users/jeangomes/opt/anaconda3/include/python3.9/patchlevel.h \
   /Users/jeangomes/opt/anaconda3/include/python3.9/pyconfig.h \
@@ -245,7 +245,7 @@ build/temp.macosx-11.1-arm64-cpython-39/build/src.macosx-11.1-arm64-3.9/PyPhotom
   /Users/jeangomes/opt/anaconda3/include/python3.9/pyfpe.h \
   /Users/jeangomes/opt/anaconda3/include/python3.9/tracemalloc.h \
   /Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_os.h \
-  build/src.macosx-11.1-arm64-3.9/build/src.macosx-11.1-arm64-3.9/PyPhotometry/fortranobject.h \
+  build/src.macosx-11.1-arm64-3.9/build/src.macosx-11.1-arm64-3.9/pyphotometry/fortranobject.h \
   /Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h \
   /Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h \
   /Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h \
@@ -271,4 +271,4 @@ build/temp.macosx-11.1-arm64-cpython-39/build/src.macosx-11.1-arm64-3.9/PyPhotom
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/setjmp.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/signal.h \
   /Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_3kcompat.h
-commandline: -Ibuild/src.macosx-11.1-arm64-3.9/build/src.macosx-11.1-arm64-3.9/PyPhotometry -I/Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.macosx-11.1-arm64-3.9/numpy/distutils/include -I/Users/jeangomes/opt/anaconda3/include/python3.9 -c-Ibuild/src.macosx-11.1-arm64-3.9/build/src.macosx-11.1-arm64-3.9/PyPhotometry -I/Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.macosx-11.1-arm64-3.9/numpy/distutils/include -I/Users/jeangomes/opt/anaconda3/include/python3.9
+commandline: -Ibuild/src.macosx-11.1-arm64-3.9/build/src.macosx-11.1-arm64-3.9/pyphotometry -I/Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.macosx-11.1-arm64-3.9/numpy/distutils/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include -I/Users/jeangomes/opt/anaconda3/include/python3.9 -c-Ibuild/src.macosx-11.1-arm64-3.9/build/src.macosx-11.1-arm64-3.9/pyphotometry -I/Users/jeangomes/opt/anaconda3/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.macosx-11.1-arm64-3.9/numpy/distutils/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include -I/Users/jeangomes/opt/anaconda3/include/python3.9
