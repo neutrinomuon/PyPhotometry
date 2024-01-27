@@ -10,7 +10,7 @@ last stable version: 0.0.9
 
 J.G. - Jean Gomes
 <!-- https://zenodo.org/badge/doi/10.5281/zenodo.10527286.svg -->
-[![DOI](https://zenodo.org/badge/10.5281/zenodo.10527286.svg)](https://zenodo.org/badge/10.5281/zenodo.10527286.svg)
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.10527286.svg)](https://zenodo.org/badge/doi/10.5281/zenodo.10527286.svg)
 
 <hr>
 
