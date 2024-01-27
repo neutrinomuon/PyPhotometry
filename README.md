@@ -8,7 +8,9 @@ last stable version: 0.0.9
 
 © Copyright ®
 
-J.G. - Jean Gomes @ 2023
+J.G. - Jean Gomes
+<!-- https://zenodo.org/badge/doi/10.5281/zenodo.10527287.svg -->
+[![DOI](https://zenodo.org/badge/10.5281/zenodo.10527287.svg)](https://zenodo.org/badge/10.5281/zenodo.10527287.svg)
 
 <hr>
 
