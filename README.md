@@ -244,10 +244,6 @@ workspace
 ├── README_setup.txt
 ├── scripts
 │   └── update_readme.py
-├── tmp
-│   ├── README.txt
-│   ├── cpu_avx512_knl.c
-│   └── pyphot
 ├── __pycache__
 │   └── Filters.cpython-39.pyc
 ├── tutorials
@@ -260,9 +256,9 @@ workspace
 │   ├── HEAD
 │   ├── objects
 │   │   ├── pack
-│   │   │   ├── pack-34059957b0ed9f13b2e88246b489f0119bc5faf2.idx
-│   │   │   ├── pack-34059957b0ed9f13b2e88246b489f0119bc5faf2.rev
-│   │   │   └── pack-34059957b0ed9f13b2e88246b489f0119bc5faf2.pack
+│   │   │   ├── pack-6cfe8a153243e729817c4e52d807a2c5004c8cb8.rev
+│   │   │   ├── pack-6cfe8a153243e729817c4e52d807a2c5004c8cb8.idx
+│   │   │   └── pack-6cfe8a153243e729817c4e52d807a2c5004c8cb8.pack
 │   │   └── info
 │   ├── config
 │   ├── FETCH_HEAD
@@ -348,6 +344,9 @@ workspace
 │   └── linux-ppc64le
 │       ├── pyphotometry-0.0.6-py39_0.tar.bz2
 │       └── pyphotometry-0.0.5-py39_0.tar.bz2
+├── dist
+│   ├── pyphotometry-0.0.6.tar.gz
+│   └── pyphotometry-0.0.9.tar.gz
 ├── showdown.min.js
 ├── version.txt
 ├── PyPhotometry.egg-info
@@ -435,7 +434,7 @@ workspace
                     └── fortranobject.c
 ... length_limit, 1000, reached, counted:
 
-363 directories, 1194 files
+361 directories, 1194 files
 #################################################
 Generated with tree_colored @ 2023 - © Jean Gomes
 #################################################
