@@ -256,9 +256,9 @@ workspace
 │   ├── HEAD
 │   ├── objects
 │   │   ├── pack
-│   │   │   ├── pack-543e367b616ce73f957d17d14ac8a0b56e8121b4.pack
-│   │   │   ├── pack-543e367b616ce73f957d17d14ac8a0b56e8121b4.rev
-│   │   │   └── pack-543e367b616ce73f957d17d14ac8a0b56e8121b4.idx
+│   │   │   ├── pack-45351592350c6110dc6d5e83234328cfd06b823f.idx
+│   │   │   ├── pack-45351592350c6110dc6d5e83234328cfd06b823f.pack
+│   │   │   └── pack-45351592350c6110dc6d5e83234328cfd06b823f.rev
 │   │   └── info
 │   ├── config
 │   ├── FETCH_HEAD
@@ -313,7 +313,6 @@ workspace
 │   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
 │   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
 │   ├── meta.yaml
-│   ├── PyPhotometry-0.0.6.tar.gz
 │   ├── linux-armv7l
 │   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
 │   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
@@ -377,7 +376,7 @@ workspace
     └── workflows
         └── update_readme.yml
 
-128 directories, 535 files
+128 directories, 533 files
 #################################################
 Generated with tree_colored @ 2023 - © Jean Gomes
 #################################################
