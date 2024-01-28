@@ -256,9 +256,9 @@ workspace
 │   ├── HEAD
 │   ├── objects
 │   │   ├── pack
-│   │   │   ├── pack-6cfe8a153243e729817c4e52d807a2c5004c8cb8.rev
-│   │   │   ├── pack-6cfe8a153243e729817c4e52d807a2c5004c8cb8.idx
-│   │   │   └── pack-6cfe8a153243e729817c4e52d807a2c5004c8cb8.pack
+│   │   │   ├── pack-543e367b616ce73f957d17d14ac8a0b56e8121b4.pack
+│   │   │   ├── pack-543e367b616ce73f957d17d14ac8a0b56e8121b4.rev
+│   │   │   └── pack-543e367b616ce73f957d17d14ac8a0b56e8121b4.idx
 │   │   └── info
 │   ├── config
 │   ├── FETCH_HEAD
@@ -344,17 +344,8 @@ workspace
 │   └── linux-ppc64le
 │       ├── pyphotometry-0.0.6-py39_0.tar.bz2
 │       └── pyphotometry-0.0.5-py39_0.tar.bz2
-├── dist
-│   ├── pyphotometry-0.0.6.tar.gz
-│   └── pyphotometry-0.0.9.tar.gz
 ├── showdown.min.js
 ├── version.txt
-├── PyPhotometry.egg-info
-│   ├── PKG-INFO
-│   ├── dependency_links.txt
-│   ├── SOURCES.txt
-│   ├── top_level.txt
-│   └── requires.txt
 ├── requirements.txt
 ├── index.html
 ├── figures
@@ -382,59 +373,11 @@ workspace
 │       │   └── PyPhotometry.cpython-39.pyc
 │       ├── __init__.py
 │       └── photometry.py
-├── MANIFEST.in
-├── .github
-│   └── workflows
-│       └── update_readme.yml
-└── build
-    ├── temp.macosx-11.1-arm64-cpython-39
-    │   ├── __pycache__
-    │   │   └── ccompiler_opt_cache_ext.cpython-39.pyc
-    │   ├── PyPhotometry
-    │   │   └── moddatatype.mod
-    │   ├── ccompiler_opt_cache_ext.py
-    │   ├── src
-    │   │   └── fortran
-    │   │       ├── PropFilters.o
-    │   │       ├── GaussLegendreQuadrature.o
-    │   │       ├── IntegralALL.o
-    │   │       ├── LINinterpol.o
-    │   │       ├── DataTypes.o
-    │   │       └── EvalFilters.o
-    │   └── build
-    │       └── src.macosx-11.1-arm64-3.9
-    │           ├── PyPhotometry
-    │           │   ├── flib-f2pywrappers2.o
-    │           │   ├── flibmodule.o.d
-    │           │   ├── flibmodule.o
-    │           │   └── flib-f2pywrappers.o
-    │           └── build
-    │               └── src.macosx-11.1-arm64-3.9
-    │                   └── PyPhotometry
-    │                       ├── fortranobject.o.d
-    │                       └── fortranobject.o
-    ├── lib.macosx-11.1-arm64-cpython-39
-    │   └── PyPhotometry
-    │       ├── flib.cpython-39-darwin.so
-    │       ├── __init__.py
-    │       └── photometry.py
-    └── src.macosx-11.1-arm64-3.9
-        ├── numpy
-        │   └── distutils
-        │       └── include
-        │           └── npy_cpu_dispatch_config.h
-        ├── PyPhotometry
-        │   ├── flibmodule.c
-        │   ├── flib-f2pywrappers.f
-        │   └── flib-f2pywrappers2.f90
-        └── build
-            └── src.macosx-11.1-arm64-3.9
-                └── PyPhotometry
-                    ├── fortranobject.h
-                    └── fortranobject.c
-... length_limit, 1000, reached, counted:
+└── .github
+    └── workflows
+        └── update_readme.yml
 
-361 directories, 1194 files
+128 directories, 535 files
 #################################################
 Generated with tree_colored @ 2023 - © Jean Gomes
 #################################################
