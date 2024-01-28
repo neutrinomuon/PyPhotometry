@@ -172,77 +172,183 @@ GitHub repository.
 <hr>
 
 #### <b>STRUCTURE</b>
-
-The main structure of the directories and files are:
-
 <pre>
-PyPhotometry
-├── Literature
-│   └── Bohlin and Gilland (2004) - Absolute Flux Distribution of the SDSS Standard BD +17_4708.pdf
-├── README.md
-├── __pycache__
-│   └── Filters.cpython-39.pyc
-├── showdown.min.js
+#################################################
+workspace
+├── setup.py
+├── data
+│   ├── PLANCK_HFI.217GHz.txt
+│   ├── PLANCK_LFI.030GHz.txt
+│   ├── Spitzer_MIPS.160mu.txt
+│   ├── SDSSu.txt
+│   ├── SDSSr.txt
+│   ├── Herschel_Pacs.green.txt
+│   ├── Herschel_SPIRE.PMW.txt
+│   ├── WISE1.txt
+│   ├── ListFilters.txt
+│   ├── Herschel_SPIRE.PLW.txt
+│   ├── PLANCK_HFI.545GHz.txt
+│   ├── Spitzer_MIPS.24mu.txt
+│   ├── Herschel_SPIRE.PSW.txt
+│   ├── Spitzer_IRAC.I4.txt
+│   ├── PLANCK_LFI.070GHz.txt
+│   ├── Spitzer_IRAC.I3.txt
+│   ├── templates
+│   │   ├── bc2003_hr_m62_chab_ssp_190.spec
+│   │   ├── bc2003_hr_m62_salp_ssp_001.spec
+│   │   ├── bc2003_hr_m62_chab_ssp_160.spec
+│   │   └── bc2003_hr_m62_chab_ssp_001.spec
+│   ├── SDSSz.txt
+│   ├── IRAS.12mu.txt
+│   ├── PLANCK_HFI.100GHz.txt
+│   ├── Herschel_Pacs.red.txt
+│   ├── PLANCK_LFI.044GHz.txt
+│   ├── Herschel_SPIRE.PLW_ext.txt
+│   ├── IRAS.100mu.txt
+│   ├── Spitzer_MIPS.70mu.txt
+│   ├── GalexFUV.txt
+│   ├── WISE2.txt
+│   ├── SDSSi.txt
+│   ├── SDSSg.txt
+│   ├── IRAS.25mu.txt
+│   ├── Herschel_SPIRE.PSW_ext.txt
+│   ├── Herschel_SPIRE.PMW_ext.txt
+│   ├── PLANCK_HFI.353GHz.txt
+│   ├── 2MASSKs.txt
+│   ├── WISE4.txt
+│   ├── Herschel_Pacs.blue.txt
+│   ├── PLANCK_HFI.143GHz.txt
+│   ├── calibration_stars
+│   │   ├── bd17d4708_stisnic_001.fits
+│   │   ├── Sun.dat
+│   │   ├── Sun_LR.dat
+│   │   ├── BD+17d4708.dat
+│   │   ├── BD+17o4708.dat
+│   │   ├── Vega.dat
+│   │   ├── Filters_ReadMe.txt
+│   │   ├── sun_reference_stis_001.fits
+│   │   ├── VegaLR.dat
+│   │   ├── kp00_6000.ascii
+│   │   └── VegaLR_OLD.dat
+│   ├── PLANCK_HFI.857GHz.txt
+│   ├── README.md
+│   ├── 2MASSH.txt
+│   ├── IRAS.60mu.txt
+│   ├── Spitzer_IRAC.I2.txt
+│   ├── 2MASSJ.txt
+│   ├── Spitzer_IRAC.I1.txt
+│   ├── WISE3.txt
+│   └── GalexNUV.txt
+├── LICENSE.txt
+├── Notes.txt
+├── README_setup.txt
 ├── scripts
 │   └── update_readme.py
-├── index.html
-├── LICENSE.txt
-├── data
-│   ├── IRAS.12mu.txt
-│   ├── Herschel_SPIRE.PSW_ext.txt
-│   ├── GalexNUV.txt
-│   ├── SDSSg.txt
-│   ├── 2MASSJ.txt
-│   ├── WISE4.txt
-│   ├── 2MASSKs.txt
-│   ├── Herschel_SPIRE.PLW_ext.txt
-│   ├── GalexFUV.txt
-│   ├── filters.db
-│   ├── Herschel_SPIRE.PMW_ext.txt
-│   ├── IRAS.60mu.txt
-│   ├── SDSSr.txt
-│   ├── calibration_stars
-│   │   ├── sun_reference_stis_001.fits
-│   │   ├── Filters_ReadMe.txt
-│   │   ├── kp00_6000.ascii
-│   │   ├── Sun_LR.dat
-│   │   ├── bd17d4708_stisnic_001.fits
-│   │   ├── BD+17o4708.dat
-│   │   ├── BD+17d4708.dat
-│   │   ├── VegaLR_OLD.dat
-│   │   ├── VegaLR.dat
-│   │   └── Sun.dat
-│   ├── 2MASSH.txt
-│   ├── IRAS.100mu.txt
-│   ├── WISE3.txt
-│   ├── ListFilters.txt
-│   ├── SDSSi.txt
-│   ├── SDSSz.txt
-│   ├── IRAS.25mu.txt
-│   ├── SDSSu.txt
-│   ├── WISE2.txt
-│   └── WISE1.txt
-├── setup.py
+├── tmp
+│   ├── README.txt
+│   ├── cpu_avx512_knl.c
+│   └── pyphot
+├── __pycache__
+│   └── Filters.cpython-39.pyc
 ├── tutorials
+│   ├── PyPhotometry - Example 1.ipynb
+│   ├── .ipynb_checkpoints
+│   │   └── PyPhotometry - Example 1-checkpoint.ipynb
+│   ├── .jupyter_ystore.db
 │   └── PyPhotometry.png
-├── src
-│   ├── python
-│   │   ├── __pycache__
-│   │   ├── __init__.py
-│   │   └── Photometry.py
-│   └── fortran
-│       ├── EvalFilters.compile
-│       ├── IntegralALL.f90
-│       ├── PropFilters.compile
-│       ├── DataTypes.f90
-│       ├── PropFilters.f90
-│       ├── EvalFilters.cpython-39-x86_64-linux-gnu.so
-│       ├── ReadFilters.f90
-│       ├── GaussLegendreQuadrature.f90
-│       ├── PropFilters.cpython-39-x86_64-linux-gnu.so
-│       ├── makefile
-│       ├── LINinterpol.f90
-│       └── EvalFilters.f90
+├── .git
+│   ├── HEAD
+│   ├── objects
+│   │   ├── pack
+│   │   │   ├── pack-34059957b0ed9f13b2e88246b489f0119bc5faf2.idx
+│   │   │   ├── pack-34059957b0ed9f13b2e88246b489f0119bc5faf2.rev
+│   │   │   └── pack-34059957b0ed9f13b2e88246b489f0119bc5faf2.pack
+│   │   └── info
+│   ├── config
+│   ├── FETCH_HEAD
+│   ├── info
+│   │   └── exclude
+│   ├── hooks
+│   │   ├── push-to-checkout.sample
+│   │   ├── prepare-commit-msg.sample
+│   │   ├── pre-rebase.sample
+│   │   ├── fsmonitor-watchman.sample
+│   │   ├── post-update.sample
+│   │   ├── pre-push.sample
+│   │   ├── pre-commit.sample
+│   │   ├── applypatch-msg.sample
+│   │   ├── pre-merge-commit.sample
+│   │   ├── pre-receive.sample
+│   │   ├── pre-applypatch.sample
+│   │   ├── commit-msg.sample
+│   │   ├── sendemail-validate.sample
+│   │   └── update.sample
+│   ├── shallow
+│   ├── refs
+│   │   ├── heads
+│   │   │   └── main
+│   │   ├── remotes
+│   │   │   └── origin
+│   │   │       └── main
+│   │   └── tags
+│   ├── description
+│   ├── branches
+│   ├── logs
+│   │   ├── HEAD
+│   │   └── refs
+│   │       ├── heads
+│   │       │   └── main
+│   │       └── remotes
+│   │           └── origin
+│   │               └── main
+│   └── index
+├── Literature
+│   ├── Bohlin, Gordon, Tremblay (2014) - Techniques and Review of Absolute Flux Calibration from the Ultraviolet to the Mid-Infrared.pdf
+│   └── Bohlin and Gilland (2004) - Absolute Flux Distribution of the SDSS Standard BD +17_4708.pdf
+├── PyPhotometry
+│   ├── win-arm64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── osx-64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── README.txt
+│   ├── linux-s390x
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── meta.yaml
+│   ├── PyPhotometry-0.0.6.tar.gz
+│   ├── linux-armv7l
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── linux-armv6l
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── osx-arm64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── linux-64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── linux-ppc64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── linux-aarch64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── win-32
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── linux-32
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   ├── win-64
+│   │   ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│   │   └── pyphotometry-0.0.5-py39_0.tar.bz2
+│   └── linux-ppc64le
+│       ├── pyphotometry-0.0.6-py39_0.tar.bz2
+│       └── pyphotometry-0.0.5-py39_0.tar.bz2
+├── showdown.min.js
 ├── version.txt
 ├── PyPhotometry.egg-info
 │   ├── PKG-INFO
@@ -250,21 +356,89 @@ PyPhotometry
 │   ├── SOURCES.txt
 │   ├── top_level.txt
 │   └── requires.txt
+├── requirements.txt
+├── index.html
+├── figures
+│   ├── PyPhotometryIcon.png
+│   ├── logs.jpg
+│   ├── FigurePyPhotometry.png
+│   └── PyPhotometry.png
+├── README.md
+├── src
+│   ├── fortran
+│   │   ├── IntegralALL.f90
+│   │   ├── PropFilters.f90
+│   │   ├── moddatatype.mod
+│   │   ├── makefile
+│   │   ├── ReadFilters.f90
+│   │   ├── GaussLegendreQuadrature.f90
+│   │   ├── PropFilters.compile
+│   │   ├── EvalFilters.f90
+│   │   ├── EvalFilters.compile
+│   │   ├── LINinterpol.f90
+│   │   ├── DataTypes.f90
+│   │   └── eval.exe
+│   └── python
+│       ├── __pycache__
+│       │   └── PyPhotometry.cpython-39.pyc
+│       ├── __init__.py
+│       └── photometry.py
+├── MANIFEST.in
+├── .github
+│   └── workflows
+│       └── update_readme.yml
 └── build
-    ├── lib.linux-x86_64-3.9
-    │   └── PyPhotometry
-    ├── src.linux-x86_64-3.9
+    ├── temp.macosx-11.1-arm64-cpython-39
+    │   ├── __pycache__
+    │   │   └── ccompiler_opt_cache_ext.cpython-39.pyc
     │   ├── PyPhotometry
-    │   ├── build
-    │   └── numpy
-    └── temp.linux-x86_64-3.9
-        ├── ccompiler_opt_cache_ext.py
-        ├── src
+    │   │   └── moddatatype.mod
+    │   ├── ccompiler_opt_cache_ext.py
+    │   ├── src
+    │   │   └── fortran
+    │   │       ├── PropFilters.o
+    │   │       ├── GaussLegendreQuadrature.o
+    │   │       ├── IntegralALL.o
+    │   │       ├── LINinterpol.o
+    │   │       ├── DataTypes.o
+    │   │       └── EvalFilters.o
+    │   └── build
+    │       └── src.macosx-11.1-arm64-3.9
+    │           ├── PyPhotometry
+    │           │   ├── flib-f2pywrappers2.o
+    │           │   ├── flibmodule.o.d
+    │           │   ├── flibmodule.o
+    │           │   └── flib-f2pywrappers.o
+    │           └── build
+    │               └── src.macosx-11.1-arm64-3.9
+    │                   └── PyPhotometry
+    │                       ├── fortranobject.o.d
+    │                       └── fortranobject.o
+    ├── lib.macosx-11.1-arm64-cpython-39
+    │   └── PyPhotometry
+    │       ├── flib.cpython-39-darwin.so
+    │       ├── __init__.py
+    │       └── photometry.py
+    └── src.macosx-11.1-arm64-3.9
+        ├── numpy
+        │   └── distutils
+        │       └── include
+        │           └── npy_cpu_dispatch_config.h
         ├── PyPhotometry
-        ├── .libs
+        │   ├── flibmodule.c
+        │   ├── flib-f2pywrappers.f
+        │   └── flib-f2pywrappers2.f90
         └── build
+            └── src.macosx-11.1-arm64-3.9
+                └── PyPhotometry
+                    ├── fortranobject.h
+                    └── fortranobject.c
+... length_limit, 1000, reached, counted:
 
-23 directories, 63 files
+363 directories, 1194 files
+#################################################
+Generated with tree_colored @ 2023 - © Jean Gomes
+#################################################
 </pre>
 
 <br>PyPhotometry.py is a python wrapper to the library in fortran called
