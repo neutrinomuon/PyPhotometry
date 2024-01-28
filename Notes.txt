@@ -1,4 +1,4 @@
-Note:
+Notes:
 
 When compiling Fortran codes to a Python library, it is highly recommended to
 avoid using Unicode or any other non-ASCII characters, except in rare cases
