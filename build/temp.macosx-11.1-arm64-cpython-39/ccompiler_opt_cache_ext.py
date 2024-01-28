@@ -65,7 +65,7 @@ data = \
  'cc_on_x64': False,
  'cc_on_x86': False,
  'feature_is_cached': True,
- 'feature_min': {'ASIMD', 'NEON_FP16', 'NEON_VFPV4', 'NEON'},
+ 'feature_min': {'NEON_FP16', 'NEON_VFPV4', 'NEON', 'ASIMD'},
  'feature_supported': {'ASIMD': {'autovec': True,
                                  'implies': ['NEON', 'NEON_FP16', 'NEON_VFPV4'],
                                  'implies_detect': False,

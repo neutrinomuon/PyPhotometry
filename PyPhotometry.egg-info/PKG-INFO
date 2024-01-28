@@ -21,7 +21,7 @@ email: [antineutrinomuon@gmail.com](mailto:antineutrinomuon@gmail.com), [jean@as
 
 github repository: <a href="https://github.com/neutrinomuon/PyPhotometry">PyPhotometry</a>
 
-last stable version: 0.0.8
+last stable version: 0.0.9
 
 © Copyright ®
 
@@ -35,7 +35,7 @@ J.G. - Jean Gomes @ 2023
 <hr>
 
 <div align="center">
-<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/tutorials/PyPhotometry.png' width='85%'>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometry.png' width=85%>
 </div>
 
 <hr>
@@ -67,7 +67,7 @@ project and is only recommended if you intend to test or compare with it.
 
 #### <b>RESUME</b>
 
-<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometry.png' width=120>
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/PyPhotometryIcon.png' width=120>
 
 <strong>PyPhotometry</strong> is a Python package that builds upon a
 collection of Fortran 2003+ routines originally developed between 2003 and
@@ -119,6 +119,10 @@ Now, the package PyPhotometry is in agreement with PEP 8 guidelines:
 <hr>
 
 #### <b>Brief Tutorial</b>
+
+<div align="center">
+<img src='https://github.com/neutrinomuon/PyPhotometry/raw/main/figures/FigurePyPhotometry.png' width='85%'>
+</div>
 
 A brief tutorial can be found at <a
 href='https://github.com/neutrinomuon/PyPhotometry/blob/main/tutorials/PyPhotometry%20-%20Example%201.ipynb'>PyPhotometry
@@ -175,7 +179,7 @@ PyPhotometry provides calibration stars used in the magnitude systems:
 
 - VEGA spectrum: Intrinsic Flux - [erg/s/cm2/A].
 - SUN spectrum: Intrinsic Flux - [erg/s/A].
-- F subdwarf: Used to calibrate the Thuan & Gunn system.
+- F subdwarf: Used to calibrate the Thuan & Gunn system. Only used for backward compatibility.
 
 For more details on the usage and options, please refer to the PyPhotometry
 GitHub repository.
@@ -310,6 +314,8 @@ contributing to our project!
 <tr><td align='center'><img width=50 src="https://github.com/neutrinomuon/PyPhotometry/blob/main/figures/logs.jpg?raw=true"></td><td>LOGS</td></tr>
 
 <tr><td>05/10/2023</td><td>J.G. changed some parts of the code to be compatible with Herschel filters. Also, added log dates explicitly in README file.</td></tr>
+
+<tr><td>07/12/2023</td><td>J.G. changed some parts of the code to extend the calibration stars. Also, many changes in the interpolation scheme. Verification of the SQL tables. Also, added log dates explicitly in README file.</td></tr>
 
 </table>
 

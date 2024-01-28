@@ -2541,7 +2541,7 @@ if __name__ == '__main__':
     # database_filters.read_spectra( verbose=verbose ) 
     
     # search filters
-    word_search = 'galex','planck','wise','iras','herschel'
+    word_search = 'planck','wise','iras','herschel'
     fil,ind = database_filters.FindFilters(word_search)
     # print(fil,ind)
     
